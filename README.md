@@ -19,20 +19,20 @@ echo "# StyleSync Mobile Application
 
 ## frontend task 
 
-├── Setup Flutter project
-├── Create Login screen UI
-├── Create Sign Up screen UI
-└── Setup navigation between screens
+- Setup Flutter project
+- Create Login screen UI
+- Create Sign Up screen UI
+- Setup navigation between screens
 
-├── Connect UI to Firebase Auth
-├── Implement sign up function
-├── Implement login function
-└── Add validation (email format, password strength)
+- Connect UI to Firebase Auth
+- Implement sign up function
+- Implement login function
+- Add validation (email format, password strength)
 
-├── Handle loading states
-├── Show error messages
-├── Implement logout
-└── Test all UI flows
+- Handle loading states
+- Show error messages
+─ Implement logout
+- Test all UI flows
 
 mockup - 
 
