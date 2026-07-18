@@ -34,8 +34,22 @@ echo "# StyleSync Mobile Application
 ─ Implement logout
 - Test all UI flows
 
-mockup - 
+## Backend Task
 
-## Login Screen
-![Login Page](Login.jpeg)
+- Create Firebase project
+- Enable Authentication (Email/Password)
+-  Create Firestore database
+-  Setup Storage
+
+- Design users collection schema
+- Write Firestore security rules
+- Test authentication manually
+- Document API/endpoints
+
+- Setup Firebase in Flutter project
+- Run flutterfire configure
+- Test connection with frontend
+- Verify data is saved correctly
+
+
 
