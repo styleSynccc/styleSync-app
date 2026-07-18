@@ -17,11 +17,22 @@ echo "# StyleSync Mobile Application
 - Backend Developer
 - Tester
 
-## Sprint 1: Login & Sign Up
+## frontend task 
 
-- [ ] Setup Flutter project
-- [ ] Setup Firebase
-- [ ] Login UI
-- [ ] Sign Up UI
-- [ ] Firebase Authentication
-- [ ] Unit Tests" > README.md
+├── Setup Flutter project
+├── Create Login screen UI
+├── Create Sign Up screen UI
+└── Setup navigation between screens
+
+├── Connect UI to Firebase Auth
+├── Implement sign up function
+├── Implement login function
+└── Add validation (email format, password strength)
+
+├── Handle loading states
+├── Show error messages
+├── Implement logout
+└── Test all UI flows
+
+mockup - 
+
