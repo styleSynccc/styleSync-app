@@ -31,7 +31,6 @@ echo "# StyleSync Mobile Application
 
 - Handle loading states
 - Show error messages
-─ Implement logout
 - Test all UI flows
 
 ## Backend Task
