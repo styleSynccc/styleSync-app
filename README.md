@@ -34,5 +34,6 @@ echo "# StyleSync Mobile Application
 ─ Implement logout
 - Test all UI flows
 
-mockup - 
+mockup - signUp.jpeg
+Login.jpeg
 
