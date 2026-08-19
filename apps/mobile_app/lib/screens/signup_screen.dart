@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -8,10 +9,19 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthController authController = Get.find();
+    final bool googleMode =
+        Get.arguments is Map && Get.arguments['googleMode'] == true;
+    final googleUser =
+        googleMode ? FirebaseAuth.instance.currentUser : null;
+    final dynamic accountController = authController;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final RxnString selectedGender = RxnString();
+    if (googleUser != null) {
+      nameController.text = googleUser.displayName ?? '';
+    }
 
     // Validation functions
     String? validateName(String? value) {
@@ -77,19 +87,42 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: validateEmail,
-                ),
+                if (!googleMode) ...[
+                  TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: validateEmail,
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
+                Obx(() => DropdownButtonFormField<String>(
+                      value: selectedGender.value,
+                      decoration: const InputDecoration(labelText: 'Gender'),
+                      hint: const Text('Select your gender'),
+                      items: const [
+                        DropdownMenuItem(value: 'Male', child: Text('Male')),
+                        DropdownMenuItem(value: 'Female', child: Text('Female')),
+                        DropdownMenuItem(
+                          value: 'Prefer not to say',
+                          child: Text('Prefer not to say'),
+                        ),
+                      ],
+                      onChanged: (value) => selectedGender.value = value,
+                      validator: (value) => value == null
+                          ? 'Please select a gender option'
+                          : null,
+                    )),
                 const SizedBox(height: 16),
                 
                 TextFormField(
                   controller: passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    helperText: 'Must be at least 6 characters, 1 uppercase letter, and 1 special character.',
+                  decoration: InputDecoration(
+                    labelText: googleMode
+                        ? 'Create a StyleSync password'
+                        : 'Password',
+                    helperText: 'At least 6 characters, 1 uppercase letter, and 1 special character.',
                   ),
                   obscureText: true,
                   validator: validatePassword,
@@ -102,20 +135,29 @@ class SignUpScreen extends StatelessWidget {
                     : ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authController.register(
-                              nameController.text.trim(),
-                              emailController.text.trim(),
-                              passwordController.text.trim(),
-                            );
+                            if (googleMode) {
+                              accountController.completeGoogleRegistration(
+                                nameController.text.trim(),
+                                selectedGender.value!,
+                                passwordController.text,
+                              );
+                            } else {
+                              accountController.register(
+                                nameController.text.trim(),
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                                selectedGender.value!,
+                              );
+                            }
                           }
                         },
-                        child: const Text('Sign Up'),
+                        child: Text(googleMode ? 'Create Account' : 'Sign Up'),
                       )),
                 
                 const SizedBox(height: 20),
                 
                 // Google Sign In Button
-                Obx(() {
+                if (!googleMode) Obx(() {
                   if (authController.isLoading.value) {
                     return const SizedBox.shrink();
                   } else {

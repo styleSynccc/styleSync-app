@@ -33,6 +33,8 @@ dependencies:
   cloud_firestore: ^4.15.8
   get: ^4.6.6
   google_sign_in: ^6.2.1
+  image_picker: ^1.0.7
+  firebase_storage: ^11.6.9
   flutter:
     sdk: flutter
 
@@ -61,6 +63,13 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/tops/
+    - assets/images/pants/
+    - assets/images/shoes/
+    - assets/images/accessories/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
