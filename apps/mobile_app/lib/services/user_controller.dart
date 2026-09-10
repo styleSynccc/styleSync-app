@@ -11,6 +11,7 @@ class UserController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var isLoading = false.obs;
+  var loadingMessage = ''.obs;
   var selectedImage = Rxn<File>();
 
   Future<void> pickImage(ImageSource source) async {
@@ -44,20 +45,19 @@ class UserController extends GetxController {
       
       if (imageToUpload != null) {
         try {
-          // NEW: Get the actual file extension
-          String originalExtension = imageToUpload.path.split('.').last.toLowerCase();
-          if (!['png', 'jpg', 'jpeg', 'webp'].contains(originalExtension)) {
-            originalExtension = 'jpg';
+          loadingMessage.value = 'Uploading your photo...';
+          var extension = imageToUpload.path.split('.').last.toLowerCase();
+          if (!['png', 'jpg', 'jpeg', 'webp'].contains(extension)) {
+            extension = 'jpg';
           }
-          
-          String fileName = 'user_photos/$uid.$originalExtension';
-          Reference ref = _storage.ref().child(fileName);
+          final ref = _storage.ref().child(
+            'users/$uid/digital_twin_original.$extension',
+          );
           await ref.putFile(imageToUpload);
           photoUrl = await ref.getDownloadURL();
         } catch (uploadError) {
-          print("----- PHOTO UPLOAD ERROR -----");
-          print(uploadError.toString());
-          print("--------------------------------");
+          Get.snackbar('Could not upload photo', uploadError.toString());
+          return;
         }
       }
 
@@ -80,6 +80,7 @@ class UserController extends GetxController {
       Get.snackbar("Error", e.toString());
     } finally {
       isLoading.value = false;
+      loadingMessage.value = '';
     }
   }
 }

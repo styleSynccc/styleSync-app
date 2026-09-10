@@ -1,16 +1,37 @@
 import io
 import base64
+import os
 
 import cv2
 import numpy as np
 import mediapipe as mp
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.responses import Response, JSONResponse
+import firebase_admin
+from firebase_admin import auth, credentials
 from rembg import remove, new_session
 from PIL import Image, ImageOps
 
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(
+        credentials.ApplicationDefault(),
+        {"projectId": os.getenv("FIREBASE_PROJECT_ID", "stylesync-app-3d7c1")},
+    )
+
 app = FastAPI()
+bearer_scheme = HTTPBearer()
+
+
+def require_firebase_user(
+    authorization: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+):
+    """Accept requests only from users authenticated by this Firebase project."""
+    try:
+        return auth.verify_id_token(authorization.credentials)
+    except Exception as exc:
+        raise HTTPException(status_code=401, detail="Invalid or expired Firebase token") from exc
 
 # ---- Load heavy models ONCE at startup ----
 session = new_session("isnet-general-use")
@@ -172,7 +193,10 @@ def health_check():
 
 
 @app.post("/remove-bg")
-async def remove_background(file: UploadFile = File(...)):
+async def remove_background(
+    file: UploadFile = File(...),
+    _user=Depends(require_firebase_user),
+):
     input_bytes = await file.read()
     try:
         image = prepare_upload(file, input_bytes)
@@ -185,7 +209,10 @@ async def remove_background(file: UploadFile = File(...)):
 
 
 @app.post("/extract-pose")
-async def extract_pose(file: UploadFile = File(...)):
+async def extract_pose(
+    file: UploadFile = File(...),
+    _user=Depends(require_firebase_user),
+):
     input_bytes = await file.read()
     try:
         image = prepare_upload(file, input_bytes)
@@ -203,7 +230,10 @@ async def extract_pose(file: UploadFile = File(...)):
 
 
 @app.post("/generate-twin")
-async def generate_twin(file: UploadFile = File(...)):
+async def generate_twin(
+    file: UploadFile = File(...),
+    _user=Depends(require_firebase_user),
+):
     input_bytes = await file.read()
 
     # 1. Validate file and fix EXIF orientation

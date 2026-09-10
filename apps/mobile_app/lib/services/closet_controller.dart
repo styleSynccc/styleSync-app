@@ -150,7 +150,8 @@ class ClosetController extends GetxController {
         originalExtension = 'jpg';
       }
       
-      final String fileName = 'clothes/${uid}_${DateTime.now().millisecondsSinceEpoch}.$originalExtension';
+      final String fileName =
+          'users/$uid/clothes/${DateTime.now().millisecondsSinceEpoch}.$originalExtension';
       
       // Upload to Firebase Storage
       Reference ref = _storage.ref().child(fileName);

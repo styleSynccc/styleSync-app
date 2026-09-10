@@ -95,10 +95,27 @@ class UserSetupScreen extends StatelessWidget {
 
               // Save Button
               Obx(() => userController.isLoading.value
-                  ? const CircularProgressIndicator()
+                  ? Column(
+                      children: [
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: 12),
+                        Text(
+                          userController.loadingMessage.value.isEmpty
+                              ? 'Saving your profile...'
+                              : userController.loadingMessage.value,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
                   : ElevatedButton(
                       onPressed: () {
-                        if (heightController.text.isNotEmpty && weightController.text.isNotEmpty) {
+                        if (userController.selectedImage.value == null) {
+                          Get.snackbar(
+                            'Photo required',
+                            'Choose a clear full-body photo first.',
+                          );
+                        } else if (heightController.text.isNotEmpty &&
+                            weightController.text.isNotEmpty) {
                           userController.saveUserData(
                             heightController.text.trim(),
                             weightController.text.trim(),

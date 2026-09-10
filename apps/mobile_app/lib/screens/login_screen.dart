@@ -142,8 +142,18 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text('Continue with Google', style: TextStyle(fontSize: 16, color: Colors.black)),
+                        children: [
+                          Image.asset(
+                            'assets/images/google.png',
+                            width: 24,
+                            height: 24,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Continue with Google',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
                         ],
                       ),
                     )),
