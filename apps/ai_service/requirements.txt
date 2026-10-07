@@ -1,0 +1,9 @@
+fastapi==0.141.1
+uvicorn==0.52.1
+python-multipart==0.0.32
+numpy==2.4.6
+opencv-python-headless>=4.10
+pillow==12.3.0
+mediapipe==0.10.14
+rembg[cpu]==2.0.77
+firebase-admin>=6.5

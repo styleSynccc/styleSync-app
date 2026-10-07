@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'ai_service.dart';
 
 class UserController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AiService _aiService = AiService();
 
   var isLoading = false.obs;
   var loadingMessage = ''.obs;
@@ -39,22 +42,31 @@ class UserController extends GetxController {
       
       String uid = currentUser.uid;
       String photoUrl = '';
+      String? twinId;
+      bool? wearsHijab;
 
       // 1. Safely get the image file
       final File? imageToUpload = selectedImage.value;
-      
+
       if (imageToUpload != null) {
         try {
+          loadingMessage.value = 'Checking your photo...';
+          final bytes = await imageToUpload.readAsBytes();
+          final filename = imageToUpload.path.split(Platform.pathSeparator).last;
+          final result = await _aiService.createDigitalTwin(bytes, filename);
+
+          final metadata = result['metadata'] as Map<String, dynamic>;
+          twinId = result['twinId'] as String?;
+          wearsHijab = metadata['wearsHijab'] as bool?;
+
           loadingMessage.value = 'Uploading your photo...';
-          var extension = imageToUpload.path.split('.').last.toLowerCase();
-          if (!['png', 'jpg', 'jpeg', 'webp'].contains(extension)) {
-            extension = 'jpg';
-          }
-          final ref = _storage.ref().child(
-            'users/$uid/digital_twin_original.$extension',
-          );
-          await ref.putFile(imageToUpload);
+          final processedBytes = base64Decode(result['personImageB64'] as String);
+          final ref = _storage.ref().child('users/$uid/digital_twin_processed.jpg');
+          await ref.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
           photoUrl = await ref.getDownloadURL();
+        } on AiServiceException catch (aiError) {
+          Get.snackbar('Could not create your digital twin', aiError.message);
+          return;
         } catch (uploadError) {
           Get.snackbar('Could not upload photo', uploadError.toString());
           return;
@@ -67,7 +79,9 @@ class UserController extends GetxController {
         'weight': weight,
         'bodyType': bodyType,
         'digitalTwinPhotoUrl': photoUrl,
-        'isProfileComplete': true, 
+        if (twinId != null) 'twinId': twinId,
+        if (wearsHijab != null) 'wearsHijab': wearsHijab,
+        'isProfileComplete': true,
       }, SetOptions(merge: true));
 
       Get.snackbar("Success", "Digital Twin created successfully!");

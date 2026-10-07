@@ -156,3 +156,8 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 
+
+# AI service: user photos written by LocalTwinStore, local venv
+apps/ai_service/data/
+apps/ai_service/.venv/
+apps/ai_service/samples/

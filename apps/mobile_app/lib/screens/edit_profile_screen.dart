@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../services/ai_service.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -121,11 +123,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() => saving = true);
     try {
       var photoUrl = currentPhotoUrl;
+      String? twinId;
+      bool? wearsHijab;
       if (selectedPhoto != null) {
-        final extension = selectedPhoto!.path.split('.').last.toLowerCase();
-        final safeExtension = ['png', 'jpg', 'jpeg', 'webp'].contains(extension) ? extension : 'jpg';
-        final reference = FirebaseStorage.instance.ref('user_photos/${user.uid}.$safeExtension');
-        await reference.putFile(selectedPhoto!);
+        final bytes = await selectedPhoto!.readAsBytes();
+        final filename = selectedPhoto!.path.split(Platform.pathSeparator).last;
+        final result = await AiService().createDigitalTwin(bytes, filename);
+
+        final metadata = result['metadata'] as Map<String, dynamic>;
+        twinId = result['twinId'] as String?;
+        wearsHijab = metadata['wearsHijab'] as bool?;
+
+        final processedBytes = base64Decode(result['personImageB64'] as String);
+        final reference = FirebaseStorage.instance.ref('users/${user.uid}/digital_twin_processed.jpg');
+        await reference.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
         photoUrl = await reference.getDownloadURL();
       }
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
@@ -134,10 +145,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         'weight': weightController.text.trim(),
         'bodyType': bodyType,
         'digitalTwinPhotoUrl': photoUrl,
+        if (twinId != null) 'twinId': twinId,
+        if (wearsHijab != null) 'wearsHijab': wearsHijab,
         'isProfileComplete': true,
       }, SetOptions(merge: true));
       if (mounted) Get.back();
       Get.snackbar('Profile updated', 'Your changes were saved.');
+    } on AiServiceException catch (aiError) {
+      Get.snackbar('Could not process your new photo', aiError.message);
+      if (mounted) setState(() => saving = false);
     } catch (error) {
       Get.snackbar('Could not update profile', error.toString());
       if (mounted) setState(() => saving = false);

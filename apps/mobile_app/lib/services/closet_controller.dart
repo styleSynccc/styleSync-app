@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'ai_service.dart';
 
 class ClothingItem {
   final String id;
@@ -24,6 +26,7 @@ class ClosetController extends GetxController {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AiService _aiService = AiService();
 
   var clothes = <ClothingItem>[].obs;
   var isLoading = false.obs;
@@ -142,31 +145,32 @@ class ClosetController extends GetxController {
 
       isLoading.value = true;
       final String uid = _auth.currentUser!.uid;
-      
-      // NEW: Get the actual file extension (.png, .jpg, .webp)
-      String originalExtension = image.path.split('.').last.toLowerCase();
-      // If it's an unknown format, default to jpg
-      if (!['png', 'jpg', 'jpeg', 'webp'].contains(originalExtension)) {
-        originalExtension = 'jpg';
-      }
-      
-      final String fileName =
-          'users/$uid/clothes/${DateTime.now().millisecondsSinceEpoch}.$originalExtension';
-      
-      // Upload to Firebase Storage
+
+      final bytes = await File(image.path).readAsBytes();
+      final filename = image.path.split(Platform.pathSeparator).last;
+      final result = await _aiService.uploadWardrobeItem(bytes, filename, category: category);
+
+      final String itemId = result['itemId'] as String;
+      final processedBytes = base64Decode(result['itemImageB64'] as String);
+      final fileName = 'users/$uid/clothes/$itemId.jpg';
+
+      // Upload the AI-processed (background-removed, enhanced) image.
       Reference ref = _storage.ref().child(fileName);
-      await ref.putFile(File(image.path));
+      await ref.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
       String imageUrl = await ref.getDownloadURL();
 
       // Save to Firestore
       await _db.collection('users').doc(uid).collection('clothes').add({
         'imageUrl': imageUrl,
         'category': category,
+        'itemId': itemId,
         'createdAt': DateTime.now().toIso8601String(),
       });
 
       await fetchClothes(); // Refresh the grid
       Get.snackbar("Success", "$category added to your closet!");
+    } on AiServiceException catch (aiError) {
+      Get.snackbar('Could not add item', aiError.message);
     } catch (e) {
       Get.snackbar("Error", e.toString());
     } finally {
