@@ -14,13 +14,13 @@ import 'screens/outfit_planner_screen.dart';
 import 'screens/outfit_creator_screen.dart';
 import 'screens/splash_screen.dart';
 import 'services/auth_controller.dart';
+import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService.instance.initialize();
+
   runApp(const StyleSyncApp());
 }
 
@@ -38,7 +38,9 @@ class StyleSyncApp extends StatelessWidget {
         primaryColor: const Color(0xFF1A1A1A),
         scaffoldBackgroundColor: Colors.white,
         inputDecorationTheme: const InputDecorationTheme(
-          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -46,7 +48,9 @@ class StyleSyncApp extends StatelessWidget {
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             minimumSize: const Size(double.infinity, 55),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       ),
@@ -58,10 +62,22 @@ class StyleSyncApp extends StatelessWidget {
         GetPage(name: '/user-setup', page: () => const UserSetupScreen()),
         GetPage(name: '/home', page: () => const HomeScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
-        GetPage(name: '/try-on', page: () => const VirtualTryOnScreen()), // <-- ADD
-        GetPage(name: '/inspo', page: () => const InspoMirrorScreen()),  // <-- ADD
-        GetPage(name: '/planner', page: () => const OutfitPlannerScreen()), // <-- ADD
-        GetPage(name: '/outfit-creator', page: () => const OutfitCreatorScreen()),
+        GetPage(
+          name: '/try-on',
+          page: () => const VirtualTryOnScreen(),
+        ), // <-- ADD
+        GetPage(
+          name: '/inspo',
+          page: () => const InspoMirrorScreen(),
+        ), // <-- ADD
+        GetPage(
+          name: '/planner',
+          page: () => const OutfitPlannerScreen(),
+        ), // <-- ADD
+        GetPage(
+          name: '/outfit-creator',
+          page: () => const OutfitCreatorScreen(),
+        ),
       ],
     );
   }

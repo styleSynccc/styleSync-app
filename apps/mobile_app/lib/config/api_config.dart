@@ -14,9 +14,10 @@
 ///    e.g. 'http://192.168.1.23:8000' (run `ipconfig` to find it), and make
 ///    sure Windows Firewall allows inbound connections on port 8000.
 ///
-/// Currently set to the dev machine's Wi-Fi LAN IP rather than localhost:
-/// that also still works from Windows desktop/Chrome/Edge on this same
-/// machine, so one value covers every target currently in use, including a
-/// physical phone. Re-check this IP (`ipconfig`) if it stops working - it's
-/// not static across networks/reboots.
-const String aiServiceBaseUrl = 'http://192.168.0.9:8000';
+/// Android emulator is the primary development target, so 10.0.2.2 is the
+/// safe default. Override it without editing source code, for example:
+///   flutter run --dart-define=AI_SERVICE_BASE_URL=http://192.168.1.23:8000
+const String aiServiceBaseUrl = String.fromEnvironment(
+  'AI_SERVICE_BASE_URL',
+  defaultValue: 'http://10.0.2.2:8000',
+);

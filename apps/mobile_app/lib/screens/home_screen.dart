@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import '../services/auth_controller.dart';
 import '../services/closet_controller.dart';
 import 'outfit_creator_screen.dart';
 
@@ -44,7 +43,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.find();
     final ClosetController closetController = Get.put(ClosetController());
     final user = FirebaseAuth.instance.currentUser;
 

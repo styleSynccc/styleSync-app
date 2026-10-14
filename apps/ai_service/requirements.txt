@@ -6,4 +6,4 @@ opencv-python-headless>=4.10
 pillow==12.3.0
 mediapipe==0.10.14
 rembg[cpu]==2.0.77
-firebase-admin>=6.5
+google-auth[requests]>=2.0
