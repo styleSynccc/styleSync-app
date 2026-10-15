@@ -1,0 +1,2 @@
+# Patch files must keep their exact line endings or `git apply` rejects them.
+*.patch -text
