@@ -161,3 +161,8 @@ app.*.symbols
 apps/ai_service/data/
 apps/ai_service/.venv/
 apps/ai_service/samples/
+
+# Downloaded third-party model source and isolated CatVTON environment
+third_party/
+apps/catvton_worker/.venv/
+apps/catvton_worker/smoke_result.jpg

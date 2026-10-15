@@ -7,3 +7,4 @@ pillow==12.3.0
 mediapipe==0.10.14
 rembg[cpu]==2.0.77
 google-auth[requests]>=2.0
+requests>=2.32

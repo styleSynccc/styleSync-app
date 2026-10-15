@@ -18,6 +18,7 @@ _SAFE_ID = re.compile(r"[A-Za-z0-9_-]{1,128}")
 class StoredTwin:
     metadata: dict
     processed_jpg: bytes
+    landmarks: list[dict]
     hijab_mask_png: bytes | None
 
 
@@ -94,6 +95,7 @@ class LocalTwinStore:
         return StoredTwin(
             metadata=json.loads(meta_path.read_text()),
             processed_jpg=(folder / "processed.jpg").read_bytes(),
+            landmarks=json.loads((folder / "landmarks.json").read_text()),
             hijab_mask_png=mask_path.read_bytes() if mask_path.exists() else None,
         )
 

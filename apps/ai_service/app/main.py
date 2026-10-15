@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from .auth import current_uid
+from .catvton_worker import CatVTONWorkerTryOnEngine
 from .config import Settings, get_settings
 from .errors import ImageValidationError, PipelineError
 from .hijab import HijabAnalyzer, NullHijabAnalyzer
@@ -20,7 +21,7 @@ from .storage import (
     TwinStore,
     WardrobeStore,
 )
-from .tryon import NotImplementedTryOnEngine, TryOnEngine, create_tryon
+from .tryon import TryOnEngine, create_tryon
 from .wardrobe import create_wardrobe_item
 
 
@@ -76,7 +77,10 @@ def create_app(
     app.state.hijab_analyzer = hijab_analyzer or NullHijabAnalyzer()
     app.state.store = store or LocalTwinStore(settings.data_dir)
     app.state.wardrobe_store = wardrobe_store or LocalWardrobeStore(settings.data_dir)
-    app.state.tryon_engine = tryon_engine or NotImplementedTryOnEngine()
+    app.state.tryon_engine = tryon_engine or CatVTONWorkerTryOnEngine(
+        settings.tryon_worker_url,
+        settings.tryon_worker_timeout_seconds,
+    )
     app.state.result_store = result_store or LocalResultStore(settings.data_dir)
 
     if settings.cors_allow_all:

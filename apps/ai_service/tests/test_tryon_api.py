@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from app.config import Settings
 from app.main import create_app
 from app.storage import LocalTwinStore, LocalWardrobeStore
-from tests.conftest import FakeEngine
+from tests.conftest import FakeEngine, standing_landmarks
 
 CANVAS = (1024, 768, 3)
 
@@ -19,9 +19,13 @@ def seed_twin(tmp_path, uid="dev-user", twin_id="twin1", own_hijab_mask=False):
         m[:200] = 255  # top strip: "wearing their own hijab" in this photo
         ok2, buf = cv2.imencode(".png", m)
         mask_png = buf.tobytes()
+    landmarks = [
+        {"x": p.x, "y": p.y, "z": p.z, "visibility": p.visibility}
+        for p in standing_landmarks()
+    ]
     LocalTwinStore(tmp_path).save(
         uid, twin_id, original=jpg.tobytes(), original_ext="jpg",
-        processed_jpg=jpg.tobytes(), landmarks=[], hijab_mask_png=mask_png,
+        processed_jpg=jpg.tobytes(), landmarks=landmarks, hijab_mask_png=mask_png,
         metadata={"twinId": twin_id, "uid": uid},
     )
     return twin_id
@@ -55,11 +59,9 @@ class FakeTryOnEngine:
         mask[:300] = 255
         return out, mask
 
-    def apply_garment(self, person_bgr, garment_bgr, protect_mask):
+    def apply_garment(self, person_bgr, garment_bgr, category, replace_mask):
         out = person_bgr.copy()
-        out[:] = 99  # pretend-garment painted everywhere
-        if protect_mask is not None:
-            out[protect_mask > 0] = person_bgr[protect_mask > 0]  # except protected pixels
+        out[replace_mask > 0] = 99
         return out
 
 
@@ -116,7 +118,7 @@ def test_garment_only_protects_twins_own_hijab(tmp_path):
     import base64
     result = cv2.imdecode(np.frombuffer(base64.b64decode(body["resultImageB64"]), np.uint8), cv2.IMREAD_COLOR)
     assert (result[:200] == 200).all()   # twin's own hijab area: untouched
-    assert (result[300:] == 99).all()    # elsewhere: garment applied
+    assert (result[350:500, 330:438] == 99).all()  # torso: garment applied
 
 
 def test_chosen_hijab_runs_both_stages_and_protects_its_own_placement(tmp_path):
@@ -130,8 +132,8 @@ def test_chosen_hijab_runs_both_stages_and_protects_its_own_placement(tmp_path):
     assert body["metadata"]["hijabItemId"] == "hijab1"
     import base64
     result = cv2.imdecode(np.frombuffer(base64.b64decode(body["resultImageB64"]), np.uint8), cv2.IMREAD_COLOR)
-    assert (result[:300] == 50).all()    # chosen hijab's own placement: protected from stage 2
-    assert (result[300:] == 99).all()    # elsewhere: garment applied
+    assert np.allclose(result[20:260, 20:-20], 50, atol=3)  # chosen hijab stays protected
+    assert np.allclose(result[350:500, 330:438], 99, atol=2)  # garment applied
 
 
 def test_result_is_persisted(tmp_path):
@@ -143,12 +145,15 @@ def test_result_is_persisted(tmp_path):
     assert {p.name for p in folder.iterdir()} == {"result.jpg", "metadata.json"}
 
 
-def test_not_implemented_by_default(tmp_path):
+def test_worker_unavailable_by_default(tmp_path):
     seed_twin(tmp_path)
     seed_item(tmp_path, item_id="top1", category="Tops")
-    with make_client(tmp_path) as client:  # no tryon_engine override
+    with make_client(
+        tmp_path,
+        tryon_worker_url="http://127.0.0.1:1",
+    ) as client:  # no tryon_engine override
         r = post_tryon(client, "twin1", "top1")
-    assert r.status_code == 501 and r.json()["error_type"] == "TRY_ON_NOT_IMPLEMENTED"
+    assert r.status_code == 503 and r.json()["error_type"] == "TRY_ON_UNAVAILABLE"
 
 
 def test_auth_required_when_not_disabled(tmp_path):

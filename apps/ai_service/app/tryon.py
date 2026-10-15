@@ -1,13 +1,7 @@
-"""Try-on orchestration: combine a stored digital twin with stored wardrobe
-items, per the workflow doc's two-stage flow (hijab, then clothing).
+"""Try-on orchestration for stored twins and wardrobe items.
 
-The actual image generation - the real "try-on" AI step - is NOT implemented
-(see NotImplementedTryOnEngine below). It needs a real try-on model such as
-OOTDiffusion: a diffusion model with multi-GB weights, normally run on a GPU.
-That is a separate decision (compute, time budget, dependencies) from what
-this module builds, which is everything around it: loading the right
-artifacts, checking they belong to this user and are the right kind of item,
-and persisting the result. A real engine plugs in through TryOnEngine.
+The production default plugs the local CatVTON worker into ``TryOnEngine``;
+tests can inject a deterministic engine without loading diffusion weights.
 """
 import base64
 import uuid
@@ -19,11 +13,16 @@ import cv2
 import numpy as np
 
 from . import imaging
-from .config import PIPELINE_VERSION, WARDROBE_CATEGORIES, Settings
-from .errors import InvalidWardrobeItemError, TryOnNotImplementedError
+from .config import PIPELINE_VERSION, Settings
+from .errors import (
+    InvalidWardrobeItemError,
+    TryOnNotImplementedError,
+    TryOnUnavailableError,
+)
 from .storage import ResultStore, TwinStore, WardrobeStore
+from .tryon_mask import clothing_mask
 
-GARMENT_CATEGORIES = WARDROBE_CATEGORIES - {"Hijab"}
+GARMENT_CATEGORIES = {"Tops", "Pants"}
 
 
 class TryOnEngine(Protocol):
@@ -40,10 +39,13 @@ class TryOnEngine(Protocol):
         ...
 
     def apply_garment(
-        self, person_bgr: np.ndarray, garment_bgr: np.ndarray, protect_mask: np.ndarray | None
+        self,
+        person_bgr: np.ndarray,
+        garment_bgr: np.ndarray,
+        category: str,
+        replace_mask: np.ndarray,
     ) -> np.ndarray:
-        """Person now wearing the chosen garment. Pixels where `protect_mask`
-        is set (e.g. a hijab, worn or just applied) must be left untouched."""
+        """Person now wearing the chosen garment inside `replace_mask`."""
         ...
 
 
@@ -60,7 +62,7 @@ class NotImplementedTryOnEngine:
             "Hijab try-on is not implemented yet. Needs a real try-on model (e.g. OOTDiffusion)."
         )
 
-    def apply_garment(self, person_bgr, garment_bgr, protect_mask):
+    def apply_garment(self, person_bgr, garment_bgr, category, replace_mask):
         raise TryOnNotImplementedError(
             "Clothing try-on is not implemented yet. Needs a real try-on model (e.g. OOTDiffusion)."
         )
@@ -129,7 +131,23 @@ def create_tryon(
         person, protect_mask = tryon_engine.apply_hijab(person, hijab_bgr, hijab_mask)
 
     garment_bgr = _decode(garment.processed_jpg)
-    final = tryon_engine.apply_garment(person, garment_bgr, protect_mask)
+    try:
+        replace_mask = clothing_mask(
+            person.shape[:2],
+            twin.landmarks,
+            garment.metadata["category"],
+            protect_mask,
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise TryOnUnavailableError(
+            "This digital twin is missing pose data. Create a new digital twin and try again."
+        ) from exc
+    final = tryon_engine.apply_garment(
+        person,
+        garment_bgr,
+        garment.metadata["category"],
+        replace_mask,
+    )
 
     result_id = uuid.uuid4().hex
     result_jpg = imaging.encode_jpeg(final)

@@ -28,6 +28,7 @@ class AiService {
   AiService({this.baseUrl = aiServiceBaseUrl});
 
   static const Duration _requestTimeout = Duration(minutes: 3);
+  static const Duration _tryOnTimeout = Duration(minutes: 12);
 
   Future<Map<String, String>> _authHeader() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -72,6 +73,34 @@ class AiService {
         'NETWORK_ERROR',
         "Couldn't reach the AI service. Is it running, and is the address "
             "in api_config.dart correct for how you're running the app?",
+      );
+    }
+  }
+
+  Future<Map<String, dynamic>> _postJson(
+    String path,
+    Map<String, dynamic> payload, {
+    Duration timeout = _requestTimeout,
+  }) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl$path'),
+            headers: {
+              ...await _authHeader(),
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(payload),
+          )
+          .timeout(timeout);
+      return _decode(response);
+    } on AiServiceException {
+      rethrow;
+    } catch (_) {
+      throw AiServiceException(
+        'NETWORK_ERROR',
+        "Couldn't reach the AI service. Make sure both the StyleSync API "
+            'and CatVTON worker are running.',
       );
     }
   }
@@ -143,5 +172,16 @@ class AiService {
   Future<List<dynamic>> listWardrobe() async {
     final body = await _get('/v1/wardrobe');
     return body['items'] as List<dynamic>;
+  }
+
+  /// POST /v1/tryon - combine a saved twin with one supported garment.
+  Future<Map<String, dynamic>> tryOn({
+    required String twinId,
+    required String garmentItemId,
+  }) {
+    return _postJson('/v1/tryon', {
+      'twinId': twinId,
+      'garmentItemId': garmentItemId,
+    }, timeout: _tryOnTimeout);
   }
 }

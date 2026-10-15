@@ -40,6 +40,8 @@ class Settings:
     # verification uses Firebase's public signing certificates, so local
     # development does not need a service-account JSON file.
     firebase_project_id: str = "stylesync-app-3d7c1"
+    tryon_worker_url: str = "http://127.0.0.1:8001"
+    tryon_worker_timeout_seconds: int = 600
     # Allows the Flutter web build (served from its own dev-server origin) to
     # call this API. Fine while everything runs on one developer's machine;
     # narrow this to real origins before any deployment.
@@ -52,6 +54,12 @@ def get_settings() -> Settings:
         auth_disabled=os.getenv("AUTH_DISABLED", "0") == "1",
         firebase_project_id=os.getenv(
             "FIREBASE_PROJECT_ID", "stylesync-app-3d7c1"
+        ),
+        tryon_worker_url=os.getenv(
+            "TRYON_WORKER_URL", "http://127.0.0.1:8001"
+        ).rstrip("/"),
+        tryon_worker_timeout_seconds=int(
+            os.getenv("TRYON_WORKER_TIMEOUT_SECONDS", "600")
         ),
         cors_allow_all=os.getenv("CORS_ALLOW_ALL", "1") == "1",
     )

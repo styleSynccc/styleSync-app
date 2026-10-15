@@ -144,7 +144,7 @@ Goal (your request): same treatment as the digital twin for wardrobe items - rem
 - **Decided:** quality enhancement = denoise + CLAHE contrast + mild sharpen. No white balance (see §4), no super-resolution.
 - **Open:** exact hijab segmentation needs a trained model, or a better-prompted SAM. Does labelled data exist, or keep trying promptable segmenters first?
 - **Open:** when to move from local disk to Firebase Storage + Firestore.
-- **Open:** CatVTON vs IDM-VTON for the real try-on model - the user is testing both locally (RTX 4050, 6GB VRAM); not done in this service.
+- **Decided:** CatVTON is the first real try-on engine. It runs in an isolated local worker on the development machine's RTX 3050 6GB GPU; its non-commercial CC BY-NC-SA 4.0 license must be respected.
 
 ## 8. Results on the 26 test photos (real models, full pipeline)
 
@@ -179,16 +179,18 @@ Unlike the digital twin, there's no person in these photos, so **no pose check**
 
 Per the workflow doc's "user picks: twin + clothing item + hijab (optional)" step, through the two-stage try-on. Takes `twinId` + `garmentItemId` + optional `hijabItemId` (JSON body, no file upload — it references items already saved by `/v1/twins` and `/v1/wardrobe`).
 
-**The actual image generation is NOT implemented.** A real try-on model (CatVTON or IDM-VTON - the user is testing both locally) is a diffusion model with multi-GB weights, normally run on a GPU — that's a separate effort from what's built here. `NotImplementedTryOnEngine` is wired in by default and raises `TRY_ON_NOT_IMPLEMENTED` (501) immediately. What *is* built and tested is everything around it:
+Real image generation uses the official CatVTON pipeline through the isolated `apps/catvton_worker` FastAPI process. The main service sends the stored twin, garment, and a pose-derived replacement mask to that worker. The development default is FP16, 384×512, 30 steps on CUDA; only `Tops` and `Pants` are enabled.
 
 - [x] Loads the twin and garment from storage; 404s if either doesn't exist for this user
 - [x] Rejects a hijab item passed as `garmentItemId`, and a non-hijab item passed as `hijabItemId` (`INVALID_WARDROBE_ITEM`, 400)
 - [x] If `hijabItemId` is omitted, the twin's **own** hijab mask (from its own photo, if any) protects that area during the clothing stage — this is correct as-is, since that mask is already in the twin's own canvas coordinates
 - [x] If `hijabItemId` is given, stage 1 runs first and **must return where it placed the hijab** on the person — that returned mask, not the hijab item's flat-lay mask, is what protects it in stage 2. (Caught before shipping: the flat-lay mask is in the wardrobe photo's own coordinates, not the twin's — using it directly would have protected the wrong pixels.)
 - [x] Result is persisted (`data/results/<uid>/<resultId>/`), same pattern as twins and wardrobe items
-- [x] 9 automated tests (fake engine, verifies protection pixel-by-pixel) + smoke-tested against real twin/garment artifacts produced by the real pipelines (not hand-built fixtures) — confirms loading, validation, and the not-implemented error all fire correctly end to end
-- [ ] **No real try-on model wired in.** User is testing CatVTON and IDM-VTON locally; neither is connected to this service yet
-- [ ] The "paste back protected pixels if needed" step from the workflow doc isn't built — `protect_mask` is passed to `apply_garment`, but what the engine does with it depends on the real model's behavior, which doesn't exist yet to test against
+- [x] A MediaPipe-landmark mask selects the upper body or pants region while excluding the face, hands, background, and the twin's own/chosen hijab
+- [x] The worker composites generated pixels through that same softened mask, restoring every protected pixel from the original twin
+- [x] CatVTON downloads only its required mixed-attention checkpoint, not the upstream repository's unused DensePose/SCHP assets
+- [x] 63 backend tests pass; a live worker smoke test generated a real sample in about 11 seconds, and a full `/v1/tryon` API test returned 201 with a generated JPEG
+- [ ] Shoes, accessories, dresses, and generated/replaced hijabs are not yet supported by CatVTON in this app
 - [ ] Same storage/auth caveats as twins and wardrobe (local disk, token verification untested with a real token)
 
 ## 11. Flutter UI ("link into the UI")
@@ -196,23 +198,24 @@ Per the workflow doc's "user picks: twin + clothing item + hijab (optional)" ste
 Wires the mobile app to `/v1/twins` and `/v1/wardrobe`. **Click-through verified end to end** against the live backend, over real Firebase, in Chrome (web build).
 
 - [x] `http` + `file_picker` added (not `image_picker`: no official Windows desktop support, and Windows desktop is one of the two working dev targets here, alongside Chrome/Edge - Visual Studio isn't installed, so Windows desktop can't actually *build* yet despite showing as a target)
-- [x] `AiService` (`lib/services/ai_service.dart`): typed client for all four endpoints, Firebase ID token attached automatically, server error messages surfaced as-is (they're already written for a user to read)
+- [x] `AiService` (`lib/services/ai_service.dart`): typed client for twin, wardrobe, and try-on endpoints, Firebase ID token attached automatically, server error messages surfaced as-is
+- [x] Virtual Try-On screen loads saved twins and supported wardrobe items, lets the user select each, calls `/v1/tryon`, and displays the generated result with loading/error states
 - [x] Screens: Home (post-login landing - there wasn't one before), Digital Twin (upload + gallery of past twins), Wardrobe (grid + add-item sheet with category/style)
 - [x] Fixed: login/signup/Google sign-in now navigate to Home on success (previously went nowhere); a restored session on launch goes straight to Home instead of login; `signOut()` added (didn't exist before); `Get.put(AuthController())` moved out of `build()` (was re-registering on every rebuild)
 - [x] `flutter analyze`: no issues. `flutter build web`: compiles
 - [x] **End-to-end click-through verified** via headless Chromium (`chromium-cli` isn't available here, so a small Playwright driver was used instead): sign up with a throwaway account → real Firebase Auth creates the user and a real Firestore write succeeds → lands on Home → Digital Twin screen → pick a real sample photo → `Create My Twin` → real `POST /v1/twins` (201) → twin appears in the gallery, pipeline version `twin-0.6.0` confirms the quality-enhancement code ran. Same for Wardrobe: `Add Item` → category `top` → pick a photo → `Upload` → real `POST /v1/wardrobe` (201) → saved. `GET /v1/twins`/`GET /v1/wardrobe` also confirmed working (used by both screens on load)
 - [~] Flutter Web specifically: CanvasKit renders to a single canvas with no DOM/accessibility tree, so driving it headlessly needed coordinate clicks instead of selectors, plus retries - clicks occasionally miss on the first attempt (confirmed via temporary debug logging that this is headless-rendering flakiness under CPU load, not an app bug: `register()` completes correctly every time it's actually invoked). Not something to fix in the app; noted here because it affects how this gets re-verified later
 - [ ] Windows desktop build untested (Visual Studio not installed - `flutter build windows` fails with "Unable to find suitable Visual Studio toolchain")
-- [x] **Android debug build now succeeds** (`flutter build apk --debug` → a real 152 MB `app-debug.apk`). Not run on a device/emulator yet - only confirmed it builds. Three real, unrelated bugs found and fixed along the way:
+- [x] **Android debug build and emulator launch succeed.** The app was installed on `emulator-5554`, restored the Firebase session, loaded the closet, and opened the live Virtual Try-On screen against the local API. Earlier Android fixes include:
   - `android/build.gradle.kts` declared `com.google.gms.google-services` a second time at a conflicting version (4.4.0) against the one FlutterFire already set up in `settings.gradle.kts` (4.3.10) - Gradle refused to resolve the plugin at all. Removed the duplicate.
   - Android NDK 28.2.13676358 (required by `flutter.ndkVersion`) wasn't installed, and Gradle's auto-download silently failed. Installed manually; this newer "Android CLI" tool (replacing the deprecated `sdkmanager`) is itself flaky under this environment (a package install hung for ~28 minutes with no output before finishing - see git history/session notes, not worth repeating unless it recurs).
-  - `android/app/build.gradle.kts`'s `applicationId` was still Flutter's template default (`com.example.mobile_app`), which doesn't match any entry in `google-services.json` - Firebase has this app registered as `com.styleSync_app` instead. Changed `applicationId` only (not `namespace`, so no Kotlin source files needed moving). **`com.styleSync_app` is an unconventional Android package name** (mixed case, underscore) - worth registering a proper reverse-domain one (e.g. `com.stylesync.app`) in the Firebase console and swapping it in here before this ships anywhere real.
+  - The Android package and Firebase registration currently both use Flutter's template ID, `com.example.mobile_app`. Register a proper reverse-domain ID (for example `com.stylesync.app`) in Firebase and migrate both together before release.
   - The actual AGP/Gradle/Kotlin versions this Flutter SDK (3.47.2) had scaffolded - AGP 9.0.1, Gradle 9.1.0, Kotlin 2.3.20 - are all very recently released. AGP 9 enforces stricter AAR-metadata compileSdk checks that `file_picker` 8.0.7's published AAR doesn't meet (built against compileSdk 34). Downgraded all three together to the lowest versions this Flutter SDK will still accept (it has its own floors, hit one at a time: AGP ≥8.11.1, Gradle ≥8.14.0, Kotlin ≥2.2.20) - low enough to avoid AGP 9's stricter check, which fixed it. Flutter now prints "will soon be dropped, upgrade to AGP 9.0.1/Gradle 9.1.0/Kotlin 3.3.20" warnings on every build - **not urgent, but `file_picker` (or an alternative) will need to catch up to AGP 9 before those upgrades can happen**
-- [ ] Only the "happy path" was click-through tested (web). Rejection flows (e.g. a bad-pose photo, an invalid category) are exercised by the backend's own tests but not through the UI. The Android build hasn't been click-through tested at all (no device/emulator here) - only confirmed to compile
+- [ ] Rejection flows (e.g. a bad-pose photo or invalid category) are exercised by backend tests but have not all been click-through tested through the Android UI
 
 ## 12. Not started (later work)
 
-- [ ] Windows desktop build (§11); Android click-through testing on a device/emulator
-- [ ] A real try-on model - CatVTON/IDM-VTON testing is happening on the user's PC, outside this service (see §10, §7)
+- [ ] Windows desktop build (§11)
+- [ ] Production hosting/scaling for CatVTON; the current worker requires the local NVIDIA GPU and is licensed for non-commercial use only
 - [ ] Repo work: Firestore security rules, fix Codemagic Flutter version and the missing `integration_test/`, clean `.gitignore`/`README.md`, delete the stray `git` file
 - [ ] Commit this work; delete the old root `main.py` and `requirement.txt` (superseded)

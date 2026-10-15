@@ -66,3 +66,8 @@ class InvalidWardrobeItemError(PipelineError):
 class TryOnNotImplementedError(PipelineError):
     status_code = 501
     code = "TRY_ON_NOT_IMPLEMENTED"
+
+
+class TryOnUnavailableError(PipelineError):
+    status_code = 503
+    code = "TRY_ON_UNAVAILABLE"
