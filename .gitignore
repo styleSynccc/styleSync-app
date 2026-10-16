@@ -162,10 +162,8 @@ apps/ai_service/data/
 apps/ai_service/.venv/
 apps/ai_service/samples/
 
-# Downloaded third-party model source and isolated CatVTON environment
+# Downloaded third-party model source and isolated FASHN environment
 third_party/
-apps/catvton_worker/.venv/
-apps/catvton_worker/smoke_result.jpg
 apps/fashn_vton_worker/.venv/
 apps/fashn_vton_worker/smoke_result.jpg
 third_party/fashn-vton-1.5/weights/

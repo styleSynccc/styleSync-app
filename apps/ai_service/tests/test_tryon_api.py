@@ -213,7 +213,6 @@ def test_worker_unavailable_by_default(tmp_path):
     seed_item(tmp_path, item_id="top1", category="Tops")
     with make_client(
         tmp_path,
-        tryon_worker_url="http://127.0.0.1:1",
         fashn_worker_url="http://127.0.0.1:1",
     ) as client:  # no tryon_engine override
         r = post_tryon(client, "twin1", "top1")

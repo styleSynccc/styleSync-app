@@ -1,9 +1,8 @@
 # StyleSync FASHN VTON worker
 
 This isolated local service runs the maskless
-[FASHN VTON v1.5](https://github.com/fashn-AI/fashn-vton-1.5) pipeline. Its
-Apache-2.0 license is friendlier to a future commercial app than CatVTON's
-non-commercial license.
+[FASHN VTON v1.5](https://github.com/fashn-AI/fashn-vton-1.5) pipeline under
+the Apache-2.0 license.
 
 From PowerShell at the repository root:
 
@@ -30,16 +29,6 @@ Create the key in the FASHN developer dashboard and keep it on the backend;
 never add it to Flutter or commit it to this repository. Shoe generation uses
 paid FASHN API credits. If `FASHN_API_KEY` is absent, Tops/Pants keep working
 and selecting Shoes returns a clear configuration error.
-
-Do not keep CatVTON and FASHN loaded simultaneously on a low-VRAM GPU. The API
-uses only FASHN by default so model comparisons cannot be confused by a silent
-fallback. To select an engine or deliberately enable a fallback before
-starting the main API:
-
-```powershell
-$env:TRYON_ENGINE = 'fashn'             # or 'catvton'
-$env:TRYON_FALLBACK_ENGINE = 'catvton'  # optional; empty by default
-```
 
 After starting the FASHN worker, test it with:
 

@@ -144,7 +144,7 @@ Goal (your request): same treatment as the digital twin for wardrobe items - rem
 - **Decided:** quality enhancement = denoise + CLAHE contrast + mild sharpen. No white balance (see §4), no super-resolution.
 - **Open:** exact hijab segmentation needs a trained model, or a better-prompted SAM. Does labelled data exist, or keep trying promptable segmenters first?
 - **Open:** when to move from local disk to Firebase Storage + Firestore.
-- **Decided:** FASHN VTON v1.5 is the active maskless try-on engine. CatVTON is retained but disabled while FASHN output is evaluated. Each runs in an isolated local worker. FASHN is Apache-2.0; CatVTON's non-commercial CC BY-NC-SA 4.0 license must be respected whenever it is re-enabled.
+- **Decided:** FASHN VTON v1.5 is the only local maskless try-on engine and runs in an isolated worker. FASHN is Apache-2.0.
 
 ## 8. Results on the 26 test photos (real models, full pipeline)
 
@@ -179,7 +179,7 @@ Unlike the digital twin, there's no person in these photos, so **no pose check**
 
 Per the workflow doc's "user picks: twin + clothing item + hijab (optional)" step. Takes `twinId` + `garmentItemIds` (up to one each of Top, Pants, and Shoes) + optional `hijabItemId` (JSON body, no file upload — it references items already saved by `/v1/twins` and `/v1/wardrobe`). The legacy singular `garmentItemId` is still accepted.
 
-Real image generation uses the official maskless FASHN VTON v1.5 pipeline through `apps/fashn_vton_worker` on port 8002 for Tops and Pants. FASHN's hosted Try-On Max handles Shoes because the local v1.5 model has no footwear category; this path is enabled with the server-side `FASHN_API_KEY` and consumes hosted credits. The person is cropped around the saved full-body pose before inference, preventing large empty margins from reducing useful model detail. CatVTON remains installed but is not selected or started during the FASHN evaluation.
+Real image generation uses the official maskless FASHN VTON v1.5 pipeline through `apps/fashn_vton_worker` on port 8002 for Tops and Pants. FASHN's hosted Try-On Max handles Shoes because the local v1.5 model has no footwear category; this path is enabled with the server-side `FASHN_API_KEY` and consumes hosted credits. The person is cropped around the saved full-body pose before inference, preventing large empty margins from reducing useful model detail.
 
 - [x] Loads the twin and garment from storage; 404s if either doesn't exist for this user
 - [x] Accepts an optional Top, Pants, and Shoes together, rejects duplicate categories, and applies them in that stable order
@@ -189,8 +189,7 @@ Real image generation uses the official maskless FASHN VTON v1.5 pipeline throug
 - [x] Result is persisted (`data/results/<uid>/<resultId>/`), same pattern as twins and wardrobe items
 - [x] A MediaPipe-landmark mask selects the upper body or pants region while excluding the face, hands, background, and the twin's own/chosen hijab
 - [x] The worker composites generated pixels through that same softened mask, restoring every protected pixel from the original twin
-- [x] CatVTON downloads only its required mixed-attention checkpoint, not the upstream repository's unused DensePose/SCHP assets
-- [x] 81 backend tests pass; live CatVTON and local FASHN worker smoke tests generated real JPEGs, and the full `/v1/tryon` path returned HTTP 201 through local FASHN
+- [x] 78 backend tests pass; the live local FASHN worker smoke test generated a real JPEG, and the full `/v1/tryon` path returned HTTP 201 through local FASHN
 - [~] Shoes are implemented through FASHN Try-On Max and covered by mocked API tests; a real hosted generation still needs a funded FASHN API key
 - [ ] Accessories, dresses, and generated/replaced hijabs are not yet supported in the app
 - [ ] Same storage/auth caveats as twins and wardrobe (local disk, token verification untested with a real token)
@@ -219,6 +218,6 @@ Wires the mobile app to `/v1/twins` and `/v1/wardrobe`. **Click-through verified
 ## 12. Not started (later work)
 
 - [ ] Windows desktop build (§11)
-- [ ] Production hosting/scaling for the GPU workers; CatVTON fallback use remains non-commercial only
+- [ ] Production hosting/scaling for the FASHN GPU worker
 - [ ] Repo work: Firestore security rules, fix Codemagic Flutter version and the missing `integration_test/`, clean `.gitignore`/`README.md`, delete the stray `git` file
 - [ ] Commit this work; delete the old root `main.py` and `requirement.txt` (superseded)

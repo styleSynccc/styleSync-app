@@ -8,10 +8,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from .auth import current_uid
-from .catvton_worker import CatVTONWorkerTryOnEngine
 from .config import Settings, get_settings
 from .errors import ImageValidationError, PipelineError
-from .fallback_tryon import FallbackTryOnEngine
 from .fashn_api import FashnApiTryOnEngine
 from .fashn_worker import FashnWorkerTryOnEngine
 from .hijab import HijabAnalyzer, NullHijabAnalyzer
@@ -43,33 +41,11 @@ def build_tryon_engine(settings: Settings) -> TryOnEngine:
         settings.fashn_api_url,
         settings.tryon_worker_timeout_seconds,
     )
-    engines = {
-        "fashn": FashnWorkerTryOnEngine(
-            settings.fashn_worker_url,
-            settings.tryon_worker_timeout_seconds,
-            shoe_engine,
-        ),
-        "catvton": CatVTONWorkerTryOnEngine(
-            settings.tryon_worker_url,
-            settings.tryon_worker_timeout_seconds,
-        ),
-    }
-    try:
-        primary = engines[settings.tryon_engine]
-    except KeyError as exc:
-        raise ValueError(
-            "TRYON_ENGINE must be either 'fashn' or 'catvton'."
-        ) from exc
-
-    fallback_name = settings.tryon_fallback_engine
-    if not fallback_name or fallback_name == settings.tryon_engine:
-        return primary
-    try:
-        return FallbackTryOnEngine(primary, engines[fallback_name])
-    except KeyError as exc:
-        raise ValueError(
-            "TRYON_FALLBACK_ENGINE must be empty, 'fashn', or 'catvton'."
-        ) from exc
+    return FashnWorkerTryOnEngine(
+        settings.fashn_worker_url,
+        settings.tryon_worker_timeout_seconds,
+        shoe_engine,
+    )
 
 _CHUNK = 1 << 20
 _MULTIPART_OVERHEAD = 1 << 20

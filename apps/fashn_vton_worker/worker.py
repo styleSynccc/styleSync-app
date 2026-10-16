@@ -1,7 +1,7 @@
 """Local HTTP worker for FASHN VTON v1.5.
 
 It lives in an isolated environment so its current PyTorch/ONNX dependencies
-cannot conflict with the main StyleSync image service or CatVTON.
+cannot conflict with the main StyleSync image service.
 """
 
 import io
@@ -104,7 +104,7 @@ class FashnRunner:
             torch.cuda.empty_cache()
             raise MemoryError(
                 "FASHN VTON ran out of GPU memory. Close GPU-heavy programs. "
-                "If it still fails, switch the StyleSync API to CatVTON."
+                "If it still fails, reduce other GPU usage and try again."
             ) from exc
         finally:
             torch.cuda.empty_cache()
