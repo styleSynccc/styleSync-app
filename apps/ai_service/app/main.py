@@ -11,6 +11,9 @@ from .auth import current_uid
 from .catvton_worker import CatVTONWorkerTryOnEngine
 from .config import Settings, get_settings
 from .errors import ImageValidationError, PipelineError
+from .fallback_tryon import FallbackTryOnEngine
+from .fashn_api import FashnApiTryOnEngine
+from .fashn_worker import FashnWorkerTryOnEngine
 from .hijab import HijabAnalyzer, NullHijabAnalyzer
 from .pipeline import create_twin
 from .storage import (
@@ -27,8 +30,46 @@ from .wardrobe import create_wardrobe_item
 
 class TryOnRequest(BaseModel):
     twinId: str
-    garmentItemId: str
+    # garmentItemId remains accepted for older app builds. New clients send
+    # garmentItemIds so a top and pants can be applied in one request.
+    garmentItemId: str | None = None
+    garmentItemIds: list[str] | None = None
     hijabItemId: str | None = None
+
+
+def build_tryon_engine(settings: Settings) -> TryOnEngine:
+    shoe_engine = FashnApiTryOnEngine(
+        settings.fashn_api_key,
+        settings.fashn_api_url,
+        settings.tryon_worker_timeout_seconds,
+    )
+    engines = {
+        "fashn": FashnWorkerTryOnEngine(
+            settings.fashn_worker_url,
+            settings.tryon_worker_timeout_seconds,
+            shoe_engine,
+        ),
+        "catvton": CatVTONWorkerTryOnEngine(
+            settings.tryon_worker_url,
+            settings.tryon_worker_timeout_seconds,
+        ),
+    }
+    try:
+        primary = engines[settings.tryon_engine]
+    except KeyError as exc:
+        raise ValueError(
+            "TRYON_ENGINE must be either 'fashn' or 'catvton'."
+        ) from exc
+
+    fallback_name = settings.tryon_fallback_engine
+    if not fallback_name or fallback_name == settings.tryon_engine:
+        return primary
+    try:
+        return FallbackTryOnEngine(primary, engines[fallback_name])
+    except KeyError as exc:
+        raise ValueError(
+            "TRYON_FALLBACK_ENGINE must be empty, 'fashn', or 'catvton'."
+        ) from exc
 
 _CHUNK = 1 << 20
 _MULTIPART_OVERHEAD = 1 << 20
@@ -77,10 +118,7 @@ def create_app(
     app.state.hijab_analyzer = hijab_analyzer or NullHijabAnalyzer()
     app.state.store = store or LocalTwinStore(settings.data_dir)
     app.state.wardrobe_store = wardrobe_store or LocalWardrobeStore(settings.data_dir)
-    app.state.tryon_engine = tryon_engine or CatVTONWorkerTryOnEngine(
-        settings.tryon_worker_url,
-        settings.tryon_worker_timeout_seconds,
-    )
+    app.state.tryon_engine = tryon_engine or build_tryon_engine(settings)
     app.state.result_store = result_store or LocalResultStore(settings.data_dir)
 
     if settings.cors_allow_all:
@@ -189,11 +227,14 @@ def create_app(
         body: TryOnRequest,
         uid: str = Depends(current_uid),
     ):
+        garment_item_ids = body.garmentItemIds
+        if garment_item_ids is None:
+            garment_item_ids = [body.garmentItemId] if body.garmentItemId else []
         result = await run_in_threadpool(
             create_tryon,
             uid,
             body.twinId,
-            body.garmentItemId,
+            garment_item_ids,
             body.hijabItemId,
             twin_store=request.app.state.store,
             wardrobe_store=request.app.state.wardrobe_store,

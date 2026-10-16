@@ -35,7 +35,16 @@ def load_and_fix_orientation(data: bytes, max_pixels: int, max_side: int = 3072)
         if max(w, h) > max_side:
             # JPEG decodes directly at a reduced size; no-op for other formats.
             pil.draft("RGB", (max(1, w * max_side // max(w, h)), max(1, h * max_side // max(w, h))))
-        pil = ImageOps.exif_transpose(pil).convert("RGB")
+        pil = ImageOps.exif_transpose(pil)
+        # Dropping alpha directly turns many transparent product PNGs black.
+        # Flatten them onto the same white background used by the wardrobe
+        # pipeline before converting to OpenCV's three-channel format.
+        if "A" in pil.getbands():
+            rgba = pil.convert("RGBA")
+            white = Image.new("RGBA", rgba.size, (255, 255, 255, 255))
+            pil = Image.alpha_composite(white, rgba).convert("RGB")
+        else:
+            pil = pil.convert("RGB")
         if max(pil.size) > max_side:
             pil.thumbnail((max_side, max_side), Image.LANCZOS)
     except ImageValidationError:

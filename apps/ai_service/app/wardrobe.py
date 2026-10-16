@@ -78,7 +78,11 @@ def create_wardrobe_item(
     imaging.validate_bytes(raw, settings.max_upload_bytes)
     original_ext = imaging.sniff_extension(raw)
     image = imaging.load_and_fix_orientation(raw, settings.max_pixels, settings.max_decode_side)
-    imaging.validate_resolution(image, settings.min_short_side, settings.min_long_side)
+    imaging.validate_resolution(
+        image,
+        settings.min_garment_side,
+        settings.min_garment_side,
+    )
     padded = imaging.resize_and_pad(image, settings.target_width, settings.target_height)
 
     cut_out = engine.remove_background(imaging.encode_png(padded))

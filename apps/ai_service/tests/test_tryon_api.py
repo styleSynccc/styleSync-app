@@ -52,6 +52,9 @@ class FakeTryOnEngine:
 
     name = "fake"
 
+    def __init__(self):
+        self.garment_categories = []
+
     def apply_hijab(self, person_bgr, hijab_bgr, hijab_mask):
         out = person_bgr.copy()
         out[:300] = 50  # pretend-hijab painted over the top third
@@ -60,6 +63,7 @@ class FakeTryOnEngine:
         return out, mask
 
     def apply_garment(self, person_bgr, garment_bgr, category, replace_mask):
+        self.garment_categories.append(category)
         out = person_bgr.copy()
         out[replace_mask > 0] = 99
         return out
@@ -76,6 +80,13 @@ def post_tryon(client, twin_id, garment_item_id, hijab_item_id=None):
     if hijab_item_id is not None:
         body["hijabItemId"] = hijab_item_id
     return client.post("/v1/tryon", json=body)
+
+
+def post_outfit(client, twin_id, garment_item_ids):
+    return client.post(
+        "/v1/tryon",
+        json={"twinId": twin_id, "garmentItemIds": garment_item_ids},
+    )
 
 
 def test_unknown_twin_is_404(tmp_path):
@@ -107,6 +118,58 @@ def test_non_hijab_item_rejected_as_hijab_choice(tmp_path):
     with make_client(tmp_path, FakeTryOnEngine()) as client:
         r = post_tryon(client, "twin1", "top1", hijab_item_id="top2")
     assert r.status_code == 400 and r.json()["error_type"] == "INVALID_WARDROBE_ITEM"
+
+
+def test_top_and_pants_are_applied_in_stable_order(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="pants1", category="Pants")
+    seed_item(tmp_path, item_id="top1", category="Tops")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        r = post_outfit(client, "twin1", ["pants1", "top1"])
+
+    assert r.status_code == 201, r.text
+    body = r.json()
+    assert engine.garment_categories == ["Tops", "Pants"]
+    assert body["metadata"]["garmentItemIds"] == ["top1", "pants1"]
+    assert body["metadata"]["topItemId"] == "top1"
+    assert body["metadata"]["pantsItemId"] == "pants1"
+
+
+def test_top_pants_and_shoes_are_applied_in_stable_order(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="shoes1", category="Shoes")
+    seed_item(tmp_path, item_id="pants1", category="Pants")
+    seed_item(tmp_path, item_id="top1", category="Tops")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        r = post_outfit(client, "twin1", ["shoes1", "pants1", "top1"])
+
+    assert r.status_code == 201, r.text
+    body = r.json()
+    assert engine.garment_categories == ["Tops", "Pants", "Shoes"]
+    assert body["metadata"]["garmentItemIds"] == ["top1", "pants1", "shoes1"]
+    assert body["metadata"]["shoesItemId"] == "shoes1"
+
+
+def test_two_items_from_the_same_category_are_rejected(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="top1", category="Tops")
+    seed_item(tmp_path, item_id="top2", category="Tops")
+    with make_client(tmp_path, FakeTryOnEngine()) as client:
+        r = post_outfit(client, "twin1", ["top1", "top2"])
+
+    assert r.status_code == 400
+    assert r.json()["error_type"] == "INVALID_WARDROBE_ITEM"
+
+
+def test_at_least_one_garment_is_required(tmp_path):
+    seed_twin(tmp_path)
+    with make_client(tmp_path, FakeTryOnEngine()) as client:
+        r = post_outfit(client, "twin1", [])
+
+    assert r.status_code == 400
+    assert r.json()["error_type"] == "INVALID_WARDROBE_ITEM"
 
 
 def test_garment_only_protects_twins_own_hijab(tmp_path):
@@ -151,9 +214,21 @@ def test_worker_unavailable_by_default(tmp_path):
     with make_client(
         tmp_path,
         tryon_worker_url="http://127.0.0.1:1",
+        fashn_worker_url="http://127.0.0.1:1",
     ) as client:  # no tryon_engine override
         r = post_tryon(client, "twin1", "top1")
     assert r.status_code == 503 and r.json()["error_type"] == "TRY_ON_UNAVAILABLE"
+
+
+def test_shoes_explain_missing_hosted_api_key(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="shoes1", category="Shoes")
+    with make_client(tmp_path) as client:
+        r = post_tryon(client, "twin1", "shoes1")
+
+    assert r.status_code == 503
+    assert r.json()["error_type"] == "TRY_ON_UNAVAILABLE"
+    assert "FASHN_API_KEY" in r.json()["message"]
 
 
 def test_auth_required_when_not_disabled(tmp_path):

@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
       'assets/images/pants/jeans_blue.png',
       'assets/images/pants/jeans_black.png',
       'assets/images/pants/dark_jjeans.jpg',
+      'assets/images/pants/side-zipper-slit-flare-jeans-5-01KM4AWC8P6HS9FWKP6KRKD3B9.webp',
     ],
     'Shoes': [
       'assets/images/shoes/timberland_black.png',
@@ -51,7 +52,10 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 20.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Invisible spacer to balance the row
-                    const SizedBox(width: 40), 
+                    const SizedBox(width: 40),
                     // Centered Logo
                     Image.asset(
                       'assets/images/stylesync_letterings.png',
@@ -68,7 +72,10 @@ class HomeScreen extends StatelessWidget {
                       errorBuilder: (context, error, stackTrace) {
                         return const Text(
                           'StyleSync',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         );
                       },
                     ),
@@ -80,92 +87,146 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                
+
                 // Welcome Text
-                const Text('Welcome,', style: TextStyle(fontSize: 18, color: Colors.grey)),
+                const Text(
+                  'Welcome,',
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
                 FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance.collection('users').doc(user?.uid).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user?.uid)
+                      .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Loading...', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+                      return const Text(
+                        'Loading...',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
                     }
                     if (snapshot.hasData && snapshot.data!.exists) {
                       var data = snapshot.data!.data() as Map<String, dynamic>?;
                       return Text(
                         '${data?['name'] ?? 'User'}!',
-                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
                       );
                     }
-                    return const Text('User!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+                    return const Text(
+                      'User!',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 30),
-                
+
                 // My Closet Title & Single Plus Button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('My Closet', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'My Closet',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Row(
                       children: [
-                        Obx(() => Text(
-                          '${closetController.clothes.length} Items',
-                          style: const TextStyle(fontSize: 14, color: Colors.grey),
-                        )),
+                        Obx(
+                          () => Text(
+                            '${closetController.clothes.length} Items',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         // The Single Plus Button
-                        Obx(() => IconButton(
-                          icon: Icon(
-                            closetController.isAddExpanded.value ? Icons.close : Icons.add,
-                            color: Colors.black,
+                        Obx(
+                          () => IconButton(
+                            icon: Icon(
+                              closetController.isAddExpanded.value
+                                  ? Icons.close
+                                  : Icons.add,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              closetController.isAddExpanded.value =
+                                  !closetController.isAddExpanded.value;
+                            },
                           ),
-                          onPressed: () {
-                            closetController.isAddExpanded.value = !closetController.isAddExpanded.value;
-                          },
-                        )),
+                        ),
                       ],
                     ),
                   ],
                 ),
-                
+
                 // EXPANDABLE CATEGORY BUTTONS
                 AnimatedSize(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  child: Obx(() => closetController.isAddExpanded.value
-                    ? Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: [
-                          _buildAddCategoryButton('Tops', closetController),
-                          _buildAddCategoryButton('Pants', closetController),
-                          _buildAddCategoryButton('Shoes', closetController),
-                          _buildAddCategoryButton('Accessories', closetController),
-                        ],
-                      )
-                    : const SizedBox.shrink() // Hides when collapsed
+                  child: Obx(
+                    () => closetController.isAddExpanded.value
+                        ? Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              _buildAddCategoryButton('Tops', closetController),
+                              _buildAddCategoryButton(
+                                'Pants',
+                                closetController,
+                              ),
+                              _buildAddCategoryButton(
+                                'Shoes',
+                                closetController,
+                              ),
+                              _buildAddCategoryButton(
+                                'Accessories',
+                                closetController,
+                              ),
+                            ],
+                          )
+                        : const SizedBox.shrink(), // Hides when collapsed
                   ),
                 ),
                 const SizedBox(height: 20),
-                
+
                 // Closet Grid
                 Obx(() {
-                  if (closetController.isLoading.value && closetController.clothes.isEmpty) {
+                  if (closetController.isLoading.value &&
+                      closetController.clothes.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  
+
                   if (closetController.clothes.isEmpty) {
                     return Container(
                       height: 300,
                       alignment: Alignment.center,
-                      child: const Text('Your closet is empty.\nTap the + button above to add clothes!', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+                      child: const Text(
+                        'Your closet is empty.\nTap the + button above to add clothes!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     );
                   }
 
                   final sortedClothes = closetController.clothes.toList()
                     ..sort((first, second) {
                       final firstIndex = _categoryOrder.indexOf(first.category);
-                      final secondIndex = _categoryOrder.indexOf(second.category);
+                      final secondIndex = _categoryOrder.indexOf(
+                        second.category,
+                      );
                       final safeFirst = firstIndex == -1
                           ? _categoryOrder.length
                           : firstIndex;
@@ -174,16 +235,17 @@ class HomeScreen extends StatelessWidget {
                           : secondIndex;
                       return safeFirst.compareTo(safeSecond);
                     });
-                  
+
                   return GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.75,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          childAspectRatio: 0.75,
+                        ),
                     itemCount: sortedClothes.length,
                     itemBuilder: (context, index) {
                       var item = sortedClothes[index];
@@ -193,10 +255,7 @@ class HomeScreen extends StatelessWidget {
                           ? AssetImage(assetPath) as ImageProvider
                           : NetworkImage(item.imageUrl);
                       return GestureDetector(
-                        onTap: () => _showImageGallery(
-                          sortedClothes,
-                          index,
-                        ),
+                        onTap: () => _showImageGallery(sortedClothes, index),
                         onLongPress: () =>
                             _confirmDelete(item, closetController),
                         child: Container(
@@ -214,17 +273,20 @@ class HomeScreen extends StatelessWidget {
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                                 borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(20),
                                   bottomRight: Radius.circular(20),
                                 ),
                               ),
-                              child: Text(item.category,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12)),
+                              child: Text(
+                                item.category,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -237,7 +299,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      
+
       // Bottom Navigation Bar
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
@@ -255,24 +317,36 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                icon: const Icon(Icons.face_retouching_natural, size: 28, color: Colors.black54),
+                icon: const Icon(
+                  Icons.face_retouching_natural,
+                  size: 28,
+                  color: Colors.black54,
+                ),
                 onPressed: () {
                   Get.toNamed('/try-on');
                 },
               ),
-              
+
               // Space for the FAB
-              const SizedBox(width: 40), 
-              
+              const SizedBox(width: 40),
+
               // Right Side
               IconButton(
-                icon: const Icon(Icons.auto_awesome, size: 28, color: Colors.black54),
+                icon: const Icon(
+                  Icons.auto_awesome,
+                  size: 28,
+                  color: Colors.black54,
+                ),
                 onPressed: () {
                   Get.toNamed('/inspo');
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.calendar_month, size: 28, color: Colors.black54),
+                icon: const Icon(
+                  Icons.calendar_month,
+                  size: 28,
+                  color: Colors.black54,
+                ),
                 onPressed: () {
                   Get.toNamed('/planner');
                 },
@@ -281,7 +355,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      
+
       // Floating Add Button for Outfits
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const OutfitCreatorScreen()),
@@ -323,9 +397,18 @@ class HomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Choose $category', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(
+                'Choose $category',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 6),
-              const Text('Pick one below or add a picture from your gallery.', style: TextStyle(color: Colors.grey)),
+              const Text(
+                'Pick one below or add a picture from your gallery.',
+                style: TextStyle(color: Colors.grey),
+              ),
               const SizedBox(height: 18),
               Flexible(
                 child: GridView.builder(
@@ -354,7 +437,10 @@ class HomeScreen extends StatelessWidget {
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.add_photo_alternate_outlined, size: 34),
+                              Icon(
+                                Icons.add_photo_alternate_outlined,
+                                size: 34,
+                              ),
                               SizedBox(height: 8),
                               Text('Your photo', textAlign: TextAlign.center),
                             ],
@@ -402,10 +488,7 @@ class HomeScreen extends StatelessWidget {
           'Do you want to remove this ${item.category.toLowerCase()} item from your closet?',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               Get.back();
@@ -419,10 +502,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _showClothingPhotoSource(
-    String category,
-    ClosetController controller,
-  ) {
+  void _showClothingPhotoSource(String category, ClosetController controller) {
     Get.bottomSheet(
       SafeArea(
         child: Container(
@@ -494,8 +574,7 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = items[index];
                     final dynamic closetItem = item;
-                    final String? assetPath =
-                        closetItem.assetPath as String?;
+                    final String? assetPath = closetItem.assetPath as String?;
 
                     return InteractiveViewer(
                       minScale: 1,
@@ -515,18 +594,18 @@ class HomeScreen extends StatelessWidget {
                                 height: double.infinity,
                                 loadingBuilder: (context, child, progress) =>
                                     progress == null
-                                        ? child
-                                        : const Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                                    ? child
+                                    : const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                 errorBuilder: (context, error, stackTrace) =>
                                     const Icon(
-                                  Icons.broken_image_outlined,
-                                  color: Colors.white,
-                                  size: 60,
-                                ),
+                                      Icons.broken_image_outlined,
+                                      color: Colors.white,
+                                      size: 60,
+                                    ),
                               ),
                       ),
                     );

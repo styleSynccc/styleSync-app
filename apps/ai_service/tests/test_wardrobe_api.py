@@ -99,6 +99,14 @@ def test_too_small_photo_is_rejected(tmp_path):
     assert r.status_code == 400 and "too small" in r.json()["message"]
 
 
+def test_square_bundled_asset_resolution_is_accepted(tmp_path):
+    ok, buf = cv2.imencode(".png", np.full((360, 360, 3), 120, np.uint8))
+    assert ok
+    with make_client(tmp_path, FakeEngine()) as client:
+        r = post_item(client, buf.tobytes(), "Tops", name="sample.png")
+    assert r.status_code == 201, r.text
+
+
 def test_auth_required_when_not_disabled(tmp_path, photo_bytes):
     settings = Settings(data_dir=tmp_path, auth_disabled=False)
     app = create_app(settings=settings, engine=FakeEngine())

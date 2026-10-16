@@ -1,0 +1,6 @@
+fastapi==0.141.1
+python-multipart==0.0.32
+# fashn-human-parser declares only a lower bound. Transformers 5 currently
+# expects torch.distributed APIs newer than our RTX 50-compatible torch pin.
+transformers>=4.30,<5
+uvicorn==0.52.1

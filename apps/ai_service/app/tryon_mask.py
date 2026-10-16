@@ -1,4 +1,4 @@
-"""Build lightweight CatVTON clothing masks from saved MediaPipe landmarks."""
+"""Build pose-derived clothing masks for engines that require one."""
 
 import cv2
 import numpy as np
@@ -65,8 +65,22 @@ def clothing_mask(
             np.array([left_hip, right_hip, right_knee, left_knee], np.int32),
             255,
         )
+    elif category == "Shoes":
+        if len(landmarks) < 33:
+            raise ValueError("The digital twin does not contain foot landmarks.")
+        left_ankle, right_ankle = point(27), point(28)
+        left_heel, right_heel = point(29), point(30)
+        left_toe, right_toe = point(31), point(32)
+        shoe_width = max(22, int(shoulder_width * 0.28))
+        for ankle, heel, toe in (
+            (left_ankle, left_heel, left_toe),
+            (right_ankle, right_heel, right_toe),
+        ):
+            cv2.line(mask, ankle, heel, 255, shoe_width)
+            cv2.line(mask, heel, toe, 255, shoe_width)
+            cv2.circle(mask, toe, shoe_width // 2, 255, -1)
     else:
-        raise ValueError("Virtual try-on currently supports Tops and Pants only.")
+        raise ValueError("Virtual try-on currently supports Tops, Pants, and Shoes only.")
 
     kernel_size = max(5, int(width * 0.018))
     if kernel_size % 2 == 0:

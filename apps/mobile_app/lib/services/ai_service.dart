@@ -28,7 +28,7 @@ class AiService {
   AiService({this.baseUrl = aiServiceBaseUrl});
 
   static const Duration _requestTimeout = Duration(minutes: 3);
-  static const Duration _tryOnTimeout = Duration(minutes: 12);
+  static const Duration _tryOnTimeout = Duration(minutes: 45);
 
   Future<Map<String, String>> _authHeader() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -100,7 +100,7 @@ class AiService {
       throw AiServiceException(
         'NETWORK_ERROR',
         "Couldn't reach the AI service. Make sure both the StyleSync API "
-            'and CatVTON worker are running.',
+            'and virtual try-on worker are running.',
       );
     }
   }
@@ -174,14 +174,14 @@ class AiService {
     return body['items'] as List<dynamic>;
   }
 
-  /// POST /v1/tryon - combine a saved twin with one supported garment.
+  /// POST /v1/tryon - combine a twin with a top, pants, shoes, or any mix.
   Future<Map<String, dynamic>> tryOn({
     required String twinId,
-    required String garmentItemId,
+    required List<String> garmentItemIds,
   }) {
     return _postJson('/v1/tryon', {
       'twinId': twinId,
-      'garmentItemId': garmentItemId,
+      'garmentItemIds': garmentItemIds,
     }, timeout: _tryOnTimeout);
   }
 }

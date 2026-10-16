@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../services/ai_service.dart';
+import '../services/closet_controller.dart';
 import 'edit_profile_screen.dart';
 
 class VirtualTryOnScreen extends StatefulWidget {
@@ -19,9 +20,13 @@ class VirtualTryOnScreen extends StatefulWidget {
 class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   late final AiService _aiService = widget.aiService ?? AiService();
   List<_TryOnChoice> _twins = const [];
-  List<_TryOnChoice> _garments = const [];
+  List<_TryOnChoice> _tops = const [];
+  List<_TryOnChoice> _pants = const [];
+  List<_TryOnChoice> _shoes = const [];
   String? _selectedTwinId;
-  String? _selectedGarmentId;
+  String? _selectedTopId;
+  String? _selectedPantsId;
+  String? _selectedShoesId;
   Uint8List? _resultImage;
   String? _error;
   bool _loading = true;
@@ -39,6 +44,11 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       _error = null;
     });
     try {
+      String? assetSyncWarning;
+      if (Get.isRegistered<ClosetController>()) {
+        assetSyncWarning = await Get.find<ClosetController>()
+            .syncAssetItemsForTryOn();
+      }
       final responses = await Future.wait<List<dynamic>>([
         _aiService.listTwins(),
         _aiService.listWardrobe(),
@@ -50,14 +60,26 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
           .map(
             (value) => _TryOnChoice.fromGarment(value as Map<String, dynamic>),
           )
-          .where((item) => item.category == 'Tops' || item.category == 'Pants')
+          .where(
+            (item) =>
+                item.category == 'Tops' ||
+                item.category == 'Pants' ||
+                item.category == 'Shoes',
+          )
           .toList();
       if (!mounted) return;
       setState(() {
         _twins = twins;
-        _garments = garments;
+        _tops = garments.where((item) => item.category == 'Tops').toList();
+        _pants = garments.where((item) => item.category == 'Pants').toList();
+        _shoes = garments.where((item) => item.category == 'Shoes').toList();
         _selectedTwinId = twins.isEmpty ? null : twins.first.id;
-        _selectedGarmentId = garments.isEmpty ? null : garments.first.id;
+        _selectedTopId = _tops.isEmpty ? null : _tops.first.id;
+        _selectedPantsId = _pants.isEmpty ? null : _pants.first.id;
+        // Shoe generation uses paid hosted credits, so never select it
+        // automatically when the screen opens or refreshes.
+        _selectedShoesId = null;
+        _error = assetSyncWarning;
         _loading = false;
       });
     } on AiServiceException catch (error) {
@@ -77,8 +99,8 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
 
   Future<void> _generate() async {
     final twinId = _selectedTwinId;
-    final garmentId = _selectedGarmentId;
-    if (twinId == null || garmentId == null || _generating) return;
+    final garmentIds = [?_selectedTopId, ?_selectedPantsId, ?_selectedShoesId];
+    if (twinId == null || garmentIds.isEmpty || _generating) return;
 
     setState(() {
       _generating = true;
@@ -88,7 +110,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
     try {
       final response = await _aiService.tryOn(
         twinId: twinId,
-        garmentItemId: garmentId,
+        garmentItemIds: garmentIds,
       );
       final result = base64Decode(response['resultImageB64'] as String);
       if (!mounted) return;
@@ -134,100 +156,131 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _loadChoices,
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-                children: [
-                  _resultCard(),
-                  const SizedBox(height: 24),
-                  _sectionTitle('1. Choose your digital twin'),
-                  const SizedBox(height: 10),
-                  if (_twins.isEmpty)
-                    _emptyCard(
-                      'Create a digital twin from your profile before trying on clothes.',
-                      actionLabel: 'Create digital twin',
-                      onAction: _openTwinSetup,
-                    )
-                  else
-                    _choiceStrip(
-                      _twins,
-                      _selectedTwinId,
-                      (id) => setState(() => _selectedTwinId = id),
-                    ),
-                  const SizedBox(height: 24),
-                  _sectionTitle('2. Choose a Top or Pants'),
-                  const SizedBox(height: 10),
-                  if (_garments.isEmpty)
-                    _emptyCard(
-                      'Add a Top or Pants photo to your closet first. Bundled sample items are not AI-ready.',
-                      actionLabel: 'Back to closet',
-                      onAction: Get.back,
-                    )
-                  else
-                    _choiceStrip(
-                      _garments,
-                      _selectedGarmentId,
-                      (id) => setState(() => _selectedGarmentId = id),
-                    ),
-                  if (_error != null) ...[
-                    const SizedBox(height: 18),
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade50,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        _error!,
-                        style: TextStyle(color: Colors.red.shade800),
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    height: 54,
-                    child: ElevatedButton.icon(
-                      onPressed:
-                          _selectedTwinId == null ||
-                              _selectedGarmentId == null ||
-                              _generating
-                          ? null
-                          : _generate,
-                      icon: _generating
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Icon(Icons.auto_awesome),
-                      label: Text(
-                        _generating
-                            ? 'Creating your try-on…'
-                            : 'Generate Virtual Try-On',
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: Colors.grey.shade400,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                    ),
+          : ListView(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+              children: [
+                _resultCard(),
+                const SizedBox(height: 24),
+                _sectionTitle('1. Choose your digital twin'),
+                const SizedBox(height: 10),
+                if (_twins.isEmpty)
+                  _emptyCard(
+                    'Create a digital twin from your profile before trying on clothes.',
+                    actionLabel: 'Create digital twin',
+                    onAction: _openTwinSetup,
+                  )
+                else
+                  _choiceStrip(
+                    _twins,
+                    _selectedTwinId,
+                    (id) => setState(() => _selectedTwinId = id),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'The first result downloads and loads the model, so it can take several minutes.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                const SizedBox(height: 24),
+                _sectionTitle('2. Choose a Top'),
+                const SizedBox(height: 10),
+                if (_tops.isEmpty)
+                  _emptyCard(
+                    'No uploaded Tops are available. You can still generate with Pants only.',
+                    actionLabel: 'Back to closet',
+                    onAction: Get.back,
+                  )
+                else
+                  _garmentChoiceStrip(
+                    _tops,
+                    _selectedTopId,
+                    noneLabel: 'No top',
+                    onSelected: (id) => setState(() => _selectedTopId = id),
+                  ),
+                const SizedBox(height: 24),
+                _sectionTitle('3. Choose Pants'),
+                const SizedBox(height: 10),
+                if (_pants.isEmpty)
+                  _emptyCard(
+                    'No uploaded Pants are available. You can still generate with a Top only.',
+                    actionLabel: 'Back to closet',
+                    onAction: Get.back,
+                  )
+                else
+                  _garmentChoiceStrip(
+                    _pants,
+                    _selectedPantsId,
+                    noneLabel: 'No pants',
+                    onSelected: (id) => setState(() => _selectedPantsId = id),
+                  ),
+                const SizedBox(height: 24),
+                _sectionTitle('4. Choose Shoes'),
+                const SizedBox(height: 10),
+                if (_shoes.isEmpty)
+                  _emptyCard(
+                    'No uploaded Shoes are available. You can still generate without shoes.',
+                    actionLabel: 'Back to closet',
+                    onAction: Get.back,
+                  )
+                else
+                  _garmentChoiceStrip(
+                    _shoes,
+                    _selectedShoesId,
+                    noneLabel: 'No shoes',
+                    onSelected: (id) => setState(() => _selectedShoesId = id),
+                  ),
+                if (_error != null) ...[
+                  const SizedBox(height: 18),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      _error!,
+                      style: TextStyle(color: Colors.red.shade800),
+                    ),
                   ),
                 ],
-              ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  height: 54,
+                  child: ElevatedButton.icon(
+                    onPressed:
+                        _selectedTwinId == null ||
+                            (_selectedTopId == null &&
+                                _selectedPantsId == null &&
+                                _selectedShoesId == null) ||
+                            _generating
+                        ? null
+                        : _generate,
+                    icon: _generating
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.auto_awesome),
+                    label: Text(
+                      _generating
+                          ? 'Creating your try-on…'
+                          : 'Generate Virtual Try-On',
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      disabledBackgroundColor: Colors.grey.shade400,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Each selected item runs one AI pass. Shoes use FASHN Try-On Max and consume hosted API credits.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              ],
             ),
     );
   }
@@ -254,7 +307,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                   const SizedBox(height: 12),
                   Text(
                     _generating
-                        ? 'CatVTON is creating your outfit'
+                        ? 'AI is creating your outfit'
                         : 'Your result will appear here',
                     style: const TextStyle(
                       color: Colors.grey,
@@ -287,6 +340,107 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
             label: choice.label,
             child: InkWell(
               onTap: () => onSelected(choice.id),
+              borderRadius: BorderRadius.circular(16),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                width: 120,
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: selected ? Colors.black : Colors.grey.shade300,
+                    width: selected ? 3 : 1,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(11),
+                        child: ColoredBox(
+                          color: Colors.grey.shade100,
+                          child: Image.memory(
+                            choice.image,
+                            width: double.infinity,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      choice.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _garmentChoiceStrip(
+    List<_TryOnChoice> choices,
+    String? selectedId, {
+    required String noneLabel,
+    required ValueChanged<String?> onSelected,
+  }) {
+    return SizedBox(
+      height: 170,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: choices.length + 1,
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            final selected = selectedId == null;
+            return Semantics(
+              button: true,
+              selected: selected,
+              label: noneLabel,
+              child: InkWell(
+                onTap: () => onSelected(null),
+                borderRadius: BorderRadius.circular(16),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: selected ? Colors.black : Colors.grey.shade300,
+                      width: selected ? 3 : 1,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.block, size: 42, color: Colors.black45),
+                      const SizedBox(height: 10),
+                      Text(
+                        noneLabel,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
+          final choice = choices[index - 1];
+          final selected = choice.id == selectedId;
+          return Semantics(
+            button: true,
+            selected: selected,
+            label: choice.label,
+            child: InkWell(
+              onTap: () => onSelected(selected ? null : choice.id),
               borderRadius: BorderRadius.circular(16),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 180),

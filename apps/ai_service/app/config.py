@@ -25,6 +25,9 @@ class Settings:
     # Below this the photo is upscaled too far for a sharp 768x1024 twin.
     min_short_side: int = 320
     min_long_side: int = 640
+    # Product-only wardrobe images can be square and smaller than a full-body
+    # twin. The bundled catalog includes clean 360px product cutouts.
+    min_garment_side: int = 256
     # OOTDiffusion expects 3:4 portrait images
     target_width: int = 768
     target_height: int = 1024
@@ -40,8 +43,18 @@ class Settings:
     # verification uses Firebase's public signing certificates, so local
     # development does not need a service-account JSON file.
     firebase_project_id: str = "stylesync-app-3d7c1"
+    # FASHN VTON runs by itself by default so its output can be evaluated
+    # without silently substituting a result from another model.
+    tryon_engine: str = "fashn"
+    tryon_fallback_engine: str = ""
+    fashn_worker_url: str = "http://127.0.0.1:8002"
+    # FASHN VTON v1.5 does not support footwear. Shoes are routed through
+    # FASHN's hosted Try-On Max endpoint when this server-side key is set.
+    # Never place this key in the Flutter app.
+    fashn_api_key: str = ""
+    fashn_api_url: str = "https://api.fashn.ai/v1"
     tryon_worker_url: str = "http://127.0.0.1:8001"
-    tryon_worker_timeout_seconds: int = 600
+    tryon_worker_timeout_seconds: int = 1200
     # Allows the Flutter web build (served from its own dev-server origin) to
     # call this API. Fine while everything runs on one developer's machine;
     # narrow this to real origins before any deployment.
@@ -55,11 +68,22 @@ def get_settings() -> Settings:
         firebase_project_id=os.getenv(
             "FIREBASE_PROJECT_ID", "stylesync-app-3d7c1"
         ),
+        tryon_engine=os.getenv("TRYON_ENGINE", "fashn").strip().lower(),
+        tryon_fallback_engine=os.getenv(
+            "TRYON_FALLBACK_ENGINE", ""
+        ).strip().lower(),
+        fashn_worker_url=os.getenv(
+            "FASHN_WORKER_URL", "http://127.0.0.1:8002"
+        ).rstrip("/"),
+        fashn_api_key=os.getenv("FASHN_API_KEY", "").strip(),
+        fashn_api_url=os.getenv(
+            "FASHN_API_URL", "https://api.fashn.ai/v1"
+        ).rstrip("/"),
         tryon_worker_url=os.getenv(
             "TRYON_WORKER_URL", "http://127.0.0.1:8001"
         ).rstrip("/"),
         tryon_worker_timeout_seconds=int(
-            os.getenv("TRYON_WORKER_TIMEOUT_SECONDS", "600")
+            os.getenv("TRYON_WORKER_TIMEOUT_SECONDS", "1200")
         ),
         cors_allow_all=os.getenv("CORS_ALLOW_ALL", "1") == "1",
     )

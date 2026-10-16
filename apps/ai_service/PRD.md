@@ -130,7 +130,7 @@ Goal (your request): same treatment as the digital twin for wardrobe items - rem
 `GET /v1/wardrobe`: same header, no body
 - **200**: `{ success, items: [{ itemId, metadata, itemImageB64 }, ...] }`, newest first
 
-`POST /v1/tryon`: JSON body `{ twinId, garmentItemId, hijabItemId? }`, header as above - see §9
+`POST /v1/tryon`: JSON body `{ twinId, garmentItemIds: [topId?, pantsId?, shoesId?], hijabItemId? }`, header as above. The older singular `garmentItemId` remains accepted for compatibility - see §9
 
 **Errors** (all endpoints): `{ success:false, error_type, message, reason? }` with status 400 / 401 / 404 / 413 / 422 / 500 / 501
 
@@ -144,7 +144,7 @@ Goal (your request): same treatment as the digital twin for wardrobe items - rem
 - **Decided:** quality enhancement = denoise + CLAHE contrast + mild sharpen. No white balance (see §4), no super-resolution.
 - **Open:** exact hijab segmentation needs a trained model, or a better-prompted SAM. Does labelled data exist, or keep trying promptable segmenters first?
 - **Open:** when to move from local disk to Firebase Storage + Firestore.
-- **Decided:** CatVTON is the first real try-on engine. It runs in an isolated local worker on the development machine's RTX 3050 6GB GPU; its non-commercial CC BY-NC-SA 4.0 license must be respected.
+- **Decided:** FASHN VTON v1.5 is the active maskless try-on engine. CatVTON is retained but disabled while FASHN output is evaluated. Each runs in an isolated local worker. FASHN is Apache-2.0; CatVTON's non-commercial CC BY-NC-SA 4.0 license must be respected whenever it is re-enabled.
 
 ## 8. Results on the 26 test photos (real models, full pipeline)
 
@@ -177,11 +177,12 @@ Unlike the digital twin, there's no person in these photos, so **no pose check**
 
 ## 10. Try-on orchestration (`POST /v1/tryon`)
 
-Per the workflow doc's "user picks: twin + clothing item + hijab (optional)" step, through the two-stage try-on. Takes `twinId` + `garmentItemId` + optional `hijabItemId` (JSON body, no file upload — it references items already saved by `/v1/twins` and `/v1/wardrobe`).
+Per the workflow doc's "user picks: twin + clothing item + hijab (optional)" step. Takes `twinId` + `garmentItemIds` (up to one each of Top, Pants, and Shoes) + optional `hijabItemId` (JSON body, no file upload — it references items already saved by `/v1/twins` and `/v1/wardrobe`). The legacy singular `garmentItemId` is still accepted.
 
-Real image generation uses the official CatVTON pipeline through the isolated `apps/catvton_worker` FastAPI process. The main service sends the stored twin, garment, and a pose-derived replacement mask to that worker. The development default is FP16, 384×512, 30 steps on CUDA; only `Tops` and `Pants` are enabled.
+Real image generation uses the official maskless FASHN VTON v1.5 pipeline through `apps/fashn_vton_worker` on port 8002 for Tops and Pants. FASHN's hosted Try-On Max handles Shoes because the local v1.5 model has no footwear category; this path is enabled with the server-side `FASHN_API_KEY` and consumes hosted credits. The person is cropped around the saved full-body pose before inference, preventing large empty margins from reducing useful model detail. CatVTON remains installed but is not selected or started during the FASHN evaluation.
 
 - [x] Loads the twin and garment from storage; 404s if either doesn't exist for this user
+- [x] Accepts an optional Top, Pants, and Shoes together, rejects duplicate categories, and applies them in that stable order
 - [x] Rejects a hijab item passed as `garmentItemId`, and a non-hijab item passed as `hijabItemId` (`INVALID_WARDROBE_ITEM`, 400)
 - [x] If `hijabItemId` is omitted, the twin's **own** hijab mask (from its own photo, if any) protects that area during the clothing stage — this is correct as-is, since that mask is already in the twin's own canvas coordinates
 - [x] If `hijabItemId` is given, stage 1 runs first and **must return where it placed the hijab** on the person — that returned mask, not the hijab item's flat-lay mask, is what protects it in stage 2. (Caught before shipping: the flat-lay mask is in the wardrobe photo's own coordinates, not the twin's — using it directly would have protected the wrong pixels.)
@@ -189,8 +190,9 @@ Real image generation uses the official CatVTON pipeline through the isolated `a
 - [x] A MediaPipe-landmark mask selects the upper body or pants region while excluding the face, hands, background, and the twin's own/chosen hijab
 - [x] The worker composites generated pixels through that same softened mask, restoring every protected pixel from the original twin
 - [x] CatVTON downloads only its required mixed-attention checkpoint, not the upstream repository's unused DensePose/SCHP assets
-- [x] 63 backend tests pass; a live worker smoke test generated a real sample in about 11 seconds, and a full `/v1/tryon` API test returned 201 with a generated JPEG
-- [ ] Shoes, accessories, dresses, and generated/replaced hijabs are not yet supported by CatVTON in this app
+- [x] 81 backend tests pass; live CatVTON and local FASHN worker smoke tests generated real JPEGs, and the full `/v1/tryon` path returned HTTP 201 through local FASHN
+- [~] Shoes are implemented through FASHN Try-On Max and covered by mocked API tests; a real hosted generation still needs a funded FASHN API key
+- [ ] Accessories, dresses, and generated/replaced hijabs are not yet supported in the app
 - [ ] Same storage/auth caveats as twins and wardrobe (local disk, token verification untested with a real token)
 
 ## 11. Flutter UI ("link into the UI")
@@ -199,7 +201,8 @@ Wires the mobile app to `/v1/twins` and `/v1/wardrobe`. **Click-through verified
 
 - [x] `http` + `file_picker` added (not `image_picker`: no official Windows desktop support, and Windows desktop is one of the two working dev targets here, alongside Chrome/Edge - Visual Studio isn't installed, so Windows desktop can't actually *build* yet despite showing as a target)
 - [x] `AiService` (`lib/services/ai_service.dart`): typed client for twin, wardrobe, and try-on endpoints, Firebase ID token attached automatically, server error messages surfaced as-is
-- [x] Virtual Try-On screen loads saved twins and supported wardrobe items, lets the user select each, calls `/v1/tryon`, and displays the generated result with loading/error states
+- [x] Virtual Try-On screen loads saved twins and separate Top/Pants/Shoes choices, supports any combination, calls `/v1/tryon`, and displays the generated result with loading/error states
+- [x] Bundled Top/Pants/Shoes assets are processed by the same wardrobe API as gallery photos; older Firestore-only asset entries are migrated automatically when Virtual Try-On opens. All 9 bundled VTON assets pass the real preprocessing pipeline
 - [x] Screens: Home (post-login landing - there wasn't one before), Digital Twin (upload + gallery of past twins), Wardrobe (grid + add-item sheet with category/style)
 - [x] Fixed: login/signup/Google sign-in now navigate to Home on success (previously went nowhere); a restored session on launch goes straight to Home instead of login; `signOut()` added (didn't exist before); `Get.put(AuthController())` moved out of `build()` (was re-registering on every rebuild)
 - [x] `flutter analyze`: no issues. `flutter build web`: compiles
@@ -216,6 +219,6 @@ Wires the mobile app to `/v1/twins` and `/v1/wardrobe`. **Click-through verified
 ## 12. Not started (later work)
 
 - [ ] Windows desktop build (§11)
-- [ ] Production hosting/scaling for CatVTON; the current worker requires the local NVIDIA GPU and is licensed for non-commercial use only
+- [ ] Production hosting/scaling for the GPU workers; CatVTON fallback use remains non-commercial only
 - [ ] Repo work: Firestore security rules, fix Codemagic Flutter version and the missing `integration_test/`, clean `.gitignore`/`README.md`, delete the stray `git` file
 - [ ] Commit this work; delete the old root `main.py` and `requirement.txt` (superseded)

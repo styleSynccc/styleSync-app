@@ -1,6 +1,6 @@
 """Try-on orchestration for stored twins and wardrobe items.
 
-The production default plugs the local CatVTON worker into ``TryOnEngine``;
+The production default plugs a local VTON worker into ``TryOnEngine``;
 tests can inject a deterministic engine without loading diffusion weights.
 """
 import base64
@@ -20,9 +20,11 @@ from .errors import (
     TryOnUnavailableError,
 )
 from .storage import ResultStore, TwinStore, WardrobeStore
+from .tryon_crop import crop_for_tryon, normalize_tryon_result
 from .tryon_mask import clothing_mask
 
-GARMENT_CATEGORIES = {"Tops", "Pants"}
+GARMENT_CATEGORIES = {"Tops", "Pants", "Shoes"}
+CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Shoes": 2}
 
 
 class TryOnEngine(Protocol):
@@ -92,7 +94,7 @@ def _decode(data: bytes, grayscale: bool = False) -> np.ndarray:
 def create_tryon(
     uid: str,
     twin_id: str,
-    garment_item_id: str,
+    garment_item_ids: str | list[str],
     hijab_item_id: str | None,
     *,
     twin_store: TwinStore,
@@ -101,7 +103,7 @@ def create_tryon(
     result_store: ResultStore,
     settings: Settings,
 ) -> TryOnResult:
-    """Twin + garment (+ optional hijab) -> stored try-on result.
+    """Twin + one garment per category (+ optional hijab) -> saved result.
 
     hijab_item_id omitted means "keep the twin's own hijab" (per the workflow
     doc): if the twin photo has its own hijab_mask, that protects it during
@@ -110,14 +112,35 @@ def create_tryon(
 
     Raises PipelineError subclasses.
     """
-    twin = twin_store.load(uid, twin_id)
-    garment = wardrobe_store.load(uid, garment_item_id)
-    if garment.metadata.get("category") not in GARMENT_CATEGORIES:
+    if isinstance(garment_item_ids, str):
+        garment_item_ids = [garment_item_ids]
+    if not garment_item_ids:
+        raise InvalidWardrobeItemError("Choose at least one Top, Pants, or Shoes item.")
+    if len(garment_item_ids) > len(GARMENT_CATEGORIES):
         raise InvalidWardrobeItemError(
-            f"{garment_item_id!r} is not a clothing item (category="
-            f"{garment.metadata.get('category')!r}). garmentItemId must be one "
-            f"of: {', '.join(sorted(GARMENT_CATEGORIES))}."
+            "Choose at most one Top, one Pants, and one Shoes item."
         )
+    if len(set(garment_item_ids)) != len(garment_item_ids):
+        raise InvalidWardrobeItemError("The same wardrobe item cannot be selected twice.")
+
+    twin = twin_store.load(uid, twin_id)
+    garments = [wardrobe_store.load(uid, item_id) for item_id in garment_item_ids]
+    categories = [garment.metadata.get("category") for garment in garments]
+    for item_id, category in zip(garment_item_ids, categories):
+        if category not in GARMENT_CATEGORIES:
+            raise InvalidWardrobeItemError(
+                f"{item_id!r} is not a clothing item (category={category!r}). "
+                f"garmentItemIds must contain: {', '.join(sorted(GARMENT_CATEGORIES))}."
+            )
+    if len(set(categories)) != len(categories):
+        raise InvalidWardrobeItemError("Choose at most one item from each clothing category.")
+
+    # A stable order makes combined results reproducible. Shoes run last so
+    # the hosted any-item model can preserve the already generated outfit.
+    ordered = sorted(
+        zip(garment_item_ids, garments),
+        key=lambda pair: CATEGORY_ORDER[pair[1].metadata["category"]],
+    )
 
     person = _decode(twin.processed_jpg)
     protect_mask = _decode(twin.hijab_mask_png, grayscale=True) if twin.hijab_mask_png else None
@@ -130,23 +153,44 @@ def create_tryon(
         hijab_mask = _decode(hijab_item.mask_png, grayscale=True) if hijab_item.mask_png else None
         person, protect_mask = tryon_engine.apply_hijab(person, hijab_bgr, hijab_mask)
 
-    garment_bgr = _decode(garment.processed_jpg)
+    replace_masks = []
     try:
-        replace_mask = clothing_mask(
-            person.shape[:2],
-            twin.landmarks,
-            garment.metadata["category"],
-            protect_mask,
-        )
+        for _, garment in ordered:
+            replace_masks.append(
+                clothing_mask(
+                    person.shape[:2],
+                    twin.landmarks,
+                    garment.metadata["category"],
+                    protect_mask,
+                )
+            )
     except (KeyError, TypeError, ValueError) as exc:
         raise TryOnUnavailableError(
             "This digital twin is missing pose data. Create a new digital twin and try again."
         ) from exc
-    final = tryon_engine.apply_garment(
+
+    person, first_mask, crop_box = crop_for_tryon(
         person,
-        garment_bgr,
-        garment.metadata["category"],
-        replace_mask,
+        replace_masks[0],
+        twin.landmarks,
+    )
+    x1, y1, x2, y2 = crop_box
+    cropped_masks = [first_mask]
+    cropped_masks.extend(mask[y1:y2, x1:x2] for mask in replace_masks[1:])
+
+    final = person
+    for (_, garment), replace_mask in zip(ordered, cropped_masks):
+        garment_bgr = _decode(garment.processed_jpg)
+        final = tryon_engine.apply_garment(
+            final,
+            garment_bgr,
+            garment.metadata["category"],
+            replace_mask,
+        )
+    final = normalize_tryon_result(
+        final,
+        settings.target_width,
+        settings.target_height,
     )
 
     result_id = uuid.uuid4().hex
@@ -155,10 +199,30 @@ def create_tryon(
         "resultId": result_id,
         "uid": uid,
         "twinId": twin_id,
-        "garmentItemId": garment_item_id,
+        # Keep the singular field for old result readers.
+        "garmentItemId": ordered[0][0],
+        "garmentItemIds": [item_id for item_id, _ in ordered],
+        "topItemId": next(
+            (item_id for item_id, item in ordered if item.metadata["category"] == "Tops"),
+            None,
+        ),
+        "pantsItemId": next(
+            (item_id for item_id, item in ordered if item.metadata["category"] == "Pants"),
+            None,
+        ),
+        "shoesItemId": next(
+            (item_id for item_id, item in ordered if item.metadata["category"] == "Shoes"),
+            None,
+        ),
         "hijabItemId": hijab_item_id,
         "status": "ready",
         "tryOnEngine": tryon_engine.name,
+        "personCrop": {
+            "left": crop_box[0],
+            "top": crop_box[1],
+            "right": crop_box[2],
+            "bottom": crop_box[3],
+        },
         "pipelineVersion": PIPELINE_VERSION,
         "createdAt": datetime.now(timezone.utc).isoformat(),
     }
