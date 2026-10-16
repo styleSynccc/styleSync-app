@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../services/ai_service.dart';
 import '../services/closet_controller.dart';
+import '../services/liked_outfits_service.dart';
 import 'edit_profile_screen.dart';
 
 class VirtualTryOnScreen extends StatefulWidget {
@@ -127,7 +128,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   }
 
   Future<void> _openTwinSetup() async {
-    await Get.to(() => const EditProfileScreen());
+    await Get.to(() => const EditTwinScreen());
     if (mounted) await _loadChoices();
   }
 
@@ -276,7 +277,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Each selected item runs one AI pass. Shoes use FASHN Try-On Max and consume hosted API credits.',
+                  'Tops and Pants run with local FASHN VTON. Shoes need FASHN Try-On Max API credits. Save results you want to keep in My Outfits.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
@@ -295,7 +296,21 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: _resultImage != null
-            ? Image.memory(_resultImage!, fit: BoxFit.contain)
+            ? Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.memory(_resultImage!, fit: BoxFit.contain),
+                  Positioned(
+                    right: 12,
+                    bottom: 12,
+                    child: FilledButton.icon(
+                      onPressed: _saveResult,
+                      icon: const Icon(Icons.bookmark_add_outlined),
+                      label: const Text('Save Outfit'),
+                    ),
+                  ),
+                ],
+              )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -318,6 +333,21 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
               ),
       ),
     );
+  }
+
+  Future<void> _saveResult() async {
+    final image = _resultImage;
+    if (image == null) return;
+    try {
+      await LikedOutfitsService.like(
+        imageBytes: image,
+        source: OutfitSource.tryOn,
+        title: 'Virtual Try-On',
+      );
+      Get.snackbar('Outfit saved', 'You can find it in My Outfits.');
+    } catch (error) {
+      Get.snackbar('Could not save outfit', error.toString());
+    }
   }
 
   Widget _choiceStrip(

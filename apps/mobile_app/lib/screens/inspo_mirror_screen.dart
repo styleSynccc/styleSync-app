@@ -15,7 +15,10 @@ class InspoMirrorScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Get.back(),
         ),
-        title: const Text('AI Inspo-Mirror', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'AI Inspo-Mirror',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -25,7 +28,10 @@ class InspoMirrorScreen extends StatelessWidget {
               // Upload Inspiration Photo Area
               GestureDetector(
                 onTap: () {
-                  Get.snackbar("Coming Soon", "Image upload is under construction");
+                  Get.snackbar(
+                    "Coming Soon",
+                    "Image upload is under construction",
+                  );
                 },
                 child: Container(
                   height: 200,
@@ -40,24 +46,36 @@ class InspoMirrorScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.upload_file, size: 40, color: Colors.pink),
                       SizedBox(height: 10),
-                      Text('Upload Inspiration Photo', style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold)),
-                      Text('e.g., from Instagram or Pinterest', style: TextStyle(color: Colors.pink, fontSize: 12)),
+                      Text(
+                        'Upload Inspiration Photo',
+                        style: TextStyle(
+                          color: Colors.pink,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'e.g., from Instagram or Pinterest',
+                        style: TextStyle(color: Colors.pink, fontSize: 12),
+                      ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 30),
-              
+
               // Generate Button
               ElevatedButton(
                 onPressed: () {
-                  Get.snackbar("Coming Soon", "AI Style extraction is under construction");
+                  Get.snackbar(
+                    "Coming Soon",
+                    "AI Style extraction is under construction",
+                  );
                 },
                 child: const Text('Generate Style on Digital Twin'),
               ),
-              
+
               const Spacer(),
-              
+
               // Result Placeholder
               Container(
                 height: 200,
@@ -67,7 +85,10 @@ class InspoMirrorScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Center(
-                  child: Text('Result will appear here', style: TextStyle(color: Colors.grey)),
+                  child: Text(
+                    'Result will appear here',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
             ],

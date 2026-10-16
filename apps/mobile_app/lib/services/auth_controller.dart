@@ -11,10 +11,10 @@ class AuthController extends GetxController {
 
   User? get currentUser => _auth.currentUser;
 
-    Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
       isLoading.value = true;
-      
+
       // Trigger the Google authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
@@ -24,7 +24,8 @@ class AuthController extends GetxController {
       }
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       // Create a new credential for Firebase
       final credential = GoogleAuthProvider.credential(
@@ -34,7 +35,7 @@ class AuthController extends GetxController {
 
       // Sign in to Firebase with the Google credential
       await _auth.signInWithCredential(credential);
-      
+
       // Save user data to Firestore if they are new
       final User? user = _auth.currentUser;
       if (user != null) {
@@ -79,8 +80,9 @@ class AuthController extends GetxController {
 
     try {
       isLoading.value = true;
-      final hasPasswordProvider =
-          user.providerData.any((provider) => provider.providerId == 'password');
+      final hasPasswordProvider = user.providerData.any(
+        (provider) => provider.providerId == 'password',
+      );
       if (!hasPasswordProvider) {
         final email = user.email;
         if (email == null || email.isEmpty) {
@@ -120,7 +122,8 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password
+        email: email,
+        password: password,
       );
 
       // Save user data in Firestore
@@ -137,7 +140,6 @@ class AuthController extends GetxController {
       // TODO: We will navigate to the User Setup screen here later!
       // For now, it will just clear the loading spinner.
       isLoading.value = false;
-      
     } on FirebaseAuthException catch (e) {
       isLoading.value = false; // Stop loading on error
       Get.snackbar("Error", e.message ?? "Registration failed");
@@ -150,20 +152,26 @@ class AuthController extends GetxController {
   Future<void> login(String email, String password) async {
     try {
       isLoading.value = true;
-      UserCredential userCred = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      
+      UserCredential userCred = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
       final User? user = userCred.user;
       if (user != null) {
-        DocumentSnapshot userDoc = await _db.collection('users').doc(user.uid).get();
-        
+        DocumentSnapshot userDoc = await _db
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
         print("----- DEBUGGING LOGIN -----");
         print("Document exists: ${userDoc.exists}");
-        
+
         if (userDoc.exists) {
           var data = userDoc.data() as Map<String, dynamic>?;
           print("Data: $data");
           print("isProfileComplete value: ${data?['isProfileComplete']}");
-          
+
           if (data != null && data['isProfileComplete'] == true) {
             print("Navigating to /home");
             Get.offAllNamed('/home');
@@ -177,7 +185,6 @@ class AuthController extends GetxController {
         }
       }
       print("---------------------------");
-
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message ?? "Login failed");
     } catch (e) {
@@ -186,7 +193,8 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
-    Future<void> resetPassword(String email) async {
+
+  Future<void> resetPassword(String email) async {
     try {
       isLoading.value = true;
       await _auth.sendPasswordResetEmail(email: email);
@@ -200,9 +208,9 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
-    
-    Future<void> logout() async {
-      await _auth.signOut();
-      Get.offAllNamed('/login');
-    }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+    Get.offAllNamed('/login');
   }
+}

@@ -3,8 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SavedOutfitsScreen extends StatelessWidget {
-  const SavedOutfitsScreen({super.key});
+import '../services/liked_outfits_service.dart';
+
+class MyOutfitsScreen extends StatefulWidget {
+  const MyOutfitsScreen({super.key});
+
+  @override
+  State<MyOutfitsScreen> createState() => _MyOutfitsScreenState();
+}
+
+class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
+  String _filter = 'all';
 
   @override
   Widget build(BuildContext context) {
@@ -21,107 +30,241 @@ class SavedOutfitsScreen extends StatelessWidget {
               stream: FirebaseFirestore.instance
                   .collection('users')
                   .doc(user.uid)
-                  .collection('outfits')
+                  .collection('likedOutfits')
                   .orderBy('createdAt', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return const Center(child: Text('Could not load your outfits.'));
+                  return const Center(
+                    child: Text('Could not load your saved outfits.'),
+                  );
                 }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                final outfits = snapshot.data!.docs;
-                if (outfits.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No saved outfits yet.\nCreate one from the home screen!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey),
+                final outfits = snapshot.data!.docs.where((document) {
+                  return _filter == 'all' ||
+                      document.data()['source'] == _filter;
+                }).toList();
+                return Column(
+                  children: [
+                    _filters(),
+                    Expanded(
+                      child: outfits.isEmpty
+                          ? _emptyState(snapshot.data!.docs.isEmpty)
+                          : GridView.builder(
+                              padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 16,
+                                    crossAxisSpacing: 16,
+                                    childAspectRatio: .63,
+                                  ),
+                              itemCount: outfits.length,
+                              itemBuilder: (_, index) =>
+                                  _outfitTile(outfits[index]),
+                            ),
                     ),
-                  );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.all(20),
-                  itemCount: outfits.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 14),
-                  itemBuilder: (_, index) => _outfitCard(outfits[index]),
+                  ],
                 );
               },
             ),
     );
   }
 
-  Widget _outfitCard(QueryDocumentSnapshot<Map<String, dynamic>> document) {
+  Widget _filters() => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    padding: const EdgeInsets.fromLTRB(20, 12, 20, 14),
+    child: Row(
+      children: [
+        _filterChip('all', 'All Outfits'),
+        const SizedBox(width: 8),
+        _filterChip(OutfitSource.tryOn, 'VTON'),
+        const SizedBox(width: 8),
+        _filterChip(OutfitSource.inspoMirror, 'AI Inspo Mirror'),
+      ],
+    ),
+  );
+
+  Widget _filterChip(String value, String label) => ChoiceChip(
+    label: Text(label),
+    selected: _filter == value,
+    selectedColor: Colors.black,
+    labelStyle: TextStyle(
+      color: _filter == value ? Colors.white : Colors.black87,
+      fontWeight: FontWeight.w600,
+    ),
+    onSelected: (_) => setState(() => _filter = value),
+  );
+
+  Widget _emptyState(bool noOutfitsAtAll) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.auto_awesome_outlined,
+            size: 58,
+            color: Colors.grey.shade400,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            noOutfitsAtAll
+                ? 'No saved outfits yet. Generate a Virtual Try-On, then tap Save Outfit to keep it here.'
+                : 'No outfits match this filter.',
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  Widget _outfitTile(QueryDocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data();
-    final items = (data['items'] as List? ?? const [])
-        .whereType<Map<String, dynamic>>()
-        .toList();
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Expanded(
-              child: Text(
-                data['name'] ?? 'Outfit',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red),
-              onPressed: () => _confirmDelete(document.reference),
-            ),
-          ]),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 130,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 10),
-              itemBuilder: (_, index) => Container(
-                width: 105,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12),
+    final source = data['source'] == OutfitSource.inspoMirror
+        ? 'AI Inspo Mirror'
+        : 'VTON';
+    final createdAt = data['createdAt'] as Timestamp?;
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: () => _details(document),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: ColoredBox(
+                color: Colors.grey.shade100,
+                child: Image.network(
+                  data['imageUrl']?.toString() ?? '',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) =>
+                      const Center(child: Icon(Icons.broken_image_outlined)),
+                  loadingBuilder: (_, child, loading) => loading == null
+                      ? child
+                      : const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
                 ),
-                child: _image(items[index]),
               ),
             ),
           ),
-        ]),
+          const SizedBox(height: 8),
+          Text(
+            data['title']?.toString().trim().isNotEmpty == true
+                ? data['title'].toString()
+                : '$source Outfit',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '${_date(createdAt)} · $source',
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _image(Map<String, dynamic> item) {
-    final asset = item['assetPath'] as String?;
-    return asset != null && asset.isNotEmpty
-        ? Image.asset(asset, fit: BoxFit.contain)
-        : Image.network(
-            item['imageUrl'] ?? '',
-            fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
-          );
+  String _date(Timestamp? timestamp) {
+    if (timestamp == null) return 'Just now';
+    final date = timestamp.toDate();
+    return '${date.day}/${date.month}/${date.year}';
   }
 
-  void _confirmDelete(DocumentReference<Map<String, dynamic>> reference) {
-    Get.dialog(AlertDialog(
-      title: const Text('Delete outfit?'),
-      content: const Text('This saved outfit will be removed.'),
-      actions: [
-        TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
-        TextButton(
-          onPressed: () async {
-            Get.back();
-            await reference.delete();
-          },
-          child: const Text('Delete', style: TextStyle(color: Colors.red)),
+  void _details(QueryDocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data();
+    final source = data['source'] == OutfitSource.inspoMirror
+        ? 'AI Inspo Mirror'
+        : 'VTON';
+    Get.dialog(
+      Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  data['imageUrl']?.toString() ?? '',
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, _, _) => const SizedBox(
+                    height: 180,
+                    child: Center(child: Icon(Icons.broken_image_outlined)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                data['title']?.toString().trim().isNotEmpty == true
+                    ? data['title'].toString()
+                    : '$source Outfit',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text('${_date(data['createdAt'] as Timestamp?)} · $source'),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => _confirmDelete(document.reference, data),
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  label: const Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ],
-    ));
+      ),
+    );
+  }
+
+  void _confirmDelete(
+    DocumentReference<Map<String, dynamic>> reference,
+    Map<String, dynamic> data,
+  ) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Delete outfit?'),
+        content: const Text(
+          'This saved outfit and its image will be permanently removed.',
+        ),
+        actions: [
+          TextButton(onPressed: Get.back, child: const Text('Cancel')),
+          TextButton(
+            onPressed: () async {
+              Get.back();
+              Get.back();
+              try {
+                await LikedOutfitsService.unlike(reference, data);
+                Get.snackbar(
+                  'Outfit deleted',
+                  'It was removed from My Outfits.',
+                );
+              } catch (_) {
+                Get.snackbar('Could not delete outfit', 'Please try again.');
+              }
+            },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 }

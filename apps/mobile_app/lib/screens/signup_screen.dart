@@ -11,8 +11,7 @@ class SignUpScreen extends StatelessWidget {
     final AuthController authController = Get.find();
     final bool googleMode =
         Get.arguments is Map && Get.arguments['googleMode'] == true;
-    final googleUser =
-        googleMode ? FirebaseAuth.instance.currentUser : null;
+    final googleUser = googleMode ? FirebaseAuth.instance.currentUser : null;
     final dynamic accountController = authController;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final TextEditingController nameController = TextEditingController();
@@ -75,18 +74,24 @@ class SignUpScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                const Text('Create Account', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Create Account',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
-                const Text('Join StyleSync today', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                const Text(
+                  'Join StyleSync today',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
                 const SizedBox(height: 40),
-                
+
                 TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(labelText: 'Username'),
                   validator: validateName,
                 ),
                 const SizedBox(height: 16),
-                
+
                 if (!googleMode) ...[
                   TextFormField(
                     controller: emailController,
@@ -97,88 +102,95 @@ class SignUpScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                 ],
 
-                Obx(() => DropdownButtonFormField<String>(
-                      value: selectedGender.value,
-                      decoration: const InputDecoration(labelText: 'Gender'),
-                      hint: const Text('Select your gender'),
-                      items: const [
-                        DropdownMenuItem(value: 'Male', child: Text('Male')),
-                        DropdownMenuItem(value: 'Female', child: Text('Female')),
-                        DropdownMenuItem(
-                          value: 'Prefer not to say',
-                          child: Text('Prefer not to say'),
-                        ),
-                      ],
-                      onChanged: (value) => selectedGender.value = value,
-                      validator: (value) => value == null
-                          ? 'Please select a gender option'
-                          : null,
-                    )),
+                Obx(
+                  () => DropdownButtonFormField<String>(
+                    value: selectedGender.value,
+                    decoration: const InputDecoration(labelText: 'Gender'),
+                    hint: const Text('Select your gender'),
+                    items: const [
+                      DropdownMenuItem(value: 'Male', child: Text('Male')),
+                      DropdownMenuItem(value: 'Female', child: Text('Female')),
+                      DropdownMenuItem(
+                        value: 'Prefer not to say',
+                        child: Text('Prefer not to say'),
+                      ),
+                    ],
+                    onChanged: (value) => selectedGender.value = value,
+                    validator: (value) =>
+                        value == null ? 'Please select a gender option' : null,
+                  ),
+                ),
                 const SizedBox(height: 16),
-                
+
                 TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(
                     labelText: googleMode
                         ? 'Create a StyleSync password'
                         : 'Password',
-                    helperText: 'At least 6 characters, 1 uppercase letter, and 1 special character.',
+                    helperText:
+                        'At least 6 characters, 1 uppercase letter, and 1 special character.',
                   ),
                   obscureText: true,
                   validator: validatePassword,
                 ),
                 const SizedBox(height: 32),
-                
+
                 // Sign Up Button
-                Obx(() => authController.isLoading.value
-                    ? const Center(child: CircularProgressIndicator())
-                    : ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            if (googleMode) {
-                              accountController.completeGoogleRegistration(
-                                nameController.text.trim(),
-                                selectedGender.value!,
-                                passwordController.text,
-                              );
-                            } else {
-                              accountController.register(
-                                nameController.text.trim(),
-                                emailController.text.trim(),
-                                passwordController.text.trim(),
-                                selectedGender.value!,
-                              );
+                Obx(
+                  () => authController.isLoading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              if (googleMode) {
+                                accountController.completeGoogleRegistration(
+                                  nameController.text.trim(),
+                                  selectedGender.value!,
+                                  passwordController.text,
+                                );
+                              } else {
+                                accountController.register(
+                                  nameController.text.trim(),
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                  selectedGender.value!,
+                                );
+                              }
                             }
-                          }
-                        },
-                        child: Text(googleMode ? 'Create Account' : 'Sign Up'),
-                      )),
-                
-                const SizedBox(height: 20),
-                
-                // Google Sign In Button
-                if (!googleMode) Obx(() {
-                  if (authController.isLoading.value) {
-                    return const SizedBox.shrink();
-                  } else {
-                    return OutlinedButton(
-                      onPressed: () {
-                        authController.signInWithGoogle();
-                      },
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 55),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          },
+                          child: Text(
+                            googleMode ? 'Create Account' : 'Sign Up',
+                          ),
                         ),
-                        side: const BorderSide(color: Colors.grey),
-                      ),
-                      child: const Text(
-                        'Continue with Google',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    );
-                  }
-                }),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Google Sign In Button
+                if (!googleMode)
+                  Obx(() {
+                    if (authController.isLoading.value) {
+                      return const SizedBox.shrink();
+                    } else {
+                      return OutlinedButton(
+                        onPressed: () {
+                          authController.signInWithGoogle();
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 55),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: const BorderSide(color: Colors.grey),
+                        ),
+                        child: const Text(
+                          'Continue with Google',
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      );
+                    }
+                  }),
               ],
             ),
           ),

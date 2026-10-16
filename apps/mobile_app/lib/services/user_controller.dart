@@ -23,23 +23,27 @@ class UserController extends GetxController {
       source: source,
       imageQuality: 85,
     );
-    
+
     if (image != null) {
       selectedImage.value = File(image.path);
     }
   }
 
-  Future<void> saveUserData(String height, String weight, String bodyType) async {
+  Future<void> saveUserData(
+    String height,
+    String weight,
+    List<String> stylePreferences,
+  ) async {
     try {
       isLoading.value = true;
-      
+
       final User? currentUser = _auth.currentUser;
       if (currentUser == null) {
         Get.snackbar("Error", "Your session expired. Please log in again.");
         Get.offAllNamed('/login');
         return;
       }
-      
+
       String uid = currentUser.uid;
       String photoUrl = '';
       String? twinId;
@@ -52,7 +56,9 @@ class UserController extends GetxController {
         try {
           loadingMessage.value = 'Checking your photo...';
           final bytes = await imageToUpload.readAsBytes();
-          final filename = imageToUpload.path.split(Platform.pathSeparator).last;
+          final filename = imageToUpload.path
+              .split(Platform.pathSeparator)
+              .last;
           final result = await _aiService.createDigitalTwin(bytes, filename);
 
           final metadata = result['metadata'] as Map<String, dynamic>;
@@ -60,9 +66,16 @@ class UserController extends GetxController {
           wearsHijab = metadata['wearsHijab'] as bool?;
 
           loadingMessage.value = 'Uploading your photo...';
-          final processedBytes = base64Decode(result['personImageB64'] as String);
-          final ref = _storage.ref().child('users/$uid/digital_twin_processed.jpg');
-          await ref.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
+          final processedBytes = base64Decode(
+            result['personImageB64'] as String,
+          );
+          final ref = _storage.ref().child(
+            'users/$uid/digital_twin_processed.jpg',
+          );
+          await ref.putData(
+            processedBytes,
+            SettableMetadata(contentType: 'image/jpeg'),
+          );
           photoUrl = await ref.getDownloadURL();
         } on AiServiceException catch (aiError) {
           Get.snackbar('Could not create your digital twin', aiError.message);
@@ -73,11 +86,12 @@ class UserController extends GetxController {
         }
       }
 
-      // 2. Save body metrics and photo URL to Firestore safely
+      // Save body metrics, style preferences, and the processed twin reference.
       await _db.collection('users').doc(uid).set({
         'height': height,
         'weight': weight,
-        'bodyType': bodyType,
+        'stylePreferences': stylePreferences,
+        'bodyType': FieldValue.delete(),
         'digitalTwinPhotoUrl': photoUrl,
         if (twinId != null) 'twinId': twinId,
         if (wearsHijab != null) 'wearsHijab': wearsHijab,
@@ -86,7 +100,6 @@ class UserController extends GetxController {
 
       Get.snackbar("Success", "Digital Twin created successfully!");
       Get.offAllNamed('/home');
-      
     } catch (e) {
       print("----- SAVE USER DATA ERROR -----");
       print(e.toString());

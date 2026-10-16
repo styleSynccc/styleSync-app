@@ -11,7 +11,7 @@ import 'screens/profile_screen.dart';
 import 'screens/virtual_tryon_screen.dart';
 import 'screens/inspo_mirror_screen.dart';
 import 'screens/outfit_planner_screen.dart';
-import 'screens/outfit_creator_screen.dart';
+import 'screens/saved_outfits_screen.dart';
 import 'screens/splash_screen.dart';
 import 'services/auth_controller.dart';
 import 'services/notification_service.dart';
@@ -74,10 +74,7 @@ class StyleSyncApp extends StatelessWidget {
           name: '/planner',
           page: () => const OutfitPlannerScreen(),
         ), // <-- ADD
-        GetPage(
-          name: '/outfit-creator',
-          page: () => const OutfitCreatorScreen(),
-        ),
+        GetPage(name: '/my-outfits', page: () => const MyOutfitsScreen()),
       ],
     );
   }

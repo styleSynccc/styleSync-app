@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import '../services/closet_controller.dart';
-import 'outfit_creator_screen.dart';
+import 'saved_outfits_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -356,9 +356,9 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
 
-      // Floating Add Button for Outfits
+      // Open saved AI-generated outfits.
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const OutfitCreatorScreen()),
+        onPressed: () => Get.to(() => const MyOutfitsScreen()),
         backgroundColor: Colors.black,
         elevation: 4,
         child: const Icon(Icons.checkroom, color: Colors.white, size: 30),

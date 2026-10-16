@@ -1,162 +1,226 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../services/ai_service.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+import '../services/ai_service.dart';
+import '../widgets/style_preference_selector.dart';
+
+/// Edits the information used to personalise a user's digital twin.
+/// The optional image is a twin source image, never a profile/avatar image.
+class EditTwinScreen extends StatefulWidget {
+  const EditTwinScreen({super.key});
+
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  State<EditTwinScreen> createState() => _EditTwinScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
-  final nameController = TextEditingController();
-  final heightController = TextEditingController();
-  final weightController = TextEditingController();
-  final bodyTypes = const ['Rectangle', 'Pear', 'Apple', 'Hourglass'];
-  String bodyType = 'Rectangle';
-  String currentPhotoUrl = '';
-  File? selectedPhoto;
-  bool loading = true;
-  bool saving = false;
+class _EditTwinScreenState extends State<EditTwinScreen> {
+  final _nameController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+  List<String> _stylePreferences = [];
+  File? _selectedTwinPhoto;
+  bool _loading = true;
+  bool _saving = false;
 
   @override
   void initState() {
     super.initState();
-    _loadProfile();
+    _loadTwin();
   }
 
-  Future<void> _loadProfile() async {
+  Future<void> _loadTwin() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    final document = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-    final data = document.data() ?? {};
-    nameController.text = data['name']?.toString() ?? user.displayName ?? '';
-    heightController.text = data['height']?.toString() ?? '';
-    weightController.text = data['weight']?.toString() ?? '';
-    final storedBodyType = data['bodyType']?.toString();
-    if (storedBodyType != null && bodyTypes.contains(storedBodyType)) bodyType = storedBodyType;
-    currentPhotoUrl = data['digitalTwinPhotoUrl']?.toString() ?? '';
-    if (mounted) setState(() => loading = false);
+    try {
+      final document = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      final data = document.data() ?? <String, dynamic>{};
+      _nameController.text = data['name']?.toString() ?? user.displayName ?? '';
+      _heightController.text = data['height']?.toString() ?? '';
+      _weightController.text = data['weight']?.toString() ?? '';
+      _stylePreferences = (data['stylePreferences'] as List? ?? const [])
+          .map((value) => value.toString())
+          .where(stylePreferenceOptions.contains)
+          .toList();
+    } catch (_) {
+      Get.snackbar(
+        'Could not load twin',
+        'Please check your connection and try again.',
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    heightController.dispose();
-    weightController.dispose();
+    _nameController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
-    appBar: AppBar(title: const Text('Edit Profile'), backgroundColor: Colors.white),
-    body: loading
+    appBar: AppBar(
+      title: const Text('Edit Twin'),
+      backgroundColor: Colors.white,
+    ),
+    body: _loading
         ? const Center(child: CircularProgressIndicator())
         : SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: Column(children: [
-              GestureDetector(
-                onTap: _pickPhoto,
-                child: Stack(alignment: Alignment.bottomRight, children: [
-                  CircleAvatar(
-                    radius: 65,
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage: selectedPhoto != null
-                        ? FileImage(selectedPhoto!)
-                        : currentPhotoUrl.isNotEmpty
-                            ? NetworkImage(currentPhotoUrl) as ImageProvider
-                            : null,
-                    child: selectedPhoto == null && currentPhotoUrl.isEmpty
-                        ? const Icon(Icons.person, size: 65, color: Colors.grey)
-                        : null,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Update the details used to personalise your digital twin and recommendations.',
+                  style: TextStyle(color: Colors.grey.shade700),
+                ),
+                const SizedBox(height: 24),
+                OutlinedButton.icon(
+                  onPressed: _saving ? null : _pickTwinPhoto,
+                  icon: const Icon(Icons.add_a_photo_outlined),
+                  label: Text(
+                    _selectedTwinPhoto == null
+                        ? 'Replace twin photo'
+                        : 'New twin photo selected',
                   ),
-                  const CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.black,
-                    child: Icon(Icons.camera_alt, color: Colors.white, size: 19),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Only use a clear, full-body photo. Changing it creates a new digital twin.',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: _nameController,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _heightController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
                   ),
-                ]),
-              ),
-              const SizedBox(height: 30),
-              TextField(controller: nameController, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Name')),
-              const SizedBox(height: 16),
-              TextField(controller: heightController, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: const InputDecoration(labelText: 'Height (cm)')),
-              const SizedBox(height: 16),
-              TextField(controller: weightController, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: const InputDecoration(labelText: 'Weight (kg)')),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: bodyType,
-                decoration: const InputDecoration(labelText: 'Body Type'),
-                items: bodyTypes.map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
-                onChanged: (value) => setState(() => bodyType = value ?? bodyType),
-              ),
-              const SizedBox(height: 32),
-              saving
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(onPressed: _save, child: const Text('Save Changes')),
-            ]),
+                  decoration: const InputDecoration(labelText: 'Height (cm)'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _weightController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(labelText: 'Weight (kg)'),
+                ),
+                const SizedBox(height: 22),
+                StylePreferenceSelector(
+                  selected: _stylePreferences,
+                  onChanged: (preferences) =>
+                      setState(() => _stylePreferences = preferences),
+                ),
+                const SizedBox(height: 32),
+                _saving
+                    ? const Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
+                        onPressed: _save,
+                        child: const Text('Save Twin Changes'),
+                      ),
+              ],
+            ),
           ),
   );
 
-  Future<void> _pickPhoto() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
-    if (image != null && mounted) setState(() => selectedPhoto = File(image.path));
+  Future<void> _pickTwinPhoto() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+    );
+    if (image != null && mounted) {
+      setState(() => _selectedTwinPhoto = File(image.path));
+    }
   }
 
   Future<void> _save() async {
     final user = FirebaseAuth.instance.currentUser;
-    final name = nameController.text.trim();
-    final height = double.tryParse(heightController.text.trim());
-    final weight = double.tryParse(weightController.text.trim());
+    final name = _nameController.text.trim();
+    final height = double.tryParse(_heightController.text.trim());
+    final weight = double.tryParse(_weightController.text.trim());
     if (user == null) return;
-    if (name.isEmpty || height == null || weight == null || height <= 0 || weight <= 0) {
-      Get.snackbar('Invalid details', 'Enter a name and valid height and weight.');
+    if (name.isEmpty ||
+        height == null ||
+        weight == null ||
+        height <= 0 ||
+        weight <= 0) {
+      Get.snackbar(
+        'Invalid details',
+        'Enter a name and valid height and weight.',
+      );
       return;
     }
-    setState(() => saving = true);
+    if (_stylePreferences.isEmpty) {
+      Get.snackbar(
+        'Style preferences needed',
+        'Select at least one style preference.',
+      );
+      return;
+    }
+
+    setState(() => _saving = true);
     try {
-      var photoUrl = currentPhotoUrl;
       String? twinId;
       bool? wearsHijab;
-      if (selectedPhoto != null) {
-        final bytes = await selectedPhoto!.readAsBytes();
-        final filename = selectedPhoto!.path.split(Platform.pathSeparator).last;
+      String? photoUrl;
+      if (_selectedTwinPhoto != null) {
+        final bytes = await _selectedTwinPhoto!.readAsBytes();
+        final filename = _selectedTwinPhoto!.path
+            .split(Platform.pathSeparator)
+            .last;
         final result = await AiService().createDigitalTwin(bytes, filename);
-
         final metadata = result['metadata'] as Map<String, dynamic>;
         twinId = result['twinId'] as String?;
         wearsHijab = metadata['wearsHijab'] as bool?;
-
         final processedBytes = base64Decode(result['personImageB64'] as String);
-        final reference = FirebaseStorage.instance.ref('users/${user.uid}/digital_twin_processed.jpg');
-        await reference.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
+        final reference = FirebaseStorage.instance.ref(
+          'users/${user.uid}/digital_twin_processed.jpg',
+        );
+        await reference.putData(
+          processedBytes,
+          SettableMetadata(contentType: 'image/jpeg'),
+        );
         photoUrl = await reference.getDownloadURL();
       }
+
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'name': name,
-        'height': heightController.text.trim(),
-        'weight': weightController.text.trim(),
-        'bodyType': bodyType,
-        'digitalTwinPhotoUrl': photoUrl,
+        'height': _heightController.text.trim(),
+        'weight': _weightController.text.trim(),
+        'stylePreferences': _stylePreferences,
+        'bodyType': FieldValue.delete(),
+        if (photoUrl != null) 'digitalTwinPhotoUrl': photoUrl,
         if (twinId != null) 'twinId': twinId,
         if (wearsHijab != null) 'wearsHijab': wearsHijab,
         'isProfileComplete': true,
       }, SetOptions(merge: true));
       if (mounted) Get.back();
-      Get.snackbar('Profile updated', 'Your changes were saved.');
-    } on AiServiceException catch (aiError) {
-      Get.snackbar('Could not process your new photo', aiError.message);
-      if (mounted) setState(() => saving = false);
+      Get.snackbar('Twin updated', 'Your changes were saved.');
+    } on AiServiceException catch (error) {
+      Get.snackbar('Could not update twin', error.message);
     } catch (error) {
-      Get.snackbar('Could not update profile', error.toString());
-      if (mounted) setState(() => saving = false);
+      Get.snackbar('Could not update twin', error.toString());
+    } finally {
+      if (mounted) setState(() => _saving = false);
     }
   }
 }
