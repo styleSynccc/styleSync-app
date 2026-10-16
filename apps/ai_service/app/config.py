@@ -7,11 +7,13 @@ PIPELINE_VERSION = "twin-0.6.0"
 # Fixed vocab for wardrobe items (see app/wardrobe.py). Must match the
 # mobile_app UI's closet categories (home_screen.dart's _categoryOrder)
 # exactly, since the client sends these strings verbatim and they're stored
-# as-is in Firestore/metadata. "Hijab" has no closet button yet but stays
-# supported for the hijab-specific style/mask logic below. Style detection is
-# not built: the client must ask the user and send one of HIJAB_STYLES.
-WARDROBE_CATEGORIES = {"Tops", "Pants", "Shoes", "Accessories", "Hijab"}
-HIJAB_STYLES = {"shawl", "pashmina", "instant", "khimar"}
+# as-is in Firestore/metadata.
+WARDROBE_CATEGORIES = {"Tops", "Pants", "Shoes", "Accessories"}
+
+# Wardrobe categories virtual try-on can put on, and the FastFit garment slot
+# each one maps to. FastFit has no slot for accessories (watches, belts...),
+# so those stay wardrobe-only.
+TRYON_CATEGORIES = {"Tops": "upper", "Pants": "lower", "Shoes": "shoe"}
 
 
 @dataclass(frozen=True)
@@ -44,6 +46,11 @@ class Settings:
     # call this API. Fine while everything runs on one developer's machine;
     # narrow this to real origins before any deployment.
     cors_allow_all: bool = True
+    # FastFit worker (tools/fastfit/fastfit_worker.py). None means try-on
+    # isn't wired up and /v1/tryon answers 501.
+    fastfit_url: str | None = None
+    # One FastFit generation takes 20-60s on a laptop GPU; leave headroom.
+    fastfit_timeout_s: float = 170.0
 
 
 def get_settings() -> Settings:
@@ -54,4 +61,5 @@ def get_settings() -> Settings:
             "FIREBASE_PROJECT_ID", "stylesync-app-3d7c1"
         ),
         cors_allow_all=os.getenv("CORS_ALLOW_ALL", "1") == "1",
+        fastfit_url=os.getenv("FASTFIT_URL", "http://127.0.0.1:7861") or None,
     )

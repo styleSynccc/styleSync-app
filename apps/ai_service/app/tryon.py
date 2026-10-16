@@ -1,13 +1,13 @@
-"""Try-on orchestration: combine a stored digital twin with stored wardrobe
-items, per the workflow doc's two-stage flow (hijab, then clothing).
+"""Try-on orchestration: put stored wardrobe items on a stored digital twin.
 
-The actual image generation - the real "try-on" AI step - is NOT implemented
-(see NotImplementedTryOnEngine below). It needs a real try-on model such as
-OOTDiffusion: a diffusion model with multi-GB weights, normally run on a GPU.
-That is a separate decision (compute, time budget, dependencies) from what
-this module builds, which is everything around it: loading the right
-artifacts, checking they belong to this user and are the right kind of item,
-and persisting the result. A real engine plugs in through TryOnEngine.
+Clothes go on one item per request (docs/virtual-tryon/README.md): the first
+request starts from the twin, and each later one starts from the previous
+result (`start_from_result_id`), so earlier items stay on.
+
+Image generation is done by FastFit, which runs as a separate worker process
+in its own Python environment (tools/fastfit/fastfit_worker.py);
+FastFitTryOnEngine calls it over HTTP. FastFit only knows tops, bottoms and
+shoes here (TRYON_CATEGORIES); there is no hijab step.
 """
 import base64
 import uuid
@@ -17,53 +17,81 @@ from typing import Protocol
 
 import cv2
 import numpy as np
+import requests
 
 from . import imaging
-from .config import PIPELINE_VERSION, WARDROBE_CATEGORIES, Settings
-from .errors import InvalidWardrobeItemError, TryOnNotImplementedError
+from .config import PIPELINE_VERSION, TRYON_CATEGORIES, Settings
+from .errors import (
+    InvalidWardrobeItemError,
+    TryOnEngineUnavailableError,
+    TryOnFailedError,
+    TryOnNotImplementedError,
+)
 from .storage import ResultStore, TwinStore, WardrobeStore
-
-GARMENT_CATEGORIES = WARDROBE_CATEGORIES - {"Hijab"}
 
 
 class TryOnEngine(Protocol):
     name: str
 
-    def apply_hijab(
-        self, person_bgr: np.ndarray, hijab_bgr: np.ndarray, hijab_mask: np.ndarray | None
-    ) -> tuple[np.ndarray, np.ndarray]:
-        """(person now wearing the chosen hijab, mask of where it landed on
-        THAT image). Stage 2 must protect the returned mask, not `hijab_mask`:
-        the latter is in the flat-lay wardrobe photo's own coordinates, not
-        the person's canvas, and using it directly would protect the wrong
-        pixels."""
-        ...
-
     def apply_garment(
-        self, person_bgr: np.ndarray, garment_bgr: np.ndarray, protect_mask: np.ndarray | None
+        self, person_bgr: np.ndarray, garment_bgr: np.ndarray, category: str
     ) -> np.ndarray:
-        """Person now wearing the chosen garment. Pixels where `protect_mask`
-        is set (e.g. a hijab, worn or just applied) must be left untouched."""
+        """Person now wearing the chosen garment. `category` is one of
+        TRYON_CATEGORIES; everything outside that garment's area should be
+        left as it was."""
         ...
 
 
 class NotImplementedTryOnEngine:
-    """Placeholder until a real try-on model is wired in. Raises immediately -
-    the orchestration around it (below) can be built and tested without
-    pretending a generated image exists.
+    """Used when no try-on engine is configured (no FastFit worker URL).
+    Raises immediately, so the orchestration below can be built and tested
+    without pretending a generated image exists.
     """
 
     name = "none"
 
-    def apply_hijab(self, person_bgr, hijab_bgr, hijab_mask):
+    def apply_garment(self, person_bgr, garment_bgr, category):
         raise TryOnNotImplementedError(
-            "Hijab try-on is not implemented yet. Needs a real try-on model (e.g. OOTDiffusion)."
+            "Clothing try-on is not set up. Start the FastFit worker and set FASTFIT_URL."
         )
 
-    def apply_garment(self, person_bgr, garment_bgr, protect_mask):
-        raise TryOnNotImplementedError(
-            "Clothing try-on is not implemented yet. Needs a real try-on model (e.g. OOTDiffusion)."
-        )
+
+class FastFitTryOnEngine:
+    """Calls the FastFit worker (tools/fastfit/fastfit_worker.py)."""
+
+    name = "fastfit"
+
+    def __init__(self, url: str, timeout_s: float):
+        self._url = url.rstrip("/")
+        self._timeout_s = timeout_s
+
+    def apply_garment(self, person_bgr, garment_bgr, category):
+        files = {
+            "person": ("person.jpg", imaging.encode_jpeg(person_bgr), "image/jpeg"),
+            "garment": ("garment.jpg", imaging.encode_jpeg(garment_bgr), "image/jpeg"),
+        }
+        try:
+            response = requests.post(
+                f"{self._url}/generate", files=files,
+                data={"category": TRYON_CATEGORIES[category]},
+                timeout=self._timeout_s,
+            )
+        except requests.ConnectionError:
+            raise TryOnEngineUnavailableError(
+                "The try-on engine isn't running. Start tools/fastfit/fastfit_worker.py."
+            )
+        except requests.Timeout:
+            raise TryOnFailedError("Try-on took too long. Please try again.")
+        if response.status_code != 200:
+            raise TryOnFailedError(f"Try-on failed: {response.text[:200]}")
+
+        out = _decode(response.content)
+        if out is None:
+            raise TryOnFailedError("Try-on engine sent back an unreadable image.")
+        if out.shape[:2] != person_bgr.shape[:2]:
+            out = cv2.resize(out, (person_bgr.shape[1], person_bgr.shape[0]),
+                             interpolation=cv2.INTER_LANCZOS4)
+        return out
 
 
 @dataclass(frozen=True)
@@ -82,16 +110,15 @@ class TryOnResult:
         }
 
 
-def _decode(data: bytes, grayscale: bool = False) -> np.ndarray:
-    flag = cv2.IMREAD_GRAYSCALE if grayscale else cv2.IMREAD_COLOR
-    return cv2.imdecode(np.frombuffer(data, np.uint8), flag)
+def _decode(data: bytes) -> np.ndarray:
+    return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
 
 
 def create_tryon(
     uid: str,
     twin_id: str,
     garment_item_id: str,
-    hijab_item_id: str | None,
+    start_from_result_id: str | None = None,
     *,
     twin_store: TwinStore,
     wardrobe_store: WardrobeStore,
@@ -99,37 +126,36 @@ def create_tryon(
     result_store: ResultStore,
     settings: Settings,
 ) -> TryOnResult:
-    """Twin + garment (+ optional hijab) -> stored try-on result.
+    """Twin + one garment -> stored try-on result.
 
-    hijab_item_id omitted means "keep the twin's own hijab" (per the workflow
-    doc): if the twin photo has its own hijab_mask, that protects it during
-    the clothing stage. hijab_item_id given means swap in a different hijab
-    first, and protect wherever the engine places that one instead.
+    start_from_result_id given means put the garment on top of that earlier
+    result (same twin) instead of the bare twin.
 
     Raises PipelineError subclasses.
     """
     twin = twin_store.load(uid, twin_id)
     garment = wardrobe_store.load(uid, garment_item_id)
-    if garment.metadata.get("category") not in GARMENT_CATEGORIES:
+    category = garment.metadata.get("category")
+    if category not in TRYON_CATEGORIES:
         raise InvalidWardrobeItemError(
-            f"{garment_item_id!r} is not a clothing item (category="
-            f"{garment.metadata.get('category')!r}). garmentItemId must be one "
-            f"of: {', '.join(sorted(GARMENT_CATEGORIES))}."
+            f"{category or 'This item'} can't be tried on yet. Virtual try-on "
+            f"supports: {', '.join(TRYON_CATEGORIES)}."
         )
 
-    person = _decode(twin.processed_jpg)
-    protect_mask = _decode(twin.hijab_mask_png, grayscale=True) if twin.hijab_mask_png else None
+    wearing = []
+    if start_from_result_id is not None:
+        start_meta, start_jpg = result_store.load(uid, start_from_result_id)
+        if start_meta.get("twinId") != twin_id:
+            raise InvalidWardrobeItemError(
+                "startFromResultId belongs to a different digital twin."
+            )
+        person = _decode(start_jpg)
+        # A second item of the same category replaces the first.
+        wearing = [w for w in start_meta.get("wearing", []) if w["category"] != category]
+    else:
+        person = _decode(twin.processed_jpg)
 
-    if hijab_item_id is not None:
-        hijab_item = wardrobe_store.load(uid, hijab_item_id)
-        if hijab_item.metadata.get("category") != "Hijab":
-            raise InvalidWardrobeItemError(f"{hijab_item_id!r} is not a hijab item.")
-        hijab_bgr = _decode(hijab_item.processed_jpg)
-        hijab_mask = _decode(hijab_item.mask_png, grayscale=True) if hijab_item.mask_png else None
-        person, protect_mask = tryon_engine.apply_hijab(person, hijab_bgr, hijab_mask)
-
-    garment_bgr = _decode(garment.processed_jpg)
-    final = tryon_engine.apply_garment(person, garment_bgr, protect_mask)
+    final = tryon_engine.apply_garment(person, _decode(garment.processed_jpg), category)
 
     result_id = uuid.uuid4().hex
     result_jpg = imaging.encode_jpeg(final)
@@ -138,7 +164,9 @@ def create_tryon(
         "uid": uid,
         "twinId": twin_id,
         "garmentItemId": garment_item_id,
-        "hijabItemId": hijab_item_id,
+        "category": category,
+        "startFromResultId": start_from_result_id,
+        "wearing": [*wearing, {"itemId": garment_item_id, "category": category}],
         "status": "ready",
         "tryOnEngine": tryon_engine.name,
         "pipelineVersion": PIPELINE_VERSION,

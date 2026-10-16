@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 
-from .errors import TwinNotFoundError, WardrobeItemNotFoundError
+from .errors import ResultNotFoundError, TwinNotFoundError, WardrobeItemNotFoundError
 
 _SAFE_ID = re.compile(r"[A-Za-z0-9_-]{1,128}")
 
@@ -191,6 +191,10 @@ class ResultStore(Protocol):
         """Persist a generated try-on result; returns artifact name -> location."""
         ...
 
+    def load(self, uid: str, result_id: str) -> tuple[dict, bytes]:
+        """(metadata, result_jpg). Raises ResultNotFoundError."""
+        ...
+
 
 class LocalResultStore:
     """Writes to disk. Swap for a Firebase Storage + Firestore store later."""
@@ -208,3 +212,12 @@ class LocalResultStore:
         # Written last: a folder without metadata.json is an incomplete result.
         (folder / "metadata.json").write_text(json.dumps(metadata, indent=2))
         return {"result.jpg": str(folder / "result.jpg"), "metadata.json": str(folder / "metadata.json")}
+
+    def load(self, uid: str, result_id: str) -> tuple[dict, bytes]:
+        if not (_SAFE_ID.fullmatch(uid) and _SAFE_ID.fullmatch(result_id)):
+            raise ResultNotFoundError("Try-on result not found.")
+        folder = self._root / "results" / uid / result_id
+        meta_path = folder / "metadata.json"
+        if not meta_path.is_file():
+            raise ResultNotFoundError("Try-on result not found.")
+        return json.loads(meta_path.read_text()), (folder / "result.jpg").read_bytes()

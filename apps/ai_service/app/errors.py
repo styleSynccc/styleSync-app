@@ -63,6 +63,21 @@ class InvalidWardrobeItemError(PipelineError):
     code = "INVALID_WARDROBE_ITEM"
 
 
+class ResultNotFoundError(PipelineError):
+    status_code = 404
+    code = "RESULT_NOT_FOUND"
+
+
+class TryOnEngineUnavailableError(PipelineError):
+    status_code = 503
+    code = "TRY_ON_ENGINE_UNAVAILABLE"
+
+
+class TryOnFailedError(PipelineError):
+    status_code = 500
+    code = "TRY_ON_FAILED"
+
+
 class TryOnNotImplementedError(PipelineError):
     status_code = 501
     code = "TRY_ON_NOT_IMPLEMENTED"

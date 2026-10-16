@@ -59,11 +59,11 @@ def test_list_twins_only_returns_this_users_twins(tmp_path):
 
 def test_list_wardrobe_newest_first(tmp_path):
     seed_item(tmp_path, "older", "2026-01-01T00:00:00+00:00", category="Tops")
-    seed_item(tmp_path, "newer", "2026-06-01T00:00:00+00:00", category="Hijab")
+    seed_item(tmp_path, "newer", "2026-06-01T00:00:00+00:00", category="Shoes")
     with make_client(tmp_path) as client:
         body = client.get("/v1/wardrobe").json()
     assert [i["itemId"] for i in body["items"]] == ["newer", "older"]
-    assert body["items"][0]["metadata"]["category"] == "Hijab"
+    assert body["items"][0]["metadata"]["category"] == "Shoes"
 
 
 def test_list_wardrobe_empty(tmp_path):

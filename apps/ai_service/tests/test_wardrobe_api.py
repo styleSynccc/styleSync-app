@@ -39,7 +39,7 @@ def test_garment_item_saved_without_mask(tmp_path, photo_bytes):
     assert r.status_code == 201, r.text
     body = r.json()
     meta = body["metadata"]
-    assert meta["category"] == "Tops" and meta["style"] is None
+    assert meta["category"] == "Tops"
     assert meta["status"] == "ready" and meta["pipelineVersion"]
     assert body["itemImageB64"]
 
@@ -48,42 +48,10 @@ def test_garment_item_saved_without_mask(tmp_path, photo_bytes):
     assert cv2.imread(str(folder / "processed.jpg")).shape == (1024, 768, 3)
 
 
-def test_hijab_item_saves_style_and_mask(tmp_path, photo_bytes):
-    with make_client(tmp_path, FakeEngine()) as client:
-        r = post_item(client, photo_bytes, "Hijab", style="pashmina")
-    assert r.status_code == 201, r.text
-    body = r.json()
-    assert body["metadata"]["category"] == "Hijab" and body["metadata"]["style"] == "pashmina"
-
-    folder = tmp_path / "wardrobe" / "dev-user" / body["itemId"]
-    assert "mask.png" in {p.name for p in folder.iterdir()}
-    mask = cv2.imread(str(folder / "mask.png"), cv2.IMREAD_GRAYSCALE)
-    assert mask.shape == (1024, 768)
-    assert (mask == 255).all()  # FakeEngine keeps the whole frame as foreground
-
-
 def test_unknown_category_is_rejected(tmp_path, photo_bytes):
     with make_client(tmp_path, FakeEngine()) as client:
         r = post_item(client, photo_bytes, "socks")
     assert r.status_code == 400 and r.json()["error_type"] == "INVALID_CATEGORY"
-
-
-def test_hijab_without_style_is_rejected(tmp_path, photo_bytes):
-    with make_client(tmp_path, FakeEngine()) as client:
-        r = post_item(client, photo_bytes, "Hijab")
-    assert r.status_code == 400 and r.json()["error_type"] == "INVALID_STYLE"
-
-
-def test_hijab_with_unknown_style_is_rejected(tmp_path, photo_bytes):
-    with make_client(tmp_path, FakeEngine()) as client:
-        r = post_item(client, photo_bytes, "Hijab", style="turban")
-    assert r.status_code == 400 and r.json()["error_type"] == "INVALID_STYLE"
-
-
-def test_style_is_ignored_for_non_hijab_category(tmp_path, photo_bytes):
-    with make_client(tmp_path, FakeEngine()) as client:
-        r = post_item(client, photo_bytes, "Tops", style="pashmina")
-    assert r.status_code == 201 and r.json()["metadata"]["style"] is None
 
 
 def test_blank_photo_is_rejected_as_no_garment(tmp_path, photo_bytes):

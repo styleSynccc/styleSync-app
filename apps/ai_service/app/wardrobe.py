@@ -1,17 +1,9 @@
-"""Garment and hijab wardrobe-item pipeline.
+"""Wardrobe-item pipeline.
 
 Unlike the digital twin, there is no person in these photos: the item is
 photographed alone (flat lay, on a hanger, or on a mannequin). So there is no
-pose check here, and "segmenting the hijab" is a much easier problem than in
-the twin pipeline: since nothing else is in frame, rembg's own foreground
-mask from background removal already is a correct outline of the item. This
-is NOT the same as the unsolved exact hijab-vs-garment segmentation problem
-from the twin pipeline (a hijab worn on a person, next to their clothing) -
-that still needs a trained model or a better-prompted SAM.
-
-Hijab style (shawl, pashmina, instant, khimar) is not auto-detected: no
-classifier for it exists, so the client must ask the user and send one of
-HIJAB_STYLES.
+pose check here, and since nothing else is in frame, rembg's own foreground
+mask from background removal already is a correct outline of the item.
 """
 import base64
 import uuid
@@ -22,9 +14,9 @@ import cv2
 import numpy as np
 
 from . import imaging
-from .config import HIJAB_STYLES, PIPELINE_VERSION, WARDROBE_CATEGORIES, Settings
+from .config import PIPELINE_VERSION, WARDROBE_CATEGORIES, Settings
 from .engine import Engine
-from .errors import BackgroundRemovalError, InvalidCategoryError, InvalidStyleError, NoGarmentError
+from .errors import BackgroundRemovalError, InvalidCategoryError, NoGarmentError
 from .storage import WardrobeStore
 
 
@@ -56,7 +48,6 @@ def create_wardrobe_item(
     raw: bytes,
     uid: str,
     category: str,
-    style: str | None,
     *,
     engine: Engine,
     store: WardrobeStore,
@@ -67,13 +58,6 @@ def create_wardrobe_item(
         raise InvalidCategoryError(
             f"Unknown category {category!r}. Must be one of: {', '.join(sorted(WARDROBE_CATEGORIES))}."
         )
-    if category == "Hijab":
-        if style not in HIJAB_STYLES:
-            raise InvalidStyleError(
-                f"Unknown hijab style {style!r}. Must be one of: {', '.join(sorted(HIJAB_STYLES))}."
-            )
-    else:
-        style = None  # style only applies to hijab items
 
     imaging.validate_bytes(raw, settings.max_upload_bytes)
     original_ext = imaging.sniff_extension(raw)
@@ -103,7 +87,6 @@ def create_wardrobe_item(
         "itemId": item_id,
         "uid": uid,
         "category": category,
-        "style": style,
         "status": "ready",
         "foregroundRatio": round(fg_ratio, 4),
         "imageWidth": settings.target_width,
@@ -111,14 +94,11 @@ def create_wardrobe_item(
         "pipelineVersion": PIPELINE_VERSION,
         "createdAt": datetime.now(timezone.utc).isoformat(),
     }
-    # Hijab items keep their mask: a later try-on stage needs it to protect
-    # the covered area from the clothing-swap step. Other categories don't
-    # need a separate mask yet - the whole processed image IS the garment.
-    mask_png = imaging.encode_png(mask) if category == "Hijab" else None
+    # No separate mask is stored: the whole processed image IS the garment.
     artifacts = store.save(
         uid, item_id,
         original=raw, original_ext=original_ext,
-        processed_jpg=processed_jpg, mask_png=mask_png,
+        processed_jpg=processed_jpg, mask_png=None,
         metadata=metadata,
     )
     return WardrobeResult(item_id, metadata, processed_jpg, artifacts)

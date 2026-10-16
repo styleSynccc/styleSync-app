@@ -20,14 +20,15 @@ from .storage import (
     TwinStore,
     WardrobeStore,
 )
-from .tryon import NotImplementedTryOnEngine, TryOnEngine, create_tryon
+from .tryon import FastFitTryOnEngine, NotImplementedTryOnEngine, TryOnEngine, create_tryon
 from .wardrobe import create_wardrobe_item
 
 
 class TryOnRequest(BaseModel):
     twinId: str
     garmentItemId: str
-    hijabItemId: str | None = None
+    # Put the garment on top of this earlier result instead of the bare twin.
+    startFromResultId: str | None = None
 
 _CHUNK = 1 << 20
 _MULTIPART_OVERHEAD = 1 << 20
@@ -76,7 +77,13 @@ def create_app(
     app.state.hijab_analyzer = hijab_analyzer or NullHijabAnalyzer()
     app.state.store = store or LocalTwinStore(settings.data_dir)
     app.state.wardrobe_store = wardrobe_store or LocalWardrobeStore(settings.data_dir)
-    app.state.tryon_engine = tryon_engine or NotImplementedTryOnEngine()
+    if tryon_engine is None:
+        tryon_engine = (
+            FastFitTryOnEngine(settings.fastfit_url, settings.fastfit_timeout_s)
+            if settings.fastfit_url
+            else NotImplementedTryOnEngine()
+        )
+    app.state.tryon_engine = tryon_engine
     app.state.result_store = result_store or LocalResultStore(settings.data_dir)
 
     if settings.cors_allow_all:
@@ -148,7 +155,6 @@ def create_app(
         request: Request,
         file: UploadFile = File(...),
         category: str = Form(...),
-        style: str | None = Form(None),
         uid: str = Depends(current_uid),
     ):
         raw = await read_limited(file, settings.max_upload_bytes)
@@ -157,7 +163,6 @@ def create_app(
             raw,
             uid,
             category,
-            style,
             engine=request.app.state.engine,
             store=request.app.state.wardrobe_store,
             settings=settings,
@@ -190,7 +195,7 @@ def create_app(
             uid,
             body.twinId,
             body.garmentItemId,
-            body.hijabItemId,
+            body.startFromResultId,
             twin_store=request.app.state.store,
             wardrobe_store=request.app.state.wardrobe_store,
             tryon_engine=request.app.state.tryon_engine,
