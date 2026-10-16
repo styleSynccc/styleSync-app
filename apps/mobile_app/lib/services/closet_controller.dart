@@ -12,11 +12,15 @@ class ClothingItem {
   final String imageUrl;
   final String? assetPath;
   final String category;
+  // The AI service's id for this item. Only uploaded photos have one; the
+  // bundled sample items were never sent to the AI service.
+  final String? itemId;
   ClothingItem({
     required this.id,
     required this.imageUrl,
     required this.category,
     this.assetPath,
+    this.itemId,
   });
 
   bool get isAsset => assetPath != null && assetPath!.isNotEmpty;
@@ -49,6 +53,7 @@ class ClosetController extends GetxController {
           imageUrl: doc.data().containsKey('imageUrl') ? doc['imageUrl'] : '',
           assetPath: doc.data().containsKey('assetPath') ? doc['assetPath'] : null,
           category: doc['category'],
+          itemId: doc.data()['itemId'] as String?,
         );
       }).toList();
     } catch (e) {

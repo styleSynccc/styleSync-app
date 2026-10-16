@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../config/api_config.dart';
@@ -51,6 +51,7 @@ class AiService {
     } on AiServiceException {
       rethrow;
     } catch (e) {
+      debugPrint('AI service request to $baseUrl failed: $e');
       throw AiServiceException(
         'NETWORK_ERROR',
         "Couldn't reach the AI service. Is it running, and is the address "
@@ -68,6 +69,7 @@ class AiService {
     } on AiServiceException {
       rethrow;
     } catch (e) {
+      debugPrint('AI service request to $baseUrl failed: $e');
       throw AiServiceException(
         'NETWORK_ERROR',
         "Couldn't reach the AI service. Is it running, and is the address "
@@ -118,15 +120,12 @@ class AiService {
     return body['twins'] as List<dynamic>;
   }
 
-  /// POST /v1/wardrobe - a garment/hijab photo -> a saved wardrobe item.
+  /// POST /v1/wardrobe - a clothing photo -> a saved wardrobe item.
   /// [category] must be one of wardrobeCategories (config/wardrobe_options.dart).
-  /// [style] is required for category "Hijab" (shawl/pashmina/instant/khimar)
-  /// and ignored otherwise - see app/config.py WARDROBE_CATEGORIES/HIJAB_STYLES.
   Future<Map<String, dynamic>> uploadWardrobeItem(
     Uint8List bytes,
     String filename, {
     required String category,
-    String? style,
   }) async {
     final request =
         http.MultipartRequest('POST', Uri.parse('$baseUrl/v1/wardrobe'))
@@ -135,8 +134,43 @@ class AiService {
           ..files.add(
             http.MultipartFile.fromBytes('file', bytes, filename: filename),
           );
-    if (style != null) request.fields['style'] = style;
     return _send(request);
+  }
+
+  /// POST /v1/tryon - puts ONE wardrobe item (Tops, Pants or Shoes) on the
+  /// twin. Pass [startFromResultId] to build on an earlier result instead of
+  /// the bare twin, so the clothes already tried on stay on. Takes 20-60s.
+  Future<Map<String, dynamic>> tryOn({
+    required String twinId,
+    required String garmentItemId,
+    String? startFromResultId,
+  }) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/v1/tryon'),
+            headers: {
+              ...await _authHeader(),
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode({
+              'twinId': twinId,
+              'garmentItemId': garmentItemId,
+              'startFromResultId': ?startFromResultId,
+            }),
+          )
+          .timeout(_requestTimeout);
+      return _decode(response);
+    } on AiServiceException {
+      rethrow;
+    } catch (e) {
+      debugPrint('AI service request to $baseUrl failed: $e');
+      throw AiServiceException(
+        'NETWORK_ERROR',
+        "Couldn't reach the AI service. Is it running, and is the address "
+            "in api_config.dart correct for how you're running the app?",
+      );
+    }
   }
 
   /// GET /v1/wardrobe - this user's wardrobe items, newest first.

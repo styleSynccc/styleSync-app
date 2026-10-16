@@ -74,6 +74,20 @@ class SavedOutfitsScreen extends StatelessWidget {
               onPressed: () => _confirmDelete(document.reference),
             ),
           ]),
+          // Looks saved from Virtual Try-On carry a photo of the twin wearing them.
+          if ((data['resultImageUrl'] as String?)?.isNotEmpty ?? false) ...[
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                data['resultImageUrl'],
+                height: 320,
+                width: double.infinity,
+                fit: BoxFit.contain,
+                errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
+              ),
+            ),
+          ],
           const SizedBox(height: 8),
           SizedBox(
             height: 130,
