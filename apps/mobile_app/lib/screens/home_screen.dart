@@ -38,6 +38,7 @@ class HomeScreen extends StatelessWidget {
   static const List<String> _categoryOrder = [
     'Tops',
     'Pants',
+    'Skirts',
     'Shoes',
     'Accessories',
   ];
@@ -185,6 +186,10 @@ class HomeScreen extends StatelessWidget {
                               _buildAddCategoryButton('Tops', closetController),
                               _buildAddCategoryButton(
                                 'Pants',
+                                closetController,
+                              ),
+                              _buildAddCategoryButton(
+                                'Skirts',
                                 closetController,
                               ),
                               _buildAddCategoryButton(

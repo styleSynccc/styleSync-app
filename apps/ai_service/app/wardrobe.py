@@ -1,13 +1,8 @@
 """Garment and hijab wardrobe-item pipeline.
 
-Unlike the digital twin, there is no person in these photos: the item is
-photographed alone (flat lay, on a hanger, or on a mannequin). So there is no
-pose check here, and "segmenting the hijab" is a much easier problem than in
-the twin pipeline: since nothing else is in frame, rembg's own foreground
-mask from background removal already is a correct outline of the item. This
-is NOT the same as the unsolved exact hijab-vs-garment segmentation problem
-from the twin pipeline (a hijab worn on a person, next to their clothing) -
-that still needs a trained model or a better-prompted SAM.
+Tops, Pants, and Skirts may be photographed on a person. Human parsing isolates the
+selected garment, excluding the head, skin, and other clothing. Product-only
+photos and other categories use foreground background removal as before.
 
 Hijab style (shawl, pashmina, instant, khimar) is not auto-detected: no
 classifier for it exists, so the client must ask the user and send one of
@@ -85,14 +80,22 @@ def create_wardrobe_item(
     )
     padded = imaging.resize_and_pad(image, settings.target_width, settings.target_height)
 
-    cut_out = engine.remove_background(imaging.encode_png(padded))
-    rgba = cv2.imdecode(np.frombuffer(cut_out, np.uint8), cv2.IMREAD_UNCHANGED)
-    if rgba is None:
-        raise BackgroundRemovalError("Failed to remove image background.")
+    garment_mask = (
+        engine.extract_garment_mask(padded, category)
+        if category in {"Tops", "Pants", "Skirts"} else None
+    )
+    if garment_mask is not None:
+        rgba = np.dstack([padded, garment_mask])
+    else:
+        cut_out = engine.remove_background(imaging.encode_png(padded))
+        rgba = cv2.imdecode(np.frombuffer(cut_out, np.uint8), cv2.IMREAD_UNCHANGED)
+        if rgba is None:
+            raise BackgroundRemovalError("Failed to remove image background.")
 
     mask = _foreground_mask(rgba)
     fg_ratio = float((mask > 0).mean())
-    if fg_ratio < settings.min_garment_foreground_ratio:
+    min_ratio = 0.002 if garment_mask is not None else settings.min_garment_foreground_ratio
+    if fg_ratio < min_ratio:
         raise NoGarmentError(
             "No clothing item detected in the photo. Please photograph the item "
             "alone, filling most of the frame, on a plain background."
@@ -100,6 +103,14 @@ def create_wardrobe_item(
 
     rgba[:, :, :3] = imaging.enhance_quality(rgba[:, :, :3])
     item = imaging.composite_on_white(rgba)
+    if garment_mask is not None:
+        # Crop only after masking: a rectangular crop alone retains skin and
+        # other garments. Keep a small white margin without stretching clothes.
+        ys, xs = np.nonzero(mask)
+        margin = max(4, int(max(xs.max() - xs.min(), ys.max() - ys.min()) * 0.05))
+        x1, x2 = max(0, xs.min() - margin), min(item.shape[1], xs.max() + margin + 1)
+        y1, y2 = max(0, ys.min() - margin), min(item.shape[0], ys.max() + margin + 1)
+        item = imaging.resize_and_pad(item[y1:y2, x1:x2], settings.target_width, settings.target_height)
     item_id = uuid.uuid4().hex
     processed_jpg = imaging.encode_jpeg(item)
 
@@ -110,6 +121,7 @@ def create_wardrobe_item(
         "style": style,
         "status": "ready",
         "foregroundRatio": round(fg_ratio, 4),
+        "garmentExtracted": garment_mask is not None,
         "imageWidth": settings.target_width,
         "imageHeight": settings.target_height,
         "pipelineVersion": PIPELINE_VERSION,

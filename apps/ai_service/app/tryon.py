@@ -23,8 +23,8 @@ from .storage import ResultStore, TwinStore, WardrobeStore
 from .tryon_crop import crop_for_tryon, normalize_tryon_result
 from .tryon_mask import clothing_mask
 
-GARMENT_CATEGORIES = {"Tops", "Pants", "Shoes"}
-CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Shoes": 2}
+GARMENT_CATEGORIES = {"Tops", "Pants", "Skirts", "Shoes"}
+CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Skirts": 1, "Shoes": 2}
 
 
 class TryOnEngine(Protocol):
@@ -115,10 +115,10 @@ def create_tryon(
     if isinstance(garment_item_ids, str):
         garment_item_ids = [garment_item_ids]
     if not garment_item_ids:
-        raise InvalidWardrobeItemError("Choose at least one Top, Pants, or Shoes item.")
-    if len(garment_item_ids) > len(GARMENT_CATEGORIES):
+        raise InvalidWardrobeItemError("Choose at least one Top, Pants, Skirts, or Shoes item.")
+    if len(garment_item_ids) > 3:
         raise InvalidWardrobeItemError(
-            "Choose at most one Top, one Pants, and one Shoes item."
+            "Choose at most one Top, one Pants or Skirts, and one Shoes item."
         )
     if len(set(garment_item_ids)) != len(garment_item_ids):
         raise InvalidWardrobeItemError("The same wardrobe item cannot be selected twice.")
@@ -134,6 +134,9 @@ def create_tryon(
             )
     if len(set(categories)) != len(categories):
         raise InvalidWardrobeItemError("Choose at most one item from each clothing category.")
+
+    if "Pants" in categories and "Skirts" in categories:
+        raise InvalidWardrobeItemError("Choose either Pants or Skirts for an outfit, not both.")
 
     # A stable order makes combined results reproducible. Shoes run last so
     # the hosted any-item model can preserve the already generated outfit.
@@ -208,6 +211,10 @@ def create_tryon(
         ),
         "pantsItemId": next(
             (item_id for item_id, item in ordered if item.metadata["category"] == "Pants"),
+            None,
+        ),
+        "skirtItemId": next(
+            (item_id for item_id, item in ordered if item.metadata["category"] == "Skirts"),
             None,
         ),
         "shoesItemId": next(

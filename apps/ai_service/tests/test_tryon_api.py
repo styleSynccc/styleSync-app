@@ -136,6 +136,30 @@ def test_top_and_pants_are_applied_in_stable_order(tmp_path):
     assert body["metadata"]["pantsItemId"] == "pants1"
 
 
+def test_top_and_skirt_are_applied_in_stable_order(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="skirt1", category="Skirts")
+    seed_item(tmp_path, item_id="top1", category="Tops")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["skirt1", "top1"])
+    assert response.status_code == 201, response.text
+    assert engine.garment_categories == ["Tops", "Skirts"]
+    assert response.json()["metadata"]["skirtItemId"] == "skirt1"
+    assert response.json()["metadata"]["pantsItemId"] is None
+
+
+def test_pants_and_skirt_cannot_be_selected_together(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="skirt1", category="Skirts")
+    seed_item(tmp_path, item_id="pants1", category="Pants")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["skirt1", "pants1"])
+    assert response.status_code == 400
+    assert engine.garment_categories == []
+
+
 def test_top_pants_and_shoes_are_applied_in_stable_order(tmp_path):
     seed_twin(tmp_path)
     seed_item(tmp_path, item_id="shoes1", category="Shoes")

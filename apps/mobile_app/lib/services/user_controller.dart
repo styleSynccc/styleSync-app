@@ -93,8 +93,8 @@ class UserController extends GetxController {
         'stylePreferences': stylePreferences,
         'bodyType': FieldValue.delete(),
         'digitalTwinPhotoUrl': photoUrl,
-        if (twinId != null) 'twinId': twinId,
-        if (wearsHijab != null) 'wearsHijab': wearsHijab,
+        'twinId': ?twinId,
+        'wearsHijab': ?wearsHijab,
         'isProfileComplete': true,
       }, SetOptions(merge: true));
 

@@ -156,7 +156,7 @@ class ClosetController extends GetxController {
         if (assetPath is! String ||
             assetPath.isEmpty ||
             category is! String ||
-            !const {'Tops', 'Pants', 'Shoes'}.contains(category) ||
+            !const {'Tops', 'Pants', 'Skirts', 'Shoes'}.contains(category) ||
             (itemId is String && backendIds.contains(itemId))) {
           continue;
         }

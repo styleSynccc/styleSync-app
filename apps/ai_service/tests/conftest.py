@@ -30,6 +30,9 @@ class FakeEngine:
     def detect_pose(self, image_bgr):
         return self.landmarks
 
+    def extract_garment_mask(self, image_bgr, category):
+        return None
+
     def remove_background(self, png_bytes):
         self.bg_calls += 1
         decoded = cv2.imdecode(np.frombuffer(png_bytes, np.uint8), cv2.IMREAD_COLOR)

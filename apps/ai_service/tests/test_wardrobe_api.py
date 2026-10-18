@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
+import pytest
 from fastapi.testclient import TestClient
 
 from app.config import Settings
 from app.main import create_app
 from tests.conftest import FakeEngine
+from app.errors import GarmentExtractionError, NoGarmentError
 
 
 def make_client(tmp_path, engine, **settings):
@@ -20,7 +22,7 @@ def post_item(client, data, category, style=None, name="item.jpg"):
     return client.post("/v1/wardrobe", files={"file": (name, data, "application/octet-stream")}, data=form)
 
 
-class BlankEngine:
+class BlankEngine(FakeEngine):
     """remove_background that keeps nothing, as if the photo were empty/background-only."""
 
     def detect_pose(self, image_bgr):
@@ -112,3 +114,54 @@ def test_auth_required_when_not_disabled(tmp_path, photo_bytes):
     app = create_app(settings=settings, engine=FakeEngine())
     with TestClient(app) as client:
         assert post_item(client, photo_bytes, "Tops").status_code == 401
+
+
+@pytest.mark.parametrize("category,channel", [("Tops", 2), ("Pants", 0), ("Skirts", 0)])
+def test_person_photo_saves_only_selected_garment(tmp_path, monkeypatch, category, channel):
+    from app import imaging
+    monkeypatch.setattr(imaging, "enhance_quality", lambda image: image)
+    image = np.full((1024, 768, 3), 255, np.uint8)
+    image[80:180, 330:430] = (0, 255, 0)  # head
+    image[200:480, 260:500] = (0, 0, 255)  # top
+    image[480:900, 290:470] = (255, 0, 0)  # pants
+
+    class PersonEngine(FakeEngine):
+        def extract_garment_mask(self, image_bgr, selected):
+            assert selected == category
+            return ((image_bgr[:, :, channel] == 255)
+                    & (image_bgr[:, :, 1] == 0)).astype(np.uint8) * 255
+
+    engine = PersonEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_item(client, imaging.encode_png(image), category, name="person.png")
+    assert response.status_code == 201, response.text
+    body = response.json()
+    assert body["metadata"]["garmentExtracted"] is True
+    assert engine.bg_calls == 0
+    output = cv2.imread(str(tmp_path / "wardrobe" / "dev-user" / body["itemId"] / "processed.jpg"))
+    assert output.shape == (1024, 768, 3)
+    foreground = output[:, :, 1] < 100
+    assert foreground.mean() > 0.25  # Garment is enlarged and centered.
+    # JPEG edges blend with white; the selected color must still dominate.
+    selected_color = output[:, :, channel].astype(np.int16)
+    other_color = output[:, :, 2 - channel].astype(np.int16)
+    assert (selected_color[foreground] - other_color[foreground] > 80).all()
+    assert not (output[:, :, 1].astype(np.int16) - selected_color > 80).any()
+    assert np.all(output[0] > 240)
+
+
+@pytest.mark.parametrize("error,status", [
+    (NoGarmentError("Selected garment not found"), 422),
+    (GarmentExtractionError("Worker unavailable"), 503),
+])
+def test_extraction_failure_does_not_save_whole_person(tmp_path, photo_bytes, error, status):
+    class FailedEngine(FakeEngine):
+        def extract_garment_mask(self, image_bgr, category):
+            raise error
+
+    engine = FailedEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_item(client, photo_bytes, "Tops")
+        assert client.get("/v1/wardrobe").json()["items"] == []
+    assert response.status_code == status
+    assert engine.bg_calls == 0

@@ -50,7 +50,7 @@ def clothing_mask(
         hand_radius = max(10, int(shoulder_width * 0.10))
         cv2.circle(mask, left_wrist, hand_radius, 0, -1)
         cv2.circle(mask, right_wrist, hand_radius, 0, -1)
-    elif category == "Pants":
+    elif category in {"Pants", "Skirts"}:
         left_hip, right_hip = point(23), point(24)
         left_knee, right_knee = point(25), point(26)
         left_ankle, right_ankle = point(27), point(28)
@@ -80,7 +80,7 @@ def clothing_mask(
             cv2.line(mask, heel, toe, 255, shoe_width)
             cv2.circle(mask, toe, shoe_width // 2, 255, -1)
     else:
-        raise ValueError("Virtual try-on currently supports Tops, Pants, and Shoes only.")
+        raise ValueError("Virtual try-on currently supports Tops, Pants, Skirts, and Shoes only.")
 
     kernel_size = max(5, int(width * 0.018))
     if kernel_size % 2 == 0:

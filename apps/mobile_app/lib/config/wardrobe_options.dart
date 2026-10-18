@@ -5,6 +5,7 @@
 const List<String> wardrobeCategories = [
   'Tops',
   'Pants',
+  'Skirts',
   'Shoes',
   'Accessories',
   'Hijab',

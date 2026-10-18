@@ -10,7 +10,7 @@ PIPELINE_VERSION = "twin-0.6.0"
 # as-is in Firestore/metadata. "Hijab" has no closet button yet but stays
 # supported for the hijab-specific style/mask logic below. Style detection is
 # not built: the client must ask the user and send one of HIJAB_STYLES.
-WARDROBE_CATEGORIES = {"Tops", "Pants", "Shoes", "Accessories", "Hijab"}
+WARDROBE_CATEGORIES = {"Tops", "Pants", "Skirts", "Shoes", "Accessories", "Hijab"}
 HIJAB_STYLES = {"shawl", "pashmina", "instant", "khimar"}
 
 

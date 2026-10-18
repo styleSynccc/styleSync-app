@@ -48,6 +48,11 @@ class NoGarmentError(PipelineError):
     code = "NO_GARMENT_DETECTED"
 
 
+class GarmentExtractionError(PipelineError):
+    status_code = 503
+    code = "GARMENT_EXTRACTION_UNAVAILABLE"
+
+
 class TwinNotFoundError(PipelineError):
     status_code = 404
     code = "TWIN_NOT_FOUND"

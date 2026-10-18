@@ -9,7 +9,7 @@ from .errors import TryOnUnavailableError
 
 class FashnWorkerTryOnEngine:
 
-    _CATEGORY_MAP = {"Tops": "tops", "Pants": "bottoms"}
+    _CATEGORY_MAP = {"Tops": "tops", "Pants": "bottoms", "Skirts": "bottoms"}
 
     def __init__(self, base_url: str, timeout_seconds: int = 600, shoe_engine=None):
         self.base_url = base_url.rstrip("/")
@@ -48,7 +48,7 @@ class FashnWorkerTryOnEngine:
         model_category = self._CATEGORY_MAP.get(category)
         if model_category is None:
             raise TryOnUnavailableError(
-                "FASHN VTON currently supports Tops, Pants, and configured Shoes only."
+                "FASHN VTON currently supports Tops, Pants, Skirts, and configured Shoes only."
             )
 
         files = {
@@ -62,7 +62,12 @@ class FashnWorkerTryOnEngine:
                 data={
                     "category": model_category,
                     "garment_photo_type": "flat-lay",
-                    "seed": "42",
+                    # A skirt changes the silhouette. Hide the original
+                    # bottoms so the model does not simply retain the pants.
+                    "segmentation_free": "false" if category == "Skirts" else "true",
+                    **({"num_timesteps": "30", "guidance_scale": "3.0", "verify_skirt": "true"}
+                       if category == "Skirts" else {}),
+                    "seed": "7" if category == "Skirts" else "42",
                 },
                 timeout=self.timeout_seconds,
             )

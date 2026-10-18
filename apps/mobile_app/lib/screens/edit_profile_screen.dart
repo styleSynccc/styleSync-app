@@ -208,9 +208,9 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
         'weight': _weightController.text.trim(),
         'stylePreferences': _stylePreferences,
         'bodyType': FieldValue.delete(),
-        if (photoUrl != null) 'digitalTwinPhotoUrl': photoUrl,
-        if (twinId != null) 'twinId': twinId,
-        if (wearsHijab != null) 'wearsHijab': wearsHijab,
+        'digitalTwinPhotoUrl': ?photoUrl,
+        'twinId': ?twinId,
+        'wearsHijab': ?wearsHijab,
         'isProfileComplete': true,
       }, SetOptions(merge: true));
       if (mounted) Get.back();

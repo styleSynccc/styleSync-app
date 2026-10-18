@@ -76,12 +76,14 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
                 : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: plans!.snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasError)
+                      if (snapshot.hasError) {
                         return const Center(
                           child: Text('Could not load outfit plans.'),
                         );
-                      if (!snapshot.hasData)
+                      }
+                      if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
+                      }
                       final today = DateUtils.dateOnly(DateTime.now());
                       final docs =
                           snapshot.data!.docs.where((d) {
@@ -93,13 +95,14 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
                               b.data()['date'] as Timestamp,
                             ),
                           );
-                      if (docs.isEmpty)
+                      if (docs.isEmpty) {
                         return const Center(
                           child: Text(
                             'No outfits planned yet.\nTap above to create one!',
                             textAlign: TextAlign.center,
                           ),
                         );
+                      }
                       return ListView.separated(
                         itemCount: docs.length,
                         separatorBuilder: (_, _) => const SizedBox(height: 10),
@@ -313,7 +316,7 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
         'id': x.id,
         'category': x.category,
         'imageUrl': x.imageUrl,
-        if (assetPath != null) 'assetPath': assetPath,
+        'assetPath': ?assetPath,
       };
     }).toList();
     final date = DateUtils.dateOnly(reminderAt);

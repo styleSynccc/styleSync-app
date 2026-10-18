@@ -104,7 +104,7 @@ class SignUpScreen extends StatelessWidget {
 
                 Obx(
                   () => DropdownButtonFormField<String>(
-                    value: selectedGender.value,
+                    initialValue: selectedGender.value,
                     decoration: const InputDecoration(labelText: 'Gender'),
                     hint: const Text('Select your gender'),
                     items: const [
