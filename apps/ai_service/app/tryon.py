@@ -23,8 +23,9 @@ from .storage import ResultStore, TwinStore, WardrobeStore
 from .tryon_crop import crop_for_tryon, normalize_tryon_result
 from .tryon_mask import clothing_mask
 
-GARMENT_CATEGORIES = {"Tops", "Pants", "Skirts", "Shoes"}
-CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Skirts": 1, "Shoes": 2}
+GARMENT_CATEGORIES = {"Tops", "Pants", "Skirts", "Shoes", "Accessories"}
+CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Skirts": 1, "Shoes": 2, "Accessories": 3}
+MAX_ACCESSORIES = 5
 
 
 class TryOnEngine(Protocol):
@@ -103,7 +104,7 @@ def create_tryon(
     result_store: ResultStore,
     settings: Settings,
 ) -> TryOnResult:
-    """Twin + one garment per category (+ optional hijab) -> saved result.
+    """Twin + clothing and up to five accessories (+ optional hijab) -> result.
 
     hijab_item_id omitted means "keep the twin's own hijab" (per the workflow
     doc): if the twin photo has its own hijab_mask, that protects it during
@@ -115,10 +116,10 @@ def create_tryon(
     if isinstance(garment_item_ids, str):
         garment_item_ids = [garment_item_ids]
     if not garment_item_ids:
-        raise InvalidWardrobeItemError("Choose at least one Top, Pants, Skirts, or Shoes item.")
-    if len(garment_item_ids) > 3:
+        raise InvalidWardrobeItemError("Choose at least one clothing, shoe, or accessory item.")
+    if len(garment_item_ids) > 3 + MAX_ACCESSORIES:
         raise InvalidWardrobeItemError(
-            "Choose at most one Top, one Pants or Skirts, and one Shoes item."
+            "Choose at most one Top, one Pants or Skirt, one Shoes item, and five Accessories."
         )
     if len(set(garment_item_ids)) != len(garment_item_ids):
         raise InvalidWardrobeItemError("The same wardrobe item cannot be selected twice.")
@@ -132,14 +133,16 @@ def create_tryon(
                 f"{item_id!r} is not a clothing item (category={category!r}). "
                 f"garmentItemIds must contain: {', '.join(sorted(GARMENT_CATEGORIES))}."
             )
-    if len(set(categories)) != len(categories):
+    clothing_categories = [category for category in categories if category != "Accessories"]
+    if len(set(clothing_categories)) != len(clothing_categories):
         raise InvalidWardrobeItemError("Choose at most one item from each clothing category.")
+    if categories.count("Accessories") > MAX_ACCESSORIES:
+        raise InvalidWardrobeItemError("Choose at most five accessories per outfit.")
 
     if "Pants" in categories and "Skirts" in categories:
         raise InvalidWardrobeItemError("Choose either Pants or Skirts for an outfit, not both.")
 
-    # A stable order makes combined results reproducible. Shoes run last so
-    # the hosted any-item model can preserve the already generated outfit.
+    # Accessories run last to preserve the generated clothing and shoes.
     ordered = sorted(
         zip(garment_item_ids, garments),
         key=lambda pair: CATEGORY_ORDER[pair[1].metadata["category"]],
@@ -159,6 +162,11 @@ def create_tryon(
     replace_masks = []
     try:
         for _, garment in ordered:
+            if garment.metadata["category"] == "Accessories":
+                # Hosted placement locates accessories itself; a clothing mask
+                # would exclude faces, hands, and other valid locations.
+                replace_masks.append(np.zeros(person.shape[:2], np.uint8))
+                continue
             replace_masks.append(
                 clothing_mask(
                     person.shape[:2],
@@ -172,14 +180,17 @@ def create_tryon(
             "This digital twin is missing pose data. Create a new digital twin and try again."
         ) from exc
 
-    person, first_mask, crop_box = crop_for_tryon(
-        person,
-        replace_masks[0],
-        twin.landmarks,
-    )
-    x1, y1, x2, y2 = crop_box
-    cropped_masks = [first_mask]
-    cropped_masks.extend(mask[y1:y2, x1:x2] for mask in replace_masks[1:])
+    if "Accessories" in categories:
+        # Keep headroom and space beside the hands for hats and bags.
+        crop_box = (0, 0, person.shape[1], person.shape[0])
+        cropped_masks = replace_masks
+    else:
+        person, first_mask, crop_box = crop_for_tryon(
+            person, replace_masks[0], twin.landmarks,
+        )
+        x1, y1, x2, y2 = crop_box
+        cropped_masks = [first_mask]
+        cropped_masks.extend(mask[y1:y2, x1:x2] for mask in replace_masks[1:])
 
     final = person
     for (_, garment), replace_mask in zip(ordered, cropped_masks):
@@ -222,6 +233,13 @@ def create_tryon(
             None,
         ),
         "hijabItemId": hijab_item_id,
+        "accessoryItemId": next(
+            (item_id for item_id, item in ordered if item.metadata["category"] == "Accessories"),
+            None,
+        ),
+        "accessoryItemIds": [
+            item_id for item_id, item in ordered if item.metadata["category"] == "Accessories"
+        ],
         "status": "ready",
         "tryOnEngine": tryon_engine.name,
         "personCrop": {

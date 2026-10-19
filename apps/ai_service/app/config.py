@@ -45,7 +45,7 @@ class Settings:
     firebase_project_id: str = "stylesync-app-3d7c1"
     # Local FASHN VTON is the only clothing engine.
     fashn_worker_url: str = "http://127.0.0.1:8002"
-    # FASHN VTON v1.5 does not support footwear. Shoes are routed through
+    # FASHN VTON v1.5 does not support footwear or accessories. These use
     # FASHN's hosted Try-On Max endpoint when this server-side key is set.
     # Never place this key in the Flutter app.
     fashn_api_key: str = ""

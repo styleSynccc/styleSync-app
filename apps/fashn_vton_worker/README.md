@@ -37,6 +37,17 @@ $env:FASHN_API_KEY = 'your-key' # required only for the Shoes option
 ..\..\API\venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
+Accessories can be selected in VTON alongside a top, bottoms, and shoes. Up to
+five accessories are supported per result (hats, glasses, jewelry, or bags). They
+run sequentially in selection order, each using the previous generated result.
+Choose different accessory types; items in the same location can replace one another.
+The picker shows selected count and accessory credit subtotal. Accessories
+run last using hosted Try-On Max at Balanced 1K, currently 2 credits per successful
+output; they are never selected automatically. Use a clear photo of the accessory
+alone. Existing gallery accessories are synchronized from the closet on refresh.
+The full twin frame is retained for accessories so hats and bags have room.
+Real placement accuracy depends on the input and needs evaluation with credits.
+
 The local open-source model handles Tops, Pants, and Skirts. Shoes are sent by the main
 API to FASHN Try-On Max because the local v1.5 model has no footwear category.
 Create the key in the FASHN developer dashboard and keep it on the backend;

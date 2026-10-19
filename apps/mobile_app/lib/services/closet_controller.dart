@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'ai_service.dart';
+import 'wardrobe_recovery.dart';
 
 class ClothingItem {
   final String id;
@@ -35,6 +38,8 @@ class ClosetController extends GetxController {
   var clothes = <ClothingItem>[].obs;
   var isLoading = false.obs;
   var isAddExpanded = false.obs;
+  final syncStatus = ''.obs;
+  Future<String?>? _wardrobeSync;
 
   @override
   void onInit() {
@@ -128,14 +133,24 @@ class ClosetController extends GetxController {
     }
   }
 
-  /// Ensure bundled asset entries created by older app builds also exist in
-  /// the Python wardrobe store used by Virtual Try-On. Returns a warning for
-  /// the screen to display without hiding other usable garments.
-  Future<String?> syncAssetItemsForTryOn() async {
+  /// Recover missing AI wardrobe links for both bundled and gallery items.
+  /// Multiple screens opening at once share one recovery operation.
+  Future<String?> syncWardrobeItemsForTryOn() {
+    final active = _wardrobeSync;
+    if (active != null) return active;
+    final operation = _syncWardrobeItemsForTryOn();
+    _wardrobeSync = operation;
+    return operation.whenComplete(() {
+      if (identical(_wardrobeSync, operation)) _wardrobeSync = null;
+    });
+  }
+
+  Future<String?> _syncWardrobeItemsForTryOn() async {
     final user = _auth.currentUser;
     if (user == null) return null;
 
     try {
+      syncStatus.value = 'Checking your closet...';
       final backendItems = await _aiService.listWardrobe();
       final backendIds = backendItems
           .map((item) => (item as Map<String, dynamic>)['itemId'])
@@ -147,40 +162,125 @@ class ClosetController extends GetxController {
           .collection('clothes')
           .get();
 
-      String? firstWarning;
-      for (final doc in snapshot.docs) {
+      final docs = {for (final doc in snapshot.docs) doc.id: doc};
+      final items = snapshot.docs.map((doc) {
         final data = doc.data();
-        final assetPath = data['assetPath'];
-        final category = data['category'];
-        final itemId = data['itemId'];
-        if (assetPath is! String ||
-            assetPath.isEmpty ||
-            category is! String ||
-            !const {'Tops', 'Pants', 'Skirts', 'Shoes'}.contains(category) ||
-            (itemId is String && backendIds.contains(itemId))) {
-          continue;
-        }
-
-        try {
-          final syncedItemId = await _uploadAssetForTryOn(category, assetPath);
-          backendIds.add(syncedItemId);
-          await doc.reference.set({
-            'itemId': syncedItemId,
-            'updatedAt': FieldValue.serverTimestamp(),
-          }, SetOptions(merge: true));
-        } on AiServiceException catch (error) {
-          firstWarning ??= error.message;
-        } catch (_) {
-          firstWarning ??=
-              'One bundled closet item could not be prepared for Virtual Try-On.';
-        }
-      }
+        return WardrobeRecoveryItem(
+          id: doc.id,
+          category: data['category'] is String
+              ? data['category'] as String
+              : '',
+          itemId: data['itemId'] is String ? data['itemId'] as String : null,
+          assetPath: data['assetPath'] is String
+              ? data['assetPath'] as String
+              : null,
+          imageUrl: data['imageUrl'] is String
+              ? data['imageUrl'] as String
+              : null,
+        );
+      }).toList();
+      final result = await recoverWardrobeLinks(
+        items: items,
+        backendIds: backendIds,
+        onProgress: (current, total) =>
+            syncStatus.value = 'Preparing closet item $current of $total...',
+        upload: (item) async {
+          if (_auth.currentUser?.uid != user.uid) {
+            throw StateError('The signed-in account changed.');
+          }
+          final assetPath = item.assetPath;
+          if (assetPath != null && assetPath.isNotEmpty) {
+            return _uploadAssetForTryOn(item.category, assetPath);
+          }
+          final imageUrl = item.imageUrl!;
+          final ref = _storage.refFromURL(imageUrl);
+          if (ref.bucket != _storage.ref().bucket ||
+              !isOwnedWardrobeStoragePath(user.uid, ref.fullPath)) {
+            throw StateError('The saved image is not in your closet storage.');
+          }
+          final bytes = await _downloadClosetImage(imageUrl);
+          if (_auth.currentUser?.uid != user.uid) {
+            throw StateError('The signed-in account changed.');
+          }
+          final response = await _aiService.uploadWardrobeItem(
+            bytes,
+            ref.name,
+            category: item.category,
+          );
+          return response['itemId'] as String;
+        },
+        saveLink: (item, itemId) async {
+          if (_auth.currentUser?.uid != user.uid) return false;
+          final reference = docs[item.id]!.reference;
+          return _db.runTransaction((transaction) async {
+            final current = await transaction.get(reference);
+            final data = current.data();
+            if (data == null ||
+                data['category'] != item.category ||
+                (data['itemId'] is String ? data['itemId'] : null) !=
+                    item.itemId ||
+                (data['assetPath'] is String ? data['assetPath'] : null) !=
+                    item.assetPath ||
+                (data['imageUrl'] is String ? data['imageUrl'] : null) !=
+                    item.imageUrl) {
+              return false;
+            }
+            transaction.update(reference, {
+              'itemId': itemId,
+              'updatedAt': FieldValue.serverTimestamp(),
+            });
+            return true;
+          });
+        },
+      );
       if (snapshot.docs.isNotEmpty) await fetchClothes();
-      return firstWarning;
+      if (result.failed > 0) {
+        return '${result.failed} closet item(s) could not be prepared for Virtual Try-On. '
+            'Your closet photos are unchanged. Check your connection and refresh to retry.';
+      }
+      return null;
     } on AiServiceException catch (error) {
       return error.message;
     } catch (_) {
-      return 'Bundled closet items could not be checked for Virtual Try-On.';
+      return 'Your closet items could not be checked for Virtual Try-On. Please try again.';
+    } finally {
+      syncStatus.value = '';
+    }
+  }
+
+  /// Firebase download URLs also work for legacy items whose original Storage
+  /// path predates the current per-user rules. Keep the URL private and bound
+  /// both the download time and the maximum size.
+  Future<Uint8List> _downloadClosetImage(String imageUrl) async {
+    final uri = Uri.parse(imageUrl);
+    if (uri.scheme != 'https' || uri.host != 'firebasestorage.googleapis.com') {
+      throw StateError('Unsupported closet image URL.');
+    }
+    const maxBytes = 25 * 1024 * 1024;
+    final client = http.Client();
+    try {
+      final request = http.Request('GET', uri)..followRedirects = false;
+      final response = await client
+          .send(request)
+          .timeout(const Duration(seconds: 45));
+      if (response.statusCode != 200 ||
+          (response.contentLength != null &&
+              response.contentLength! > maxBytes)) {
+        throw StateError('Could not download the saved closet image.');
+      }
+      final output = BytesBuilder(copy: false);
+      await for (final chunk in response.stream.timeout(
+        const Duration(seconds: 45),
+      )) {
+        if (output.length + chunk.length > maxBytes) {
+          throw StateError('The saved closet image is too large.');
+        }
+        output.add(chunk);
+      }
+      if (output.isEmpty) throw StateError('The saved closet image is empty.');
+      return output.takeBytes();
+    } finally {
+      client.close();
     }
   }
 

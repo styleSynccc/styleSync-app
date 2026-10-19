@@ -261,3 +261,97 @@ def test_auth_required_when_not_disabled(tmp_path):
     app = create_app(settings=settings, engine=FakeEngine(), tryon_engine=FakeTryOnEngine())
     with TestClient(app) as client:
         assert post_tryon(client, "twin1", "top1").status_code == 401
+
+
+def test_accessory_only_keeps_full_frame_and_records_item(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="bag", category="Accessories")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["bag"])
+    assert response.status_code == 201, response.text
+    assert engine.garment_categories == ["Accessories"]
+    metadata = response.json()["metadata"]
+    assert metadata["accessoryItemId"] == "bag"
+    assert metadata["personCrop"] == {"left": 0, "top": 0, "right": 768, "bottom": 1024}
+
+
+def test_accessory_runs_after_complete_outfit(tmp_path):
+    seed_twin(tmp_path)
+    for item_id, category in [("bag", "Accessories"), ("shoes", "Shoes"), ("pants", "Pants"), ("top", "Tops")]:
+        seed_item(tmp_path, item_id=item_id, category=category)
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["bag", "shoes", "pants", "top"])
+    assert response.status_code == 201, response.text
+    assert engine.garment_categories == ["Tops", "Pants", "Shoes", "Accessories"]
+    assert response.json()["metadata"]["garmentItemIds"] == ["top", "pants", "shoes", "bag"]
+
+
+def test_multiple_accessories_keep_selection_order_and_accumulate(tmp_path):
+    seed_twin(tmp_path)
+    for item_id in ["bag", "hat"]:
+        seed_item(tmp_path, item_id=item_id, category="Accessories")
+
+    class AccumulatingEngine(FakeTryOnEngine):
+        def apply_garment(self, person, garment, category, replace_mask):
+            # The second generation must receive the first generated image,
+            # rather than starting again with the unmodified twin.
+            assert int(person[500, 500, 0]) == 200 + 10 * len(self.garment_categories)
+            self.garment_categories.append(category)
+            return (person.astype(np.int16) + 10).clip(0, 255).astype(np.uint8)
+
+    engine = AccumulatingEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["hat", "bag"])
+    assert response.status_code == 201, response.text
+    assert engine.garment_categories == ["Accessories", "Accessories"]
+    metadata = response.json()["metadata"]
+    assert metadata["accessoryItemIds"] == ["hat", "bag"]
+    assert metadata["accessoryItemId"] == "hat"  # old readers remain supported
+
+
+def test_five_accessories_combine_with_top_pants_and_shoes(tmp_path):
+    seed_twin(tmp_path)
+    accessories = [f"accessory-{i}" for i in range(5)]
+    for item_id in accessories:
+        seed_item(tmp_path, item_id=item_id, category="Accessories")
+    for item_id, category in [("top", "Tops"), ("pants", "Pants"), ("shoes", "Shoes")]:
+        seed_item(tmp_path, item_id=item_id, category=category)
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", [*accessories, "shoes", "pants", "top"])
+    assert response.status_code == 201, response.text
+    assert engine.garment_categories == ["Tops", "Pants", "Shoes", *(["Accessories"] * 5)]
+    assert response.json()["metadata"]["accessoryItemIds"] == accessories
+
+
+def test_six_accessories_are_rejected_before_generation(tmp_path):
+    seed_twin(tmp_path)
+    accessories = [f"accessory-{i}" for i in range(6)]
+    for item_id in accessories:
+        seed_item(tmp_path, item_id=item_id, category="Accessories")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", accessories)
+    assert response.status_code == 400
+    assert not engine.garment_categories
+
+
+def test_duplicate_accessory_is_rejected_before_generation(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="bag", category="Accessories")
+    engine = FakeTryOnEngine()
+    with make_client(tmp_path, engine) as client:
+        response = post_outfit(client, "twin1", ["bag", "bag"])
+    assert response.status_code == 400
+    assert not engine.garment_categories
+
+
+def test_accessories_use_hosted_engine_and_require_key(tmp_path):
+    seed_twin(tmp_path)
+    seed_item(tmp_path, item_id="bag", category="Accessories")
+    with make_client(tmp_path) as client:
+        response = post_outfit(client, "twin1", ["bag"])
+    assert response.status_code == 503
+    assert "FASHN_API_KEY" in response.json()["message"]

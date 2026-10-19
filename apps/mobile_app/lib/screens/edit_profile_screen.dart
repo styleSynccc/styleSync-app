@@ -94,7 +94,7 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
                   label: Text(
                     _selectedTwinPhoto == null
                         ? 'Replace twin photo'
-                        : 'New twin photo selected',
+                        : 'Choose another photo',
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -102,6 +102,55 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
                   'Only use a clear, full-body photo. Changing it creates a new digital twin.',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
+                if (_selectedTwinPhoto != null) ...[
+                  const SizedBox(height: 16),
+                  const Text(
+                    'New twin photo preview',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    width: double.infinity,
+                    height: 360,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Image.file(
+                      _selectedTwinPhoto!,
+                      key: ValueKey(_selectedTwinPhoto!.path),
+                      fit: BoxFit.contain,
+                      cacheWidth: 900,
+                      semanticLabel: 'Selected new twin photo',
+                      frameBuilder: (context, child, frame, synchronous) =>
+                          synchronous || frame != null
+                          ? child
+                          : const Center(child: CircularProgressIndicator()),
+                      errorBuilder: (context, error, stackTrace) => const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            'Could not preview this photo. Please choose another image.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'This photo will be used when you save your twin changes.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  TextButton.icon(
+                    onPressed: _saving
+                        ? null
+                        : () => setState(() => _selectedTwinPhoto = null),
+                    icon: const Icon(Icons.close),
+                    label: const Text('Keep current twin photo'),
+                  ),
+                ],
                 const SizedBox(height: 24),
                 TextField(
                   controller: _nameController,

@@ -42,13 +42,22 @@ class AiService {
     return {'Authorization': 'Bearer $token'};
   }
 
-  Future<Map<String, dynamic>> _send(http.MultipartRequest request) async {
+  Future<Map<String, dynamic>> _send(
+    http.MultipartRequest request, {
+    Duration timeout = _requestTimeout,
+  }) async {
     try {
-      final streamed = await request.send().timeout(_requestTimeout);
+      final streamed = await request.send().timeout(timeout);
       final response = await http.Response.fromStream(
         streamed,
-      ).timeout(_requestTimeout);
+      ).timeout(timeout);
       return _decode(response);
+    } on TimeoutException {
+      throw AiServiceException(
+        'REQUEST_TIMEOUT',
+        'The request timed out. If you were generating an outfit, it may still '
+            'be processing. Avoid immediately submitting it again.',
+      );
     } on AiServiceException {
       rethrow;
     } catch (e) {
@@ -141,7 +150,22 @@ class AiService {
     return _send(request);
   }
 
-  /// GET /v1/twins - this user's twins, newest first.
+  /// Transfer an inspiration outfit onto a saved twin using hosted Try-On Max.
+  Future<Map<String, dynamic>> createInspoMirror({
+    required String twinId,
+    required Uint8List bytes,
+    required String filename,
+  }) async {
+    final request =
+        http.MultipartRequest('POST', Uri.parse('$baseUrl/v1/inspo'))
+          ..headers.addAll(await _authHeader())
+          ..fields['twinId'] = twinId
+          ..files.add(
+            http.MultipartFile.fromBytes('file', bytes, filename: filename),
+          );
+    return _send(request, timeout: const Duration(minutes: 22));
+  }
+
   Future<List<dynamic>> listTwins() async {
     final body = await _get('/v1/twins');
     return body['twins'] as List<dynamic>;
@@ -174,7 +198,7 @@ class AiService {
     return body['items'] as List<dynamic>;
   }
 
-  /// POST /v1/tryon - combine a twin with a top, pants, shoes, or any mix.
+  /// Combine a twin with clothing, shoes, and an optional accessory.
   Future<Map<String, dynamic>> tryOn({
     required String twinId,
     required List<String> garmentItemIds,

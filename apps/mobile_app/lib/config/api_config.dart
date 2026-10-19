@@ -19,5 +19,5 @@
 ///   flutter run --dart-define=AI_SERVICE_BASE_URL=http://192.168.1.23:8000
 const String aiServiceBaseUrl = String.fromEnvironment(
   'AI_SERVICE_BASE_URL',
-  defaultValue: 'http://10.100.131.156:8000',
+  defaultValue: 'http://10.101.72.146:8000',
 );

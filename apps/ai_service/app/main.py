@@ -24,6 +24,7 @@ from .storage import (
 )
 from .tryon import TryOnEngine, create_tryon
 from .wardrobe import create_wardrobe_item
+from .inspo import create_inspo
 
 
 class TryOnRequest(BaseModel):
@@ -72,6 +73,7 @@ def create_app(
     tryon_engine: TryOnEngine | None = None,
     result_store: ResultStore | None = None,
     load_hijab_model: bool = False,
+    inspo_engine=None,
 ) -> FastAPI:
     settings = settings or get_settings()
 
@@ -96,6 +98,10 @@ def create_app(
     app.state.wardrobe_store = wardrobe_store or LocalWardrobeStore(settings.data_dir)
     app.state.tryon_engine = tryon_engine or build_tryon_engine(settings)
     app.state.result_store = result_store or LocalResultStore(settings.data_dir)
+    app.state.inspo_engine = inspo_engine or FashnApiTryOnEngine(
+        settings.fashn_api_key, settings.fashn_api_url,
+        settings.tryon_worker_timeout_seconds,
+    )
 
     if settings.cors_allow_all:
         app.add_middleware(
@@ -216,6 +222,23 @@ def create_app(
             wardrobe_store=request.app.state.wardrobe_store,
             tryon_engine=request.app.state.tryon_engine,
             result_store=request.app.state.result_store,
+            settings=settings,
+        )
+        return result.to_response()
+
+    @app.post("/v1/inspo", status_code=201)
+    async def post_inspo(
+        request: Request,
+        file: UploadFile = File(...),
+        twinId: str = Form(...),
+        uid: str = Depends(current_uid),
+    ):
+        raw = await read_limited(file, settings.max_upload_bytes)
+        result = await run_in_threadpool(
+            create_inspo, uid, twinId, raw,
+            twin_store=request.app.state.store,
+            result_store=request.app.state.result_store,
+            inspo_engine=request.app.state.inspo_engine,
             settings=settings,
         )
         return result.to_response()

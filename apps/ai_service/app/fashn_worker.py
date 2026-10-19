@@ -33,10 +33,10 @@ class FashnWorkerTryOnEngine:
         category: str,
         replace_mask: np.ndarray,
     ) -> np.ndarray:
-        if category == "Shoes":
+        if category in {"Shoes", "Accessories"}:
             if self.shoe_engine is None:
                 raise TryOnUnavailableError(
-                    "Shoe try-on needs the hosted FASHN Try-On Max engine."
+                    "Shoes and Accessories need the hosted FASHN Try-On Max engine."
                 )
             return self.shoe_engine.apply_garment(
                 person_bgr,
@@ -48,7 +48,7 @@ class FashnWorkerTryOnEngine:
         model_category = self._CATEGORY_MAP.get(category)
         if model_category is None:
             raise TryOnUnavailableError(
-                "FASHN VTON currently supports Tops, Pants, Skirts, and configured Shoes only."
+                "FASHN VTON supports Tops, Pants, Skirts, and configured Shoes and Accessories."
             )
 
         files = {

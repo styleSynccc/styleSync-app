@@ -1,8 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:math' as math;
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +7,7 @@ import 'package:get/get.dart';
 import '../services/ai_service.dart';
 import '../services/closet_controller.dart';
 import '../services/liked_outfits_service.dart';
+import '../widgets/generation_progress.dart';
 import 'edit_profile_screen.dart';
 
 class VirtualTryOnScreen extends StatefulWidget {
@@ -37,20 +35,20 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   List<_TryOnChoice> _tops = const [];
   List<_TryOnChoice> _bottoms = const [];
   List<_TryOnChoice> _shoes = const [];
+  List<_TryOnChoice> _accessories = const [];
   String? _selectedTwinId;
   String? _selectedTopId;
   String? _selectedBottomId;
   String? _selectedShoesId;
+  final Set<String> _selectedAccessoryIds = {};
+  static const _maxAccessories = 5;
   Uint8List? _resultImage;
   String? _error;
   bool _loading = true;
   bool _generating = false;
   int _refreshCount = 0;
   final ScrollController _scrollController = ScrollController();
-  // Snapshot of the selection being generated, so the loading animation
-  // doesn't change if the user taps other items mid-generation.
-  Uint8List? _pendingTwinImage;
-  List<_TryOnChoice> _pendingGarments = const [];
+  final Stopwatch _generationStopwatch = Stopwatch();
 
   @override
   void initState() {
@@ -61,6 +59,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
 
   @override
   void dispose() {
+    _generationStopwatch.stop();
     _closetWorker?.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -73,9 +72,13 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       _tops = _tops.where((item) => ids.contains(item.id)).toList();
       _bottoms = _bottoms.where((item) => ids.contains(item.id)).toList();
       _shoes = _shoes.where((item) => ids.contains(item.id)).toList();
+      _accessories = _accessories
+          .where((item) => ids.contains(item.id))
+          .toList();
       if (!ids.contains(_selectedTopId)) _selectedTopId = null;
       if (!ids.contains(_selectedBottomId)) _selectedBottomId = null;
       if (!ids.contains(_selectedShoesId)) _selectedShoesId = null;
+      _selectedAccessoryIds.removeWhere((id) => !ids.contains(id));
     });
   }
 
@@ -90,14 +93,16 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
         _selectedTopId = null;
         _selectedBottomId = null;
         _selectedShoesId = null;
+        _selectedAccessoryIds.clear();
         _twins = const [];
         _tops = const [];
         _bottoms = const [];
         _shoes = const [];
+        _accessories = const [];
       }
     });
     try {
-      final assetSyncWarning = await _closet.syncAssetItemsForTryOn();
+      final assetSyncWarning = await _closet.syncWardrobeItemsForTryOn();
       await _closet.fetchClothes();
       final responses = await Future.wait<List<dynamic>>([
         _aiService.listTwins(),
@@ -123,7 +128,8 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                 item.category == 'Tops' ||
                 item.category == 'Pants' ||
                 item.category == 'Skirts' ||
-                item.category == 'Shoes',
+                item.category == 'Shoes' ||
+                item.category == 'Accessories',
           )
           .toList();
       if (!mounted) return;
@@ -136,6 +142,9 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
             )
             .toList();
         _shoes = garments.where((item) => item.category == 'Shoes').toList();
+        _accessories = garments
+            .where((item) => item.category == 'Accessories')
+            .toList();
         _selectedTwinId = newOutfit || twins.isEmpty ? null : twins.first.id;
         _selectedTopId = newOutfit || _tops.isEmpty ? null : _tops.first.id;
         _selectedBottomId = newOutfit || _bottoms.isEmpty
@@ -144,6 +153,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
         // Shoe generation uses paid hosted credits, so never select it
         // automatically when the screen opens or refreshes.
         _selectedShoesId = null;
+        _selectedAccessoryIds.clear();
         _error = assetSyncWarning;
         _loading = false;
       });
@@ -164,22 +174,24 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
 
   Future<void> _generate() async {
     final twinId = _selectedTwinId;
-    final garmentIds = [?_selectedTopId, ?_selectedBottomId, ?_selectedShoesId];
+    final garmentIds = [
+      ?_selectedTopId,
+      ?_selectedBottomId,
+      ?_selectedShoesId,
+      ..._selectedAccessoryIds,
+    ];
     if (twinId == null || garmentIds.isEmpty || _generating) return;
 
+    _generationStopwatch
+      ..reset()
+      ..start();
     setState(() {
       _generating = true;
       _error = null;
       _resultImage = null;
-      _pendingTwinImage = _findChoice(_twins, twinId)?.image;
-      _pendingGarments = [
-        ?_findChoice(_tops, _selectedTopId),
-        ?_findChoice(_bottoms, _selectedBottomId),
-        ?_findChoice(_shoes, _selectedShoesId),
-      ];
     });
     // The generate button sits below the pickers; bring the animated
-    // result card into view.
+    // loading indicator into view.
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         0,
@@ -202,15 +214,9 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       if (!mounted) return;
       setState(() => _error = 'The try-on result could not be displayed.');
     } finally {
+      _generationStopwatch.stop();
       if (mounted) setState(() => _generating = false);
     }
-  }
-
-  _TryOnChoice? _findChoice(List<_TryOnChoice> choices, String? id) {
-    for (final choice in choices) {
-      if (choice.id == id) return choice;
-    }
-    return null;
   }
 
   Future<void> _openTwinSetup() async {
@@ -244,7 +250,20 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
         ],
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Obx(
+                () => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    if (_closet.syncStatus.value.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      Text(_closet.syncStatus.value),
+                    ],
+                  ],
+                ),
+              ),
+            )
           : ListView(
               key: ValueKey(_refreshCount),
               controller: _scrollController,
@@ -314,6 +333,34 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                     noneLabel: 'No shoes',
                     onSelected: (id) => setState(() => _selectedShoesId = id),
                   ),
+                const SizedBox(height: 24),
+                _sectionTitle('5. Choose Accessories'),
+                const SizedBox(height: 10),
+                if (_accessories.isEmpty)
+                  _emptyCard(
+                    'Add a clear accessory photo to the Accessories category in your closet. Hats, bags, glasses, and jewelry can be tried on.',
+                    actionLabel: 'Back to closet',
+                    onAction: Get.back,
+                  )
+                else
+                  _garmentChoiceStrip(
+                    _accessories,
+                    null,
+                    selectedIds: _selectedAccessoryIds,
+                    noneLabel: 'No accessories',
+                    onSelected: _toggleAccessory,
+                  ),
+                const SizedBox(height: 8),
+                Text(
+                  'Select up to $_maxAccessories accessories. Tap a selected item to remove it. '
+                  '${_selectedAccessoryIds.length} selected · ${_selectedAccessoryIds.length * 2} accessory credits at Balanced 1K.',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                if (_selectedAccessoryIds.isNotEmpty)
+                  const Text(
+                    'Choose different accessory types, such as a hat, bag and necklace. Items worn in the same place may replace each other.',
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
                 if (_error != null) ...[
                   const SizedBox(height: 18),
                   Container(
@@ -336,20 +383,14 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                         _selectedTwinId == null ||
                             (_selectedTopId == null &&
                                 _selectedBottomId == null &&
-                                _selectedShoesId == null) ||
+                                _selectedShoesId == null &&
+                                _selectedAccessoryIds.isEmpty) ||
                             _generating
                         ? null
                         : _generate,
                     icon: _generating
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Icon(Icons.auto_awesome),
+                        ? null
+                        : const Icon(Icons.checkroom_outlined),
                     label: Text(
                       _generating
                           ? 'Creating your try-on…'
@@ -367,7 +408,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Tops, Pants, and Skirts run with local FASHN VTON. Shoes need FASHN Try-On Max API credits. Save results you want to keep in My Outfits.',
+                  'Tops, Pants, and Skirts run locally. Shoes and accessories use API credits. Save your favorite results in My Outfits.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
@@ -385,51 +426,38 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
           color: Colors.grey.shade100,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 450),
-          layoutBuilder: (current, previous) => Stack(
-            fit: StackFit.expand,
-            children: [...previous, ?current],
-          ),
-          child: _resultImage != null
-              ? Stack(
-                  key: const ValueKey('result'),
-                  fit: StackFit.expand,
-                  children: [
-                    Image.memory(_resultImage!, fit: BoxFit.contain),
-                    Positioned(
-                      right: 12,
-                      bottom: 12,
-                      child: FilledButton.icon(
-                        onPressed: _saveResult,
-                        icon: const Icon(Icons.bookmark_add_outlined),
-                        label: const Text('Save Outfit'),
-                      ),
+        child: _generating
+            ? Center(child: GenerationProgress(stopwatch: _generationStopwatch))
+            : _resultImage != null
+            ? Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.memory(_resultImage!, fit: BoxFit.contain),
+                  Positioned(
+                    right: 12,
+                    bottom: 12,
+                    child: FilledButton.icon(
+                      onPressed: _saveResult,
+                      icon: const Icon(Icons.bookmark_add_outlined),
+                      label: const Text('Save Outfit'),
                     ),
-                  ],
-                )
-              : _generating
-              ? _TryOnGeneratingView(
-                  key: const ValueKey('generating'),
-                  twinImage: _pendingTwinImage,
-                  garments: _pendingGarments,
-                )
-              : Column(
-                  key: const ValueKey('placeholder'),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.checkroom, size: 72, color: Colors.grey.shade500),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Your result will appear here',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.checkroom, size: 72, color: Colors.grey.shade500),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Your result will appear here',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
-        ),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -513,9 +541,30 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
     );
   }
 
+  void _toggleAccessory(String? id) {
+    if (_generating) return;
+    if (id != null &&
+        !_selectedAccessoryIds.contains(id) &&
+        _selectedAccessoryIds.length >= _maxAccessories) {
+      Get.snackbar(
+        'Accessory limit',
+        'Choose up to $_maxAccessories accessories per outfit.',
+      );
+      return;
+    }
+    setState(() {
+      if (id == null) {
+        _selectedAccessoryIds.clear();
+      } else if (!_selectedAccessoryIds.remove(id)) {
+        _selectedAccessoryIds.add(id);
+      }
+    });
+  }
+
   Widget _garmentChoiceStrip(
     List<_TryOnChoice> choices,
     String? selectedId, {
+    Set<String>? selectedIds,
     required String noneLabel,
     required ValueChanged<String?> onSelected,
   }) {
@@ -527,13 +576,13 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
         separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           if (index == 0) {
-            final selected = selectedId == null;
+            final selected = selectedIds?.isEmpty ?? (selectedId == null);
             return Semantics(
               button: true,
               selected: selected,
               label: noneLabel,
               child: InkWell(
-                onTap: () => onSelected(null),
+                onTap: _generating ? null : () => onSelected(null),
                 borderRadius: BorderRadius.circular(16),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 180),
@@ -563,13 +612,22 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
           }
 
           final choice = choices[index - 1];
-          final selected = choice.id == selectedId;
+          final selected =
+              selectedIds?.contains(choice.id) ?? (choice.id == selectedId);
           return Semantics(
             button: true,
             selected: selected,
             label: choice.label,
             child: InkWell(
-              onTap: () => onSelected(selected ? null : choice.id),
+              onTap: _generating
+                  ? null
+                  : () => onSelected(
+                      selectedIds != null
+                          ? choice.id
+                          : selected
+                          ? null
+                          : choice.id,
+                    ),
               borderRadius: BorderRadius.circular(16),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
@@ -638,302 +696,6 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
           onPressed: onAction,
           style: TextButton.styleFrom(foregroundColor: Colors.black),
           child: Text(actionLabel),
-        ),
-      ],
-    ),
-  );
-}
-
-/// Animated placeholder shown in the result card while the AI generates a
-/// try-on: the blurred twin gets "scanned", the chosen garments float above
-/// it, sparkles twinkle, and a status line walks through the steps.
-class _TryOnGeneratingView extends StatefulWidget {
-  const _TryOnGeneratingView({
-    super.key,
-    required this.twinImage,
-    required this.garments,
-  });
-
-  final Uint8List? twinImage;
-  final List<_TryOnChoice> garments;
-
-  @override
-  State<_TryOnGeneratingView> createState() => _TryOnGeneratingViewState();
-}
-
-class _TryOnGeneratingViewState extends State<_TryOnGeneratingView>
-    with TickerProviderStateMixin {
-  static const _accent = Color(0xFF7C4DFF);
-  static const _secondsPerMessage = 4;
-  static const _patienceMessages = [
-    'Almost there…',
-    'Perfecting the details…',
-    'Good looks take a moment…',
-  ];
-  static const _sparkleSpots = [
-    Alignment(-0.75, -0.3),
-    Alignment(0.72, -0.12),
-    Alignment(-0.62, 0.32),
-    Alignment(0.8, 0.42),
-    Alignment(0.15, -0.55),
-    Alignment(-0.1, 0.15),
-  ];
-
-  late final AnimationController _scan = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 2400),
-  )..repeat(reverse: true);
-  late final AnimationController _float = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 3),
-  )..repeat();
-  late final Timer _ticker;
-  int _elapsedSeconds = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) setState(() => _elapsedSeconds++);
-    });
-  }
-
-  @override
-  void dispose() {
-    _ticker.cancel();
-    _scan.dispose();
-    _float.dispose();
-    super.dispose();
-  }
-
-  List<String> get _steps => [
-    'Analyzing your digital twin…',
-    'Mapping your pose and body shape…',
-    for (final garment in widget.garments) _fittingMessage(garment),
-    'Matching fabric, folds and lighting…',
-    'Adding the finishing touches…',
-  ];
-
-  static String _fittingMessage(_TryOnChoice garment) =>
-      switch (garment.category) {
-        'Tops' => 'Fitting your top…',
-        'Pants' => 'Tailoring your pants…',
-        'Skirts' => 'Draping your skirt…',
-        'Shoes' => 'Lacing up your shoes…',
-        _ => 'Fitting your ${garment.label.toLowerCase()}…',
-      };
-
-  String get _message {
-    final steps = _steps;
-    final index = _elapsedSeconds ~/ _secondsPerMessage;
-    if (index < steps.length) return steps[index];
-    // Generation is running long: cycle reassuring messages instead of
-    // restarting the step list.
-    return _patienceMessages[(index - steps.length) %
-        _patienceMessages.length];
-  }
-
-  String get _elapsedLabel {
-    final minutes = _elapsedSeconds ~/ 60;
-    final seconds = _elapsedSeconds % 60;
-    return minutes == 0
-        ? '${seconds}s'
-        : '$minutes:${seconds.toString().padLeft(2, '0')}';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        if (widget.twinImage != null)
-          ImageFiltered(
-            imageFilter: ui.ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-            child: Opacity(
-              opacity: 0.45,
-              child: Image.memory(widget.twinImage!, fit: BoxFit.contain),
-            ),
-          ),
-        _scanLine(),
-        _sparkles(),
-        if (widget.garments.isNotEmpty)
-          Positioned(top: 18, left: 0, right: 0, child: _floatingGarments()),
-        Positioned(left: 14, right: 14, bottom: 14, child: _statusCard()),
-      ],
-    );
-  }
-
-  Widget _scanLine() => AnimatedBuilder(
-    animation: _scan,
-    builder: (context, _) => Align(
-      alignment: Alignment(0, -1 + 2 * Curves.easeInOut.transform(_scan.value)),
-      child: Container(
-        height: 80,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              _accent.withValues(alpha: 0),
-              _accent.withValues(alpha: 0.18),
-              _accent.withValues(alpha: 0),
-            ],
-          ),
-        ),
-        child: Container(
-          height: 2,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Colors.transparent, _accent, Colors.transparent],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: _accent.withValues(alpha: 0.6),
-                blurRadius: 12,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-
-  Widget _sparkles() => AnimatedBuilder(
-    animation: _float,
-    builder: (context, _) => Stack(
-      fit: StackFit.expand,
-      children: [
-        for (var i = 0; i < _sparkleSpots.length; i++)
-          Align(
-            alignment: _sparkleSpots[i],
-            child: _sparkle(
-              phase: (_float.value + i / _sparkleSpots.length) % 1,
-              size: 14.0 + (i % 3) * 6,
-            ),
-          ),
-      ],
-    ),
-  );
-
-  Widget _sparkle({required double phase, required double size}) {
-    final twinkle = math.sin(phase * math.pi);
-    return Opacity(
-      opacity: twinkle,
-      child: Transform.rotate(
-        angle: phase * math.pi / 2,
-        child: Transform.scale(
-          scale: 0.5 + 0.6 * twinkle,
-          child: Icon(Icons.auto_awesome, size: size, color: _accent),
-        ),
-      ),
-    );
-  }
-
-  Widget _floatingGarments() => AnimatedBuilder(
-    animation: _float,
-    builder: (context, _) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var i = 0; i < widget.garments.length; i++)
-          Transform.translate(
-            offset: Offset(
-              0,
-              math.sin(
-                    (_float.value + i / widget.garments.length) * 2 * math.pi,
-                  ) *
-                  6,
-            ),
-            child: Container(
-              width: 56,
-              height: 56,
-              margin: const EdgeInsets.symmetric(horizontal: 6),
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: _accent.withValues(alpha: 0.25),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipOval(
-                child: Image.memory(
-                  widget.garments[i].image,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-      ],
-    ),
-  );
-
-  Widget _statusCard() => Container(
-    padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-    decoration: BoxDecoration(
-      color: Colors.white.withValues(alpha: 0.94),
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.08),
-          blurRadius: 16,
-          offset: const Offset(0, 4),
-        ),
-      ],
-    ),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            const Icon(Icons.auto_awesome, size: 18, color: _accent),
-            const SizedBox(width: 8),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 400),
-                layoutBuilder: (current, previous) => Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [...previous, ?current],
-                ),
-                transitionBuilder: (child, animation) => FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween(
-                      begin: const Offset(0, 0.4),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                ),
-                child: Text(
-                  _message,
-                  key: ValueKey(_message),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              _elapsedLabel,
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            minHeight: 4,
-            color: _accent,
-            backgroundColor: _accent.withValues(alpha: 0.12),
-          ),
         ),
       ],
     ),

@@ -62,8 +62,10 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
                                     childAspectRatio: .63,
                                   ),
                               itemCount: outfits.length,
-                              itemBuilder: (_, index) =>
-                                  _outfitTile(outfits[index]),
+                              itemBuilder: (_, index) => _outfitTile(
+                                outfits[index],
+                                onTap: () => _details(outfits, index),
+                              ),
                             ),
                     ),
                   ],
@@ -112,7 +114,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
           const SizedBox(height: 16),
           Text(
             noOutfitsAtAll
-                ? 'No saved outfits yet. Generate a Virtual Try-On, then tap Save Outfit to keep it here.'
+                ? 'No saved outfits yet. Generate a Virtual Try-On or AI Inspo Mirror look, then tap Save Outfit to keep it here.'
                 : 'No outfits match this filter.',
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.grey),
@@ -122,7 +124,10 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
     ),
   );
 
-  Widget _outfitTile(QueryDocumentSnapshot<Map<String, dynamic>> document) {
+  Widget _outfitTile(
+    QueryDocumentSnapshot<Map<String, dynamic>> document, {
+    required VoidCallback onTap,
+  }) {
     final data = document.data();
     final source = data['source'] == OutfitSource.inspoMirror
         ? 'AI Inspo Mirror'
@@ -130,7 +135,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
     final createdAt = data['createdAt'] as Timestamp?;
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () => _details(document),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -179,60 +184,228 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  void _details(QueryDocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data();
-    final source = data['source'] == OutfitSource.inspoMirror
-        ? 'AI Inspo Mirror'
-        : 'VTON';
-    Get.dialog(
-      Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  data['imageUrl']?.toString() ?? '',
-                  width: double.infinity,
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, _, _) => const SizedBox(
-                    height: 180,
-                    child: Center(child: Icon(Icons.broken_image_outlined)),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                data['title']?.toString().trim().isNotEmpty == true
-                    ? data['title'].toString()
-                    : '$source Outfit',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text('${_date(data['createdAt'] as Timestamp?)} · $source'),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: () => _confirmDelete(document.reference, data),
-                  icon: const Icon(Icons.delete_outline, color: Colors.red),
-                  label: const Text(
-                    'Delete',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+  Future<void> _details(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents,
+    int initialIndex,
+  ) async {
+    final pages = PageController(initialPage: initialIndex);
+    final zoomControllers = List.generate(
+      documents.length,
+      (_) => TransformationController(),
     );
+    var currentIndex = initialIndex;
+    var zoomed = false;
+    try {
+      await Get.dialog(
+        StatefulBuilder(
+          builder: (context, update) {
+            final document = documents[currentIndex];
+            final data = document.data();
+            final source = data['source'] == OutfitSource.inspoMirror
+                ? 'AI Inspo Mirror'
+                : 'VTON';
+            return Dialog.fullscreen(
+              backgroundColor: Colors.black,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            tooltip: 'Close photo',
+                            onPressed: Get.back,
+                            icon: const Icon(Icons.close, color: Colors.white),
+                          ),
+                          Expanded(
+                            child: Text(
+                              data['title']?.toString().trim().isNotEmpty ==
+                                      true
+                                  ? data['title'].toString()
+                                  : '$source Outfit',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Delete outfit',
+                            onPressed: () =>
+                                _confirmDelete(document.reference, data),
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: PageView.builder(
+                        controller: pages,
+                        itemCount: documents.length,
+                        physics: zoomed
+                            ? const NeverScrollableScrollPhysics()
+                            : null,
+                        onPageChanged: (index) {
+                          zoomControllers[currentIndex].value =
+                              Matrix4.identity();
+                          zoomControllers[index].value = Matrix4.identity();
+                          update(() {
+                            currentIndex = index;
+                            zoomed = false;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          final photo = documents[index].data();
+                          return InteractiveViewer(
+                            key: ValueKey(documents[index].id),
+                            transformationController: zoomControllers[index],
+                            minScale: 1,
+                            maxScale: 5,
+                            panEnabled: zoomed && index == currentIndex,
+                            onInteractionUpdate: (_) {
+                              final isZoomed =
+                                  zoomControllers[index].value
+                                      .getMaxScaleOnAxis() >
+                                  1.01;
+                              if (index == currentIndex && zoomed != isZoomed) {
+                                update(() => zoomed = isZoomed);
+                              }
+                            },
+                            child: SizedBox.expand(
+                              child: Image.network(
+                                photo['imageUrl']?.toString() ?? '',
+                                fit: BoxFit.contain,
+                                semanticLabel:
+                                    'Outfit photo ${index + 1} of ${documents.length}',
+                                loadingBuilder: (_, child, loading) =>
+                                    loading == null
+                                    ? child
+                                    : const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                errorBuilder: (_, _, _) => const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(24),
+                                    child: Text(
+                                      'Could not load this outfit photo. Check your connection and open it again.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                      child: Column(
+                        children: [
+                          Text(
+                            '${_date(data['createdAt'] as Timestamp?)} · $source',
+                            style: const TextStyle(color: Colors.white70),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                tooltip: 'Previous outfit',
+                                onPressed: zoomed || currentIndex == 0
+                                    ? null
+                                    : () => pages.previousPage(
+                                        duration: const Duration(
+                                          milliseconds: 250,
+                                        ),
+                                        curve: Curves.easeOut,
+                                      ),
+                                color: Colors.white,
+                                disabledColor: Colors.white24,
+                                icon: const Icon(Icons.chevron_left),
+                              ),
+                              Text(
+                                '${currentIndex + 1} / ${documents.length}',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              IconButton(
+                                tooltip: 'Next outfit',
+                                onPressed:
+                                    zoomed ||
+                                        currentIndex == documents.length - 1
+                                    ? null
+                                    : () => pages.nextPage(
+                                        duration: const Duration(
+                                          milliseconds: 250,
+                                        ),
+                                        curve: Curves.easeOut,
+                                      ),
+                                color: Colors.white,
+                                disabledColor: Colors.white24,
+                                icon: const Icon(Icons.chevron_right),
+                              ),
+                            ],
+                          ),
+                          if (zoomed)
+                            TextButton.icon(
+                              onPressed: () {
+                                zoomControllers[currentIndex].value =
+                                    Matrix4.identity();
+                                update(() => zoomed = false);
+                              },
+                              icon: const Icon(
+                                Icons.zoom_out_map,
+                                color: Colors.white,
+                              ),
+                              label: const Text(
+                                'Reset zoom to browse outfits',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          else if (documents.length > 1)
+                            const Text(
+                              'Swipe left or right to browse outfits',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            ),
+                          const SizedBox(height: 6),
+                          const Text(
+                            'Pinch to zoom · Drag to explore',
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    } finally {
+      pages.dispose();
+      for (final controller in zoomControllers) {
+        controller.dispose();
+      }
+    }
   }
 
   void _confirmDelete(
