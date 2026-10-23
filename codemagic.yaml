@@ -1,0 +1,83 @@
+# ============================================
+# WORKFLOW 1: Auto Test (PR to develop)
+# ============================================
+workflows:
+  test-workflow:
+    name: Auto Test
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    
+    environment:
+      flutter: 3.16.0
+    
+    triggering:
+      events:
+        - pull_request
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: true
+    
+    scripts:
+      - name: Get packages
+        script: |
+          cd apps/mobile_app
+          flutter pub get
+      
+      - name: Run unit tests
+        script: |
+          cd apps/mobile_app
+          flutter test
+      
+      - name: Run integration tests
+        script: |
+          cd apps/mobile_app
+          flutter test integration_test/
+    
+    artifacts:
+      - apps/mobile_app/build/test-results/**/*.xml
+
+  # ============================================
+  # WORKFLOW 2: Build APK (Merge to main)
+  # ============================================
+  android-build:
+    name: Build APK (Release)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    
+    environment:
+      flutter: 3.16.0
+    
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+    
+    scripts:
+      - name: Get packages
+        script: |
+          cd apps/mobile_app
+          flutter pub get
+      
+      - name: Run all tests
+        script: |
+          cd apps/mobile_app
+          flutter test
+      
+      - name: Build APK (Release)
+        script: |
+          cd apps/mobile_app
+          flutter build apk --release
+    
+    artifacts:
+      - apps/mobile_app/build/app/outputs/apk/release/app-release.apk
+    
+    # Firebase publishing - SKIP FOR NOW (comment out)
+    # publishing:
+    #   firebase:
+    #     android:
+    #       app_id: "YOUR_ANDROID_APP_ID"
+    #       groups:
+    #         - "QA Team"
