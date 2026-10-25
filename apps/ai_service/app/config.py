@@ -3,6 +3,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 PIPELINE_VERSION = "twin-0.6.0"
+MAX_TRYON_RESOLUTION = "1k"
+MAX_TRYON_MODE = "quality"
+MAX_TRYON_CREDITS = 3  # Per single-image provider request, not per full outfit.
 
 # Fixed vocab for wardrobe items (see app/wardrobe.py). Must match the
 # mobile_app UI's closet categories (home_screen.dart's _categoryOrder)
@@ -43,10 +46,9 @@ class Settings:
     # verification uses Firebase's public signing certificates, so local
     # development does not need a service-account JSON file.
     firebase_project_id: str = "stylesync-app-3d7c1"
-    # Local FASHN VTON is the only clothing engine.
+    # The local worker remains available for closet garment extraction.
     fashn_worker_url: str = "http://127.0.0.1:8002"
-    # FASHN VTON v1.5 does not support footwear or accessories. These use
-    # FASHN's hosted Try-On Max endpoint when this server-side key is set.
+    # VTON and Inspo Mirror use hosted Try-On Max Quality 1K for every item.
     # Never place this key in the Flutter app.
     fashn_api_key: str = ""
     fashn_api_url: str = "https://api.fashn.ai/v1"

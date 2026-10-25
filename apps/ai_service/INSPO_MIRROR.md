@@ -3,7 +3,23 @@
 The `/inspo` Flutter screen uploads an inspiration photo and the ID of a saved
 twin to the authenticated `POST /v1/inspo` endpoint. The API loads the twin from
 the signed-in user's namespace and requests a single Try-On Max generation at
-Balanced 1K (currently 2 FASHN credits per successful output).
+Quality 1K (currently 3 FASHN credits per generated output).
+
+VTON uses the same hosted Quality 1K engine for tops, pants, skirts, shoes,
+and accessories, in that order. Each selected item is a separate 3-credit
+generation: top + pants = 6 credits, plus shoes = 9, plus 3 per accessory.
+The local worker remains in use for closet garment extraction, not generation.
+
+Both pages show a cost confirmation before submission. Requests must include
+`confirmedCredits` matching the server's quote (`3` for Inspo; `3 * item count`
+for VTON). Old clients without confirmation are rejected before paid calls.
+There are no automatic paid retries. A partial multi-item failure can still
+consume credits for earlier provider requests; it is not an atomic transaction.
+
+Provider output dimensions are kept through subsequent VTON passes and saved
+results. Intermediate provider outputs use lossless PNG, with high-quality JPEG
+input fallback if a PNG exceeds the provider's 30 MiB input limit. Final images
+use 98-quality JPEG at their original generated dimensions, not 768x1024.
 
 The source photo goes directly to FASHN as the outfit reference. It is not added
 to the closet or processed through local garment extraction. The reference is
@@ -51,8 +67,8 @@ An environment variable set in a new terminal does not update an already-running
 server. For an optional USB connection, retain the reverse tunnel
 (`adb reverse tcp:8000 tcp:8000`) and build with
 `--dart-define=AI_SERVICE_BASE_URL=http://127.0.0.1:8000`.
-The local FASHN worker is not used for Inspo Mirror, but is still needed by the
-existing local VTON and clothing-upload features.
+The local FASHN worker is not used for Inspo Mirror or VTON generation, but is
+still needed by clothing-upload garment extraction.
 
 ## Validation and limitations
 

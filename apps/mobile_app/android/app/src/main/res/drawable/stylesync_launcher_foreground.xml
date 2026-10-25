@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The symbol is centered at (244,219.5) within the 500px white canvas.
+         Render the 108dp adaptive layer at 80% size, then offset its artwork
+         to center. The matching white background keeps the padding seamless. -->
+    <item
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:left="11.8dp"
+        android:right="9.8dp"
+        android:top="16.1dp"
+        android:bottom="5.5dp" />
+</layer-list>

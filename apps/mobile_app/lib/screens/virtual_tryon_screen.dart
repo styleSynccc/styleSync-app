@@ -8,6 +8,8 @@ import '../services/ai_service.dart';
 import '../services/closet_controller.dart';
 import '../services/liked_outfits_service.dart';
 import '../widgets/generation_progress.dart';
+import '../widgets/generation_confirmation.dart';
+import '../config/generation_config.dart';
 import 'edit_profile_screen.dart';
 
 class VirtualTryOnScreen extends StatefulWidget {
@@ -46,6 +48,12 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   String? _error;
   bool _loading = true;
   bool _generating = false;
+  bool _confirmingGeneration = false;
+  int get _selectedItemCount =>
+      (_selectedTopId == null ? 0 : 1) +
+      (_selectedBottomId == null ? 0 : 1) +
+      (_selectedShoesId == null ? 0 : 1) +
+      _selectedAccessoryIds.length;
   int _refreshCount = 0;
   final ScrollController _scrollController = ScrollController();
   final Stopwatch _generationStopwatch = Stopwatch();
@@ -102,19 +110,20 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       }
     });
     try {
+      // Check connectivity before starting potentially lengthy closet repairs.
+      // If the phone cannot reach the API, show one bounded error rather than
+      // waiting through recovery and then making the same failed request again.
+      final twinResponse = await _aiService.listTwins();
       final assetSyncWarning = await _closet.syncWardrobeItemsForTryOn();
       await _closet.fetchClothes();
-      final responses = await Future.wait<List<dynamic>>([
-        _aiService.listTwins(),
-        _aiService.listWardrobe(),
-      ]);
-      final twins = responses[0]
+      final wardrobeResponse = await _aiService.listWardrobe();
+      final twins = twinResponse
           .map((value) => _TryOnChoice.fromTwin(value as Map<String, dynamic>))
           .toList();
       // Firestore closet membership is authoritative: the AI wardrobe can
       // still contain processed copies of items deleted from the closet.
       final closetItemIds = _closetItemIds;
-      final garments = responses[1]
+      final garments = wardrobeResponse
           .where(
             (value) => closetItemIds.contains(
               (value as Map<String, dynamic>)['itemId'],
@@ -150,8 +159,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
         _selectedBottomId = newOutfit || _bottoms.isEmpty
             ? null
             : _bottoms.first.id;
-        // Shoe generation uses paid hosted credits, so never select it
-        // automatically when the screen opens or refreshes.
+        // Additional paid items must never be selected automatically.
         _selectedShoesId = null;
         _selectedAccessoryIds.clear();
         _error = assetSyncWarning;
@@ -180,7 +188,23 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       ?_selectedShoesId,
       ..._selectedAccessoryIds,
     ];
-    if (twinId == null || garmentIds.isEmpty || _generating) return;
+    if (twinId == null ||
+        garmentIds.isEmpty ||
+        _generating ||
+        _confirmingGeneration) {
+      return;
+    }
+    _confirmingGeneration = true;
+    bool confirmed;
+    try {
+      confirmed = await confirmMaxQualityGeneration(
+        context,
+        itemCount: garmentIds.length,
+      );
+    } finally {
+      _confirmingGeneration = false;
+    }
+    if (!confirmed || !mounted) return;
 
     _generationStopwatch
       ..reset()
@@ -353,7 +377,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Select up to $_maxAccessories accessories. Tap a selected item to remove it. '
-                  '${_selectedAccessoryIds.length} selected · ${_selectedAccessoryIds.length * 2} accessory credits at Balanced 1K.',
+                  '${_selectedAccessoryIds.length} selected · ${maxQualityCreditCost(_selectedAccessoryIds.length)} accessory credits at $maxQualityLabel.',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 if (_selectedAccessoryIds.isNotEmpty)
@@ -376,6 +400,12 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                   ),
                 ],
                 const SizedBox(height: 24),
+                Text(
+                  'Try-On Max · $maxQualityLabel · ${maxQualityCreditCost(_selectedItemCount)} API credits for $_selectedItemCount selected item(s)',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 12),
                 SizedBox(
                   height: 54,
                   child: ElevatedButton.icon(
@@ -408,7 +438,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Tops, Pants, and Skirts run locally. Shoes and accessories use API credits. Save your favorite results in My Outfits.',
+                  'All selected items use paid Try-On Max at $maxQualityCreditsPerImage credits each. Your twin and clothing images are sent to FASHN. Save your favorite results in My Outfits.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),

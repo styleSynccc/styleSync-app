@@ -76,3 +76,8 @@ class TryOnNotImplementedError(PipelineError):
 class TryOnUnavailableError(PipelineError):
     status_code = 503
     code = "TRY_ON_UNAVAILABLE"
+
+
+class CreditConfirmationError(PipelineError):
+    status_code = 409
+    code = "CREDIT_CONFIRMATION_REQUIRED"

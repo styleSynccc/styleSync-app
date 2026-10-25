@@ -1,6 +1,6 @@
 """Try-on orchestration for stored twins and wardrobe items.
 
-The production default plugs a local VTON worker into ``TryOnEngine``;
+The production default uses hosted Try-On Max Quality 1K;
 tests can inject a deterministic engine without loading diffusion weights.
 """
 import base64
@@ -22,6 +22,7 @@ from .errors import (
 from .storage import ResultStore, TwinStore, WardrobeStore
 from .tryon_crop import crop_for_tryon, normalize_tryon_result
 from .tryon_mask import clothing_mask
+from .generation_cost import confirm_generation_cost
 
 GARMENT_CATEGORIES = {"Tops", "Pants", "Skirts", "Shoes", "Accessories"}
 CATEGORY_ORDER = {"Tops": 0, "Pants": 1, "Skirts": 1, "Shoes": 2, "Accessories": 3}
@@ -103,6 +104,7 @@ def create_tryon(
     tryon_engine: TryOnEngine,
     result_store: ResultStore,
     settings: Settings,
+    confirmed_credits: int | None = None,
 ) -> TryOnResult:
     """Twin + clothing and up to five accessories (+ optional hijab) -> result.
 
@@ -142,6 +144,10 @@ def create_tryon(
     if "Pants" in categories and "Skirts" in categories:
         raise InvalidWardrobeItemError("Choose either Pants or Skirts for an outfit, not both.")
 
+    estimated_credits = confirm_generation_cost(
+        tryon_engine, len(garment_item_ids), confirmed_credits,
+    )
+
     # Accessories run last to preserve the generated clothing and shoes.
     ordered = sorted(
         zip(garment_item_ids, garments),
@@ -180,7 +186,8 @@ def create_tryon(
             "This digital twin is missing pose data. Create a new digital twin and try again."
         ) from exc
 
-    if "Accessories" in categories:
+    high_resolution = getattr(tryon_engine, "preserves_output_resolution", False)
+    if "Accessories" in categories or high_resolution:
         # Keep headroom and space beside the hands for hats and bags.
         crop_box = (0, 0, person.shape[1], person.shape[0])
         cropped_masks = replace_masks
@@ -201,14 +208,15 @@ def create_tryon(
             garment.metadata["category"],
             replace_mask,
         )
-    final = normalize_tryon_result(
-        final,
-        settings.target_width,
-        settings.target_height,
-    )
+    if not high_resolution:
+        final = normalize_tryon_result(
+            final,
+            settings.target_width,
+            settings.target_height,
+        )
 
     result_id = uuid.uuid4().hex
-    result_jpg = imaging.encode_jpeg(final)
+    result_jpg = imaging.encode_jpeg(final, quality=98)
     metadata = {
         "resultId": result_id,
         "uid": uid,
@@ -242,6 +250,12 @@ def create_tryon(
         ],
         "status": "ready",
         "tryOnEngine": tryon_engine.name,
+        "resolution": getattr(tryon_engine, "resolution", "local"),
+        "generationMode": getattr(tryon_engine, "generation_mode", "local"),
+        "estimatedCredits": estimated_credits,
+        "generationPasses": len(ordered),
+        "imageWidth": final.shape[1],
+        "imageHeight": final.shape[0],
         "personCrop": {
             "left": crop_box[0],
             "top": crop_box[1],

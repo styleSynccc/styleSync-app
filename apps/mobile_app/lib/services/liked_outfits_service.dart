@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class OutfitSource {
   static const tryOn = 'vton';
   static const inspoMirror = 'inspo';
+  static const planner = 'planner';
 }
 
 /// Stores outfits the user liked from Virtual Try-On or AI Inspo-Mirror.

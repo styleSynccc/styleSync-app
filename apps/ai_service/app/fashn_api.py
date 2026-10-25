@@ -1,4 +1,4 @@
-"""FASHN Try-On Max adapter for shoes, accessories, and outfit inspiration."""
+"""Hosted Try-On Max Quality 1K, one paid request per item or outfit reference."""
 
 import base64
 import time
@@ -8,12 +8,17 @@ import numpy as np
 import requests
 
 from .errors import TryOnUnavailableError
+from .config import MAX_TRYON_RESOLUTION, MAX_TRYON_MODE, MAX_TRYON_CREDITS
 
 
 class FashnApiTryOnEngine:
-    """Hosted shoe/accessory placement and whole-outfit reference generation."""
+    """All clothing, shoe/accessory placement and whole-outfit generation."""
 
     name = "fashn-tryon-max"
+    resolution = MAX_TRYON_RESOLUTION
+    generation_mode = MAX_TRYON_MODE
+    credits_per_image = MAX_TRYON_CREDITS
+    preserves_output_resolution = True
 
     def __init__(
         self,
@@ -55,21 +60,38 @@ class FashnApiTryOnEngine:
                 "body, existing clothes, shoes, other already-worn accessories, "
                 "head covering and background. "
                 "If the reference shows a person, transfer only the accessory.",
-                generation_mode="balanced",
+                generation_mode=self.generation_mode,
+            )
+        clothing = {
+            "Tops": "Replace only the person's top with the referenced top. Preserve the existing bottoms, shoes and accessories.",
+            "Pants": "Replace only the person's bottoms with the referenced pants. Preserve the existing top, shoes and accessories.",
+            "Skirts": "Replace only the person's bottoms with the referenced skirt, including its waistband, length and hem. Preserve the existing top, shoes and accessories.",
+        }
+        if category in clothing:
+            return self._generate(
+                person_bgr, garment_bgr,
+                clothing[category] + " Match the product's design, color, texture, "
+                "patterns, fit and sleeve or leg length. Preserve the person's face, "
+                "identity, body proportions, pose, existing hijab or head covering "
+                "and background. Do not expose hair or neck covered in model_image. "
+                "If the reference shows a person, transfer only the selected garment, "
+                "not their face, body or other clothes.",
+                generation_mode=self.generation_mode,
             )
         if category != "Shoes":
             raise TryOnUnavailableError(
-                "This hosted engine supports Shoes and Accessories."
+                "Choose Tops, Pants, Skirts, Shoes or Accessories."
             )
         return self._generate(
             person_bgr, garment_bgr,
             "Put the referenced pair of shoes on the person's feet. "
-            "Preserve their identity, pose, body, existing clothing, and background.",
-            generation_mode="fast",
+            "Preserve their identity, pose, body, existing clothing, accessories, "
+            "hijab or head covering, and background.",
+            generation_mode=self.generation_mode,
         )
 
     def apply_outfit(self, person_bgr: np.ndarray, reference_bgr: np.ndarray) -> np.ndarray:
-        """Transfer the reference outfit in one paid Balanced 1K generation."""
+        """Transfer the reference outfit in one paid Quality 1K generation."""
         return self._generate(
             person_bgr, reference_bgr,
             "Dress the person in model_image in the complete visible outfit worn by "
@@ -77,9 +99,10 @@ class FashnApiTryOnEngine:
             "visible footwear. Match the reference clothing colors, patterns, cut, "
             "and layering. Preserve the model_image person's face, identity, body "
             "proportions, pose, hair, existing head covering, and background. "
+            "Do not expose hair or neck covered in model_image. "
             "Transfer clothing only, not the reference person's face or body. "
             "Do not invent items hidden or absent in the reference.",
-            generation_mode="balanced",
+            generation_mode=self.generation_mode,
         )
 
     def _generate(self, person_bgr, garment_bgr, prompt, *, generation_mode):
@@ -99,11 +122,11 @@ class FashnApiTryOnEngine:
                 "model_image": _data_uri(person_bgr),
                 "product_image": _data_uri(garment_bgr),
                 "prompt": prompt,
-                "resolution": "1k",
+                "resolution": self.resolution,
                 "generation_mode": generation_mode,
                 "seed": 42,
                 "num_images": 1,
-                "output_format": "jpeg",
+                "output_format": "png",
                 "return_base64": True,
             },
         }
@@ -143,7 +166,7 @@ class FashnApiTryOnEngine:
             status_body = _response_json(response, "check try-on")
             status = status_body.get("status")
             if status == "completed":
-                return _decode_output(status_body, person_bgr.shape)
+                return _decode_output(status_body)
             if status == "failed":
                 error = status_body.get("error")
                 if isinstance(error, dict):
@@ -162,11 +185,19 @@ class FashnApiTryOnEngine:
 
 
 def _data_uri(image: np.ndarray) -> str:
-    ok, output = cv2.imencode(".jpg", image)
+    # Keep intermediate passes lossless. Dense PNGs can exceed FASHN's
+    # per-input 30 MiB limit; fall back to high-quality JPEG without resizing.
+    extension, mime = ".png", "image/png"
+    ok, output = cv2.imencode(extension, image)
+    if ok and output.nbytes > 30 * 1024 * 1024:
+        extension, mime = ".jpg", "image/jpeg"
+        ok, output = cv2.imencode(extension, image, [cv2.IMWRITE_JPEG_QUALITY, 98])
     if not ok:
         raise TryOnUnavailableError("Could not prepare an image for Try-On Max.")
+    if output.nbytes > 30 * 1024 * 1024:
+        raise TryOnUnavailableError("This image is too large for Try-On Max. Choose a simpler photo.")
     encoded = base64.b64encode(output.tobytes()).decode("ascii")
-    return f"data:image/jpeg;base64,{encoded}"
+    return f"data:{mime};base64,{encoded}"
 
 
 def _response_json(response: requests.Response, action: str) -> dict:
@@ -192,7 +223,7 @@ def _response_json(response: requests.Response, action: str) -> dict:
     return body
 
 
-def _decode_output(body: dict, target_shape: tuple[int, ...]) -> np.ndarray:
+def _decode_output(body: dict) -> np.ndarray:
     outputs = body.get("output")
     if not isinstance(outputs, list) or not outputs or not isinstance(outputs[0], str):
         raise TryOnUnavailableError("FASHN completed without a try-on image.")
@@ -208,8 +239,5 @@ def _decode_output(body: dict, target_shape: tuple[int, ...]) -> np.ndarray:
     result = cv2.imdecode(np.frombuffer(raw, np.uint8), cv2.IMREAD_COLOR)
     if result is None:
         raise TryOnUnavailableError("FASHN returned an unreadable try-on image.")
-    return cv2.resize(
-        result,
-        (target_shape[1], target_shape[0]),
-        interpolation=cv2.INTER_LANCZOS4,
-    )
+    # Preserve the provider's actual dimensions rather than stretching results.
+    return result

@@ -4,6 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../services/liked_outfits_service.dart';
+import '../services/notification_service.dart';
+import '../models/outfit_plan.dart';
+import '../widgets/outfit_preview.dart';
+
+class _GalleryOutfit {
+  _GalleryOutfit(
+    QueryDocumentSnapshot<Map<String, dynamic>> document, {
+    bool planner = false,
+  }) : reference = document.reference,
+       _data = planner ? plannerGalleryData(document.data()) : document.data();
+
+  final DocumentReference<Map<String, dynamic>> reference;
+  final Map<String, dynamic> _data;
+  String get id => reference.path;
+  Map<String, dynamic> data() => _data;
+}
 
 class MyOutfitsScreen extends StatefulWidget {
   const MyOutfitsScreen({super.key});
@@ -14,6 +30,22 @@ class MyOutfitsScreen extends StatefulWidget {
 
 class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
   String _filter = 'all';
+  late final String? _uid = FirebaseAuth.instance.currentUser?.uid;
+  late final Stream<QuerySnapshot<Map<String, dynamic>>>? _saved = _uid == null
+      ? null
+      : FirebaseFirestore.instance
+            .collection('users')
+            .doc(_uid)
+            .collection('likedOutfits')
+            .snapshots();
+  late final Stream<QuerySnapshot<Map<String, dynamic>>>? _planned =
+      _uid == null
+      ? null
+      : FirebaseFirestore.instance
+            .collection('users')
+            .doc(_uid)
+            .collection('outfitPlans')
+            .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -27,51 +59,85 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
       body: user == null
           ? const Center(child: Text('Please sign in to see your outfits.'))
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user.uid)
-                  .collection('likedOutfits')
-                  .orderBy('createdAt', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Could not load your saved outfits.'),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                final outfits = snapshot.data!.docs.where((document) {
-                  return _filter == 'all' ||
-                      document.data()['source'] == _filter;
-                }).toList();
-                return Column(
-                  children: [
-                    _filters(),
-                    Expanded(
-                      child: outfits.isEmpty
-                          ? _emptyState(snapshot.data!.docs.isEmpty)
-                          : GridView.builder(
-                              padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 16,
-                                    crossAxisSpacing: 16,
-                                    childAspectRatio: .63,
-                                  ),
-                              itemCount: outfits.length,
-                              itemBuilder: (_, index) => _outfitTile(
-                                outfits[index],
-                                onTap: () => _details(outfits, index),
-                              ),
-                            ),
-                    ),
-                  ],
-                );
-              },
+              stream: _saved,
+              builder: (context, saved) =>
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: _planned,
+                    builder: (context, planned) => _gallery(saved, planned),
+                  ),
             ),
+    );
+  }
+
+  Widget _gallery(
+    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> saved,
+    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> planned,
+  ) {
+    if ((!saved.hasData && !saved.hasError) ||
+        (!planned.hasData && !planned.hasError)) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final all =
+        [
+          for (final document
+              in saved.data?.docs ??
+                  <QueryDocumentSnapshot<Map<String, dynamic>>>[])
+            _GalleryOutfit(document),
+          for (final document
+              in planned.data?.docs ??
+                  <QueryDocumentSnapshot<Map<String, dynamic>>>[])
+            _GalleryOutfit(document, planner: true),
+        ]..sort((a, b) {
+          final first = a.data()['createdAt'];
+          final second = b.data()['createdAt'];
+          final comparison =
+              (second is Timestamp ? second.millisecondsSinceEpoch : 0)
+                  .compareTo(
+                    first is Timestamp ? first.millisecondsSinceEpoch : 0,
+                  );
+          return comparison == 0 ? a.id.compareTo(b.id) : comparison;
+        });
+    final outfits = all
+        .where((entry) => _filter == 'all' || entry.data()['source'] == _filter)
+        .toList();
+    return Column(
+      children: [
+        _filters(),
+        if (saved.hasError || planned.hasError)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+            child: Text(
+              saved.hasError && planned.hasError
+                  ? 'Could not load your outfits. Check your connection and reopen this page.'
+                  : saved.hasError
+                  ? 'Could not load generated outfits. Your planner outfits are shown below.'
+                  : 'Could not load planner outfits. Your generated outfits are shown below.',
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        Expanded(
+          child: outfits.isEmpty
+              ? (saved.hasError || planned.hasError)
+                    ? const Center(
+                        child: Text('Some outfits could not be loaded.'),
+                      )
+                    : _emptyState(all.isEmpty)
+              : GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: .63,
+                  ),
+                  itemCount: outfits.length,
+                  itemBuilder: (_, index) => _outfitTile(
+                    outfits[index],
+                    onTap: () => _details(outfits, index),
+                  ),
+                ),
+        ),
+      ],
     );
   }
 
@@ -85,6 +151,8 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
         _filterChip(OutfitSource.tryOn, 'VTON'),
         const SizedBox(width: 8),
         _filterChip(OutfitSource.inspoMirror, 'AI Inspo Mirror'),
+        const SizedBox(width: 8),
+        _filterChip(OutfitSource.planner, 'Outfit Planner'),
       ],
     ),
   );
@@ -114,7 +182,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
           const SizedBox(height: 16),
           Text(
             noOutfitsAtAll
-                ? 'No saved outfits yet. Generate a Virtual Try-On or AI Inspo Mirror look, then tap Save Outfit to keep it here.'
+                ? 'No saved outfits yet. Save a look from Virtual Try-On or AI Inspo Mirror, or create an outfit in Outfit Planner.'
                 : 'No outfits match this filter.',
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.grey),
@@ -124,14 +192,9 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
     ),
   );
 
-  Widget _outfitTile(
-    QueryDocumentSnapshot<Map<String, dynamic>> document, {
-    required VoidCallback onTap,
-  }) {
+  Widget _outfitTile(_GalleryOutfit document, {required VoidCallback onTap}) {
     final data = document.data();
-    final source = data['source'] == OutfitSource.inspoMirror
-        ? 'AI Inspo Mirror'
-        : 'VTON';
+    final source = outfitSourceLabel(data['source']);
     final createdAt = data['createdAt'] as Timestamp?;
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -144,18 +207,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
               borderRadius: BorderRadius.circular(16),
               child: ColoredBox(
                 color: Colors.grey.shade100,
-                child: Image.network(
-                  data['imageUrl']?.toString() ?? '',
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) =>
-                      const Center(child: Icon(Icons.broken_image_outlined)),
-                  loadingBuilder: (_, child, loading) => loading == null
-                      ? child
-                      : const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                ),
+                child: OutfitPreview(data: data),
               ),
             ),
           ),
@@ -171,6 +223,8 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
           const SizedBox(height: 2),
           Text(
             '${_date(createdAt)} · $source',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ],
@@ -185,7 +239,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
   }
 
   Future<void> _details(
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents,
+    List<_GalleryOutfit> documents,
     int initialIndex,
   ) async {
     final pages = PageController(initialPage: initialIndex);
@@ -201,9 +255,7 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
           builder: (context, update) {
             final document = documents[currentIndex];
             final data = document.data();
-            final source = data['source'] == OutfitSource.inspoMirror
-                ? 'AI Inspo Mirror'
-                : 'VTON';
+            final source = outfitSourceLabel(data['source']);
             return Dialog.fullscreen(
               backgroundColor: Colors.black,
               child: SafeArea(
@@ -282,29 +334,10 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
                               }
                             },
                             child: SizedBox.expand(
-                              child: Image.network(
-                                photo['imageUrl']?.toString() ?? '',
+                              child: OutfitPreview(
+                                data: photo,
                                 fit: BoxFit.contain,
-                                semanticLabel:
-                                    'Outfit photo ${index + 1} of ${documents.length}',
-                                loadingBuilder: (_, child, loading) =>
-                                    loading == null
-                                    ? child
-                                    : const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                errorBuilder: (_, _, _) => const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(24),
-                                    child: Text(
-                                      'Could not load this outfit photo. Check your connection and open it again.',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white70),
-                                    ),
-                                  ),
-                                ),
+                                detailed: true,
                               ),
                             ),
                           );
@@ -415,8 +448,10 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
     Get.dialog(
       AlertDialog(
         title: const Text('Delete outfit?'),
-        content: const Text(
-          'This saved outfit and its image will be permanently removed.',
+        content: Text(
+          data['source'] == OutfitSource.planner
+              ? 'This will delete the outfit from My Outfits and Outfit Planner and cancel its reminder. Your closet items will be kept.'
+              : 'This saved outfit and its image will be permanently removed.',
         ),
         actions: [
           TextButton(onPressed: Get.back, child: const Text('Cancel')),
@@ -425,7 +460,23 @@ class _MyOutfitsScreenState extends State<MyOutfitsScreen> {
               Get.back();
               Get.back();
               try {
-                await LikedOutfitsService.unlike(reference, data);
+                if (data['source'] == OutfitSource.planner) {
+                  await reference.delete();
+                  final notificationId = data['notificationId'];
+                  if (notificationId is int) {
+                    try {
+                      await NotificationService.instance.cancel(notificationId);
+                    } catch (_) {
+                      Get.snackbar(
+                        'Reminder could not be cancelled',
+                        'The outfit was deleted. Check your phone reminders.',
+                      );
+                      return;
+                    }
+                  }
+                } else {
+                  await LikedOutfitsService.unlike(reference, data);
+                }
                 Get.snackbar(
                   'Outfit deleted',
                   'It was removed from My Outfits.',

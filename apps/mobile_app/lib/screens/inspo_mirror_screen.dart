@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import '../services/ai_service.dart';
 import '../services/liked_outfits_service.dart';
 import '../widgets/generation_progress.dart';
+import '../widgets/generation_confirmation.dart';
+import '../config/generation_config.dart';
 import 'edit_profile_screen.dart';
 
 class InspoMirrorScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
       _saving = false,
       _saved = false;
   bool get _busy => _generating || _saving || _picking;
+  bool _confirmingGeneration = false;
 
   @override
   void initState() {
@@ -114,7 +117,21 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
   Future<void> _generate() async {
     final twinId = _twinId;
     final reference = _reference;
-    if (_busy || twinId == null || reference == null) return;
+    if (_busy || _confirmingGeneration || twinId == null || reference == null) {
+      return;
+    }
+    _confirmingGeneration = true;
+    bool confirmed;
+    try {
+      confirmed = await confirmMaxQualityGeneration(
+        context,
+        itemCount: 1,
+        inspiration: true,
+      );
+    } finally {
+      _confirmingGeneration = false;
+    }
+    if (!confirmed || !mounted) return;
     final uid = FirebaseAuth.instance.currentUser?.uid;
     _generationStopwatch
       ..reset()
@@ -357,7 +374,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
               ),
             const SizedBox(height: 20),
             const Text(
-              'Balanced · 1K · 2 API credits per successful image',
+              '$maxQualityLabel · $maxQualityCreditsPerImage API credits per generation',
               style: TextStyle(fontSize: 12, color: Colors.black54),
             ),
             const SizedBox(height: 6),

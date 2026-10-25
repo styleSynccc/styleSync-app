@@ -45,7 +45,7 @@ def test_inspo_returns_and_persists_result(tmp_path):
     body = response.json()
     assert base64.b64decode(body["resultImageB64"]).startswith(b"\xff\xd8")
     assert body["metadata"]["source"] == "inspo"
-    assert body["metadata"]["generationMode"] == "balanced"
+    assert body["metadata"]["generationMode"] == "quality"
     metadata = tmp_path / "results" / "dev-user" / body["resultId"] / "metadata.json"
     assert json.loads(metadata.read_text())["twinId"] == "mine"
     assert engine.calls == 1

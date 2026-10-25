@@ -1,0 +1,22 @@
+# Regenerate launcher assets with: dart run flutter_launcher_icons
+# After regeneration, keep the Android adaptive icon's foreground pointing to
+# @drawable/stylesync_launcher_foreground for the source artwork's centering fix.
+flutter_launcher_icons:
+  image_path: assets/images/stylesync_logo_white.png
+  android: true
+  min_sdk_android: 24
+  adaptive_icon_background: '#FFFFFF'
+  adaptive_icon_foreground: assets/images/stylesync_logo_white.png
+  adaptive_icon_foreground_inset: 10
+  ios: true
+  remove_alpha_ios: true
+  background_color_ios: '#FFFFFF'
+  web:
+    generate: true
+    background_color: '#FFFFFF'
+    theme_color: '#FFFFFF'
+  windows:
+    generate: true
+    icon_size: 256
+  macos:
+    generate: true

@@ -22,7 +22,7 @@ if (Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyCon
 }
 
 if (-not $env:FASHN_API_KEY) {
-    Write-Warning 'FASHN_API_KEY is missing. Hosted Inspo Mirror and shoe generation will be unavailable.'
+    Write-Warning 'FASHN_API_KEY is missing. VTON and Inspo Mirror Quality 1K generation will be unavailable.'
 }
 
 Set-Location -LiteralPath $serviceDir

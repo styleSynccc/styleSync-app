@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 import '../config/api_config.dart';
+import '../config/generation_config.dart';
 
 /// A structured error from the AI service (see apps/ai_service/app/errors.py).
 /// [message] is already written for a user to read.
@@ -24,13 +25,23 @@ class AiServiceException implements Exception {
 /// endpoint does and does not do yet).
 class AiService {
   final String baseUrl;
+  final http.Client? client;
+  final Future<String?> Function()? tokenProvider;
+  final Duration listTimeout;
+  final Duration authenticationTimeout;
 
-  AiService({this.baseUrl = aiServiceBaseUrl});
+  AiService({
+    this.baseUrl = aiServiceBaseUrl,
+    this.client,
+    this.tokenProvider,
+    this.listTimeout = const Duration(seconds: 30),
+    this.authenticationTimeout = const Duration(seconds: 15),
+  });
 
   static const Duration _requestTimeout = Duration(minutes: 3);
   static const Duration _tryOnTimeout = Duration(minutes: 45);
 
-  Future<Map<String, String>> _authHeader() async {
+  Future<String?> _firebaseToken() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw AiServiceException(
@@ -38,8 +49,27 @@ class AiService {
         'You need to be signed in to do this.',
       );
     }
-    final token = await user.getIdToken();
-    return {'Authorization': 'Bearer $token'};
+    return user.getIdToken();
+  }
+
+  Future<Map<String, String>> _authHeader() async {
+    try {
+      final token = await (tokenProvider ?? _firebaseToken)().timeout(
+        authenticationTimeout,
+      );
+      if (token == null || token.isEmpty) {
+        throw AiServiceException(
+          'NOT_SIGNED_IN',
+          'Please sign in again to use the AI features.',
+        );
+      }
+      return {'Authorization': 'Bearer $token'};
+    } on TimeoutException {
+      throw AiServiceException(
+        'AUTH_TIMEOUT',
+        'Could not verify your sign-in. Check your internet connection and try again.',
+      );
+    }
   }
 
   Future<Map<String, dynamic>> _send(
@@ -47,7 +77,9 @@ class AiService {
     Duration timeout = _requestTimeout,
   }) async {
     try {
-      final streamed = await request.send().timeout(timeout);
+      final streamed = await (client?.send(request) ?? request.send()).timeout(
+        timeout,
+      );
       final response = await http.Response.fromStream(
         streamed,
       ).timeout(timeout);
@@ -71,10 +103,19 @@ class AiService {
 
   Future<Map<String, dynamic>> _get(String path) async {
     try {
-      final response = await http
-          .get(Uri.parse('$baseUrl$path'), headers: await _authHeader())
-          .timeout(_requestTimeout);
+      final headers = await _authHeader();
+      final uri = Uri.parse('$baseUrl$path');
+      final response =
+          await (client?.get(uri, headers: headers) ??
+                  http.get(uri, headers: headers))
+              .timeout(listTimeout);
       return _decode(response);
+    } on TimeoutException {
+      throw AiServiceException(
+        'REQUEST_TIMEOUT',
+        'The AI service is not responding. Check that your phone and computer '
+            'can connect on the same Wi-Fi and the StyleSync API is running, then tap Refresh.',
+      );
     } on AiServiceException {
       rethrow;
     } catch (e) {
@@ -92,17 +133,23 @@ class AiService {
     Duration timeout = _requestTimeout,
   }) async {
     try {
-      final response = await http
-          .post(
-            Uri.parse('$baseUrl$path'),
-            headers: {
-              ...await _authHeader(),
-              'Content-Type': 'application/json',
-            },
-            body: jsonEncode(payload),
-          )
-          .timeout(timeout);
+      final headers = {
+        ...await _authHeader(),
+        'Content-Type': 'application/json',
+      };
+      final uri = Uri.parse('$baseUrl$path');
+      final body = jsonEncode(payload);
+      final response =
+          await (client?.post(uri, headers: headers, body: body) ??
+                  http.post(uri, headers: headers, body: body))
+              .timeout(timeout);
       return _decode(response);
+    } on TimeoutException {
+      throw AiServiceException(
+        'REQUEST_TIMEOUT',
+        'The generation request timed out. It may still be processing. '
+            'Avoid immediately submitting it again.',
+      );
     } on AiServiceException {
       rethrow;
     } catch (_) {
@@ -160,6 +207,7 @@ class AiService {
         http.MultipartRequest('POST', Uri.parse('$baseUrl/v1/inspo'))
           ..headers.addAll(await _authHeader())
           ..fields['twinId'] = twinId
+          ..fields['confirmedCredits'] = '$maxQualityCreditsPerImage'
           ..files.add(
             http.MultipartFile.fromBytes('file', bytes, filename: filename),
           );
@@ -206,6 +254,7 @@ class AiService {
     return _postJson('/v1/tryon', {
       'twinId': twinId,
       'garmentItemIds': garmentItemIds,
+      'confirmedCredits': maxQualityCreditCost(garmentItemIds.length),
     }, timeout: _tryOnTimeout);
   }
 }

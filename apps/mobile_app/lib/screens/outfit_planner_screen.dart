@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/closet_controller.dart';
 import '../services/notification_service.dart';
+import '../models/outfit_plan.dart';
 
 class OutfitPlannerScreen extends StatefulWidget {
   const OutfitPlannerScreen({super.key});
@@ -11,12 +14,104 @@ class OutfitPlannerScreen extends StatefulWidget {
   State<OutfitPlannerScreen> createState() => _OutfitPlannerScreenState();
 }
 
-class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
+class _OutfitPlannerScreenState extends State<OutfitPlannerScreen>
+    with WidgetsBindingObserver {
   late final ClosetController closet = Get.isRegistered<ClosetController>()
       ? Get.find<ClosetController>()
       : Get.put(ClosetController());
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
+  bool _savingPlan = false;
+  late final Future<void> _remindersRestored;
+  late final Stream<QuerySnapshot<Map<String, dynamic>>>? _plansStream;
+  Timer? _expiryTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _plansStream = plans?.snapshots();
+    _remindersRestored = _restoreReminders();
+  }
+
+  @override
+  void dispose() {
+    _expiryTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) setState(() {});
+  }
+
+  void _refreshWhenNextPlanExpires(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents,
+    DateTime now,
+  ) {
+    _expiryTimer?.cancel();
+    DateTime? next;
+    for (final document in documents) {
+      final expires = outfitPlanExpiresAt(document.data());
+      if (expires != null &&
+          expires.isAfter(now) &&
+          (next == null || expires.isBefore(next))) {
+        next = expires;
+      }
+    }
+    if (next == null) return;
+    _expiryTimer = Timer(
+      next.difference(now) + const Duration(milliseconds: 50),
+      () {
+        if (mounted) setState(() {});
+      },
+    );
+  }
+
+  Future<void> _restoreReminders() async {
+    final collection = plans;
+    final uid = auth.currentUser?.uid;
+    if (collection == null) return;
+    try {
+      final snapshot = await collection.get();
+      for (final document in snapshot.docs) {
+        if (auth.currentUser?.uid != uid) return;
+        final data = document.data();
+        final id = data['notificationId'];
+        final time = data['reminderAt'];
+        if (id is! int || time is! Timestamp) continue;
+        if (time.toDate().isAfter(DateTime.now())) {
+          await NotificationService.instance.scheduleOutfitReminder(
+            id: id,
+            reminderAt: time.toDate(),
+            itemCount: (data['items'] as List? ?? []).length,
+          );
+        } else {
+          await NotificationService.instance.cancel(id);
+        }
+      }
+    } catch (_) {
+      // Plans still load through the stream; a failed repair can be retried.
+    }
+  }
+
+  Future<void> _testNotification() async {
+    try {
+      final sent = await NotificationService.instance.showTestNotification();
+      if (!sent) {
+        Get.snackbar(
+          'Notifications disabled',
+          'Allow notifications in your phone settings.',
+        );
+      }
+    } catch (_) {
+      Get.snackbar(
+        'Could not show test reminder',
+        'Check your notification settings and try again.',
+      );
+    }
+  }
 
   CollectionReference<Map<String, dynamic>>? get plans {
     final user = auth.currentUser;
@@ -30,6 +125,13 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
     appBar: AppBar(
       title: const Text('Outfit Planner'),
       backgroundColor: Colors.white,
+      actions: [
+        IconButton(
+          tooltip: 'Test notification',
+          onPressed: _testNotification,
+          icon: const Icon(Icons.notifications_active_outlined),
+        ),
+      ],
     ),
     backgroundColor: Colors.white,
     body: Padding(
@@ -74,7 +176,7 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
             child: plans == null
                 ? const Center(child: Text('Please sign in first.'))
                 : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: plans!.snapshots(),
+                    stream: _plansStream,
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return const Center(
@@ -84,21 +186,20 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
                       if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       }
-                      final today = DateUtils.dateOnly(DateTime.now());
+                      final now = DateTime.now();
+                      _refreshWhenNextPlanExpires(snapshot.data!.docs, now);
                       final docs =
                           snapshot.data!.docs.where((d) {
-                            final value = d.data()['date'];
-                            return value is Timestamp &&
-                                !value.toDate().isBefore(today);
+                            return isUpcomingOutfitPlan(d.data(), now);
                           }).toList()..sort(
-                            (a, b) => (a.data()['date'] as Timestamp).compareTo(
-                              b.data()['date'] as Timestamp,
-                            ),
+                            (a, b) => outfitPlanExpiresAt(
+                              a.data(),
+                            )!.compareTo(outfitPlanExpiresAt(b.data())!),
                           );
                       if (docs.isEmpty) {
                         return const Center(
                           child: Text(
-                            'No outfits planned yet.\nTap above to create one!',
+                            'No upcoming outfits.\nCreate a new plan above. Past plans are saved in My Outfits.',
                             textAlign: TextAlign.center,
                           ),
                         );
@@ -117,7 +218,9 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
   );
 
   Widget _planCard(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-    final date = (doc.data()['date'] as Timestamp).toDate();
+    final date =
+        (doc.data()['date'] as Timestamp?)?.toDate() ??
+        outfitPlanExpiresAt(doc.data())!;
     final reminderAt = (doc.data()['reminderAt'] as Timestamp?)?.toDate();
     final items = (doc.data()['items'] as List? ?? [])
         .whereType<Map<String, dynamic>>()
@@ -309,6 +412,8 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
   }
 
   Future<void> _save(DateTime reminderAt, Set<String> ids) async {
+    if (_savingPlan) return;
+    _savingPlan = true;
     final values = closet.clothes.where((x) => ids.contains(x.id)).map((x) {
       final dynamic closetItem = x;
       final String? assetPath = closetItem.assetPath as String?;
@@ -324,6 +429,29 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
         '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
     final notificationId = date.year * 10000 + date.month * 100 + date.day;
     try {
+      await _remindersRestored;
+      final service = NotificationService.instance;
+      if (!await service.canSchedulePreciseReminders()) {
+        final enable = await Get.dialog<bool>(
+          AlertDialog(
+            title: const Text('Allow precise reminders?'),
+            content: const Text(
+              'Allow StyleSync in Android’s Alarms & reminders settings to receive your outfit reminder at the selected time. Without this, Android may delay it.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(result: false),
+                child: const Text('Use approximate'),
+              ),
+              TextButton(
+                onPressed: () => Get.back(result: true),
+                child: const Text('Open settings'),
+              ),
+            ],
+          ),
+        );
+        if (enable == true) await service.requestPreciseReminderPermission();
+      }
       await plans!.doc(id).set({
         'date': Timestamp.fromDate(date),
         'reminderAt': Timestamp.fromDate(reminderAt),
@@ -332,9 +460,9 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
         'updatedAt': FieldValue.serverTimestamp(),
       });
 
-      var reminderScheduled = false;
+      ReminderScheduleStatus? reminderStatus;
       try {
-        reminderScheduled = await NotificationService.instance
+        reminderStatus = await NotificationService.instance
             .scheduleOutfitReminder(
               id: notificationId,
               reminderAt: reminderAt,
@@ -345,14 +473,22 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
       }
 
       Get.back();
-      Get.snackbar(
-        'Outfit planned',
-        reminderScheduled
-            ? 'Reminder set for ${_formatTime(reminderAt)}.'
-            : 'Outfit saved, but notification permission was not granted.',
-      );
+      Get.snackbar('Outfit planned', switch (reminderStatus) {
+        ReminderScheduleStatus.exact =>
+          'Reminder set for ${_formatTime(reminderAt)}.',
+        ReminderScheduleStatus.approximate =>
+          'Reminder set for around ${_formatTime(reminderAt)}. Android may delay it because precise reminders are disabled.',
+        ReminderScheduleStatus.notificationsDisabled =>
+          'Outfit saved. Enable notifications in your phone settings to receive reminders.',
+        ReminderScheduleStatus.timePassed =>
+          'Outfit saved, but the reminder time has already passed. Choose a future time.',
+        null =>
+          'Outfit saved, but the reminder could not be scheduled. Please try again.',
+      });
     } catch (e) {
       Get.snackbar('Error', 'Could not save outfit: $e');
+    } finally {
+      _savingPlan = false;
     }
   }
 
@@ -364,10 +500,22 @@ class _OutfitPlannerScreenState extends State<OutfitPlannerScreen> {
         TextButton(
           onPressed: () async {
             Get.back();
-            await doc.reference.delete();
+            try {
+              await doc.reference.delete();
+            } catch (_) {
+              Get.snackbar('Could not delete outfit', 'Please try again.');
+              return;
+            }
             final notificationId = doc.data()['notificationId'];
             if (notificationId is int) {
-              await NotificationService.instance.cancel(notificationId);
+              try {
+                await NotificationService.instance.cancel(notificationId);
+              } catch (_) {
+                Get.snackbar(
+                  'Reminder could not be cancelled',
+                  'The outfit was deleted. Check your phone reminders.',
+                );
+              }
             }
           },
           child: const Text('Delete', style: TextStyle(color: Colors.red)),

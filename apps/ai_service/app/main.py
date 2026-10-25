@@ -5,13 +5,12 @@ from fastapi import Depends, FastAPI, File, Form, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictInt
 
 from .auth import current_uid
 from .config import Settings, get_settings
 from .errors import ImageValidationError, PipelineError
 from .fashn_api import FashnApiTryOnEngine
-from .fashn_worker import FashnWorkerTryOnEngine
 from .hijab import HijabAnalyzer, NullHijabAnalyzer
 from .pipeline import create_twin
 from .storage import (
@@ -34,18 +33,14 @@ class TryOnRequest(BaseModel):
     garmentItemId: str | None = None
     garmentItemIds: list[str] | None = None
     hijabItemId: str | None = None
+    confirmedCredits: StrictInt | None = None
 
 
 def build_tryon_engine(settings: Settings) -> TryOnEngine:
-    shoe_engine = FashnApiTryOnEngine(
+    return FashnApiTryOnEngine(
         settings.fashn_api_key,
         settings.fashn_api_url,
         settings.tryon_worker_timeout_seconds,
-    )
-    return FashnWorkerTryOnEngine(
-        settings.fashn_worker_url,
-        settings.tryon_worker_timeout_seconds,
-        shoe_engine,
     )
 
 _CHUNK = 1 << 20
@@ -131,7 +126,16 @@ def create_app(
 
     @app.get("/health")
     def health():
-        return {"status": "AI server is running"}
+        engine = app.state.tryon_engine
+        return {
+            "status": "AI server is running",
+            "tryon": {
+                "engine": engine.name,
+                "resolution": getattr(engine, "resolution", "local"),
+                "generationMode": getattr(engine, "generation_mode", "local"),
+                "creditsPerImage": getattr(engine, "credits_per_image", 0),
+            },
+        }
 
     @app.post("/v1/twins", status_code=201)
     async def post_twin(
@@ -223,6 +227,7 @@ def create_app(
             tryon_engine=request.app.state.tryon_engine,
             result_store=request.app.state.result_store,
             settings=settings,
+            confirmed_credits=body.confirmedCredits,
         )
         return result.to_response()
 
@@ -231,6 +236,7 @@ def create_app(
         request: Request,
         file: UploadFile = File(...),
         twinId: str = Form(...),
+        confirmedCredits: int | None = Form(None),
         uid: str = Depends(current_uid),
     ):
         raw = await read_limited(file, settings.max_upload_bytes)
@@ -240,6 +246,7 @@ def create_app(
             result_store=request.app.state.result_store,
             inspo_engine=request.app.state.inspo_engine,
             settings=settings,
+            confirmed_credits=confirmedCredits,
         )
         return result.to_response()
 
