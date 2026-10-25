@@ -9,7 +9,11 @@ import 'package:image_picker/image_picker.dart';
 import '../services/ai_service.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({super.key, this.auth, this.firestore});
+
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
+
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -32,9 +36,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _loadProfile() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = (widget.auth ?? FirebaseAuth.instance).currentUser;
     if (user == null) return;
-    final document = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    final document = await (widget.firestore ?? FirebaseFirestore.instance)
+        .collection('users')
+        .doc(user.uid)
+        .get();
     final data = document.data() ?? {};
     nameController.text = data['name']?.toString() ?? user.displayName ?? '';
     heightController.text = data['height']?.toString() ?? '';
@@ -111,7 +118,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _save() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = (widget.auth ?? FirebaseAuth.instance).currentUser;
     final name = nameController.text.trim();
     final height = double.tryParse(heightController.text.trim());
     final weight = double.tryParse(weightController.text.trim());
@@ -139,7 +146,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         await reference.putData(processedBytes, SettableMetadata(contentType: 'image/jpeg'));
         photoUrl = await reference.getDownloadURL();
       }
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+      await (widget.firestore ?? FirebaseFirestore.instance)
+          .collection('users')
+          .doc(user.uid)
+          .set({
         'name': name,
         'height': heightController.text.trim(),
         'weight': weightController.text.trim(),

@@ -7,7 +7,10 @@ import '../services/closet_controller.dart';
 import 'outfit_creator_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, this.auth, this.firestore});
+
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
 
   static const Map<String, List<String>> _categoryAssets = {
     'Tops': [
@@ -43,8 +46,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ClosetController closetController = Get.put(ClosetController());
-    final user = FirebaseAuth.instance.currentUser;
+    final ClosetController closetController = Get.isRegistered<ClosetController>()
+        ? Get.find<ClosetController>()
+        : Get.put(ClosetController(auth: auth, firestore: firestore));
+    final user = (auth ?? FirebaseAuth.instance).currentUser;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,7 +89,10 @@ class HomeScreen extends StatelessWidget {
                 // Welcome Text
                 const Text('Welcome,', style: TextStyle(fontSize: 18, color: Colors.grey)),
                 FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance.collection('users').doc(user?.uid).get(),
+                  future: (firestore ?? FirebaseFirestore.instance)
+                      .collection('users')
+                      .doc(user?.uid)
+                      .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text('Loading...', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
@@ -284,7 +292,9 @@ class HomeScreen extends StatelessWidget {
       
       // Floating Add Button for Outfits
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => const OutfitCreatorScreen()),
+        onPressed: () => Get.to(
+          () => OutfitCreatorScreen(auth: auth, firestore: firestore),
+        ),
         backgroundColor: Colors.black,
         elevation: 4,
         child: const Icon(Icons.checkroom, color: Colors.white, size: 30),
@@ -425,48 +435,48 @@ class HomeScreen extends StatelessWidget {
   ) {
     Get.bottomSheet(
       SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Add Your $category Photo',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        child: Material(
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Add Your $category Photo',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 14),
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Take a photo'),
-                onTap: () {
-                  Get.back();
-                  final dynamic closetController = controller;
-                  closetController.uploadClothingItem(
-                    category,
-                    source: ImageSource.camera,
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Choose from gallery'),
-                onTap: () {
-                  Get.back();
-                  final dynamic closetController = controller;
-                  closetController.uploadClothingItem(
-                    category,
-                    source: ImageSource.gallery,
-                  );
-                },
-              ),
-            ],
+                const SizedBox(height: 14),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Take a photo'),
+                  onTap: () {
+                    Get.back();
+                    final dynamic closetController = controller;
+                    closetController.uploadClothingItem(
+                      category,
+                      source: ImageSource.camera,
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Choose from gallery'),
+                  onTap: () {
+                    Get.back();
+                    final dynamic closetController = controller;
+                    closetController.uploadClothingItem(
+                      category,
+                      source: ImageSource.gallery,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -23,9 +23,17 @@ class ClothingItem {
 }
 
 class ClosetController extends GetxController {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  ClosetController({
+    FirebaseAuth? auth,
+    FirebaseFirestore? firestore,
+    FirebaseStorage? storage,
+  }) : _auth = auth ?? FirebaseAuth.instance,
+       _db = firestore ?? FirebaseFirestore.instance,
+       _storage = storage ?? FirebaseStorage.instance;
+
+  final FirebaseFirestore _db;
+  final FirebaseStorage _storage;
+  final FirebaseAuth _auth;
   final AiService _aiService = AiService();
 
   var clothes = <ClothingItem>[].obs;

@@ -5,7 +5,11 @@ import 'package:get/get.dart';
 import '../services/closet_controller.dart';
 
 class OutfitCreatorScreen extends StatefulWidget {
-  const OutfitCreatorScreen({super.key});
+  const OutfitCreatorScreen({super.key, this.auth, this.firestore});
+
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
+
   @override
   State<OutfitCreatorScreen> createState() => _OutfitCreatorScreenState();
 }
@@ -16,8 +20,13 @@ class _OutfitCreatorScreenState extends State<OutfitCreatorScreen> {
   final categories = const ['Tops', 'Pants', 'Shoes', 'Accessories'];
 
   CollectionReference<Map<String, dynamic>>? get outfits {
-    final user = FirebaseAuth.instance.currentUser;
-    return user == null ? null : FirebaseFirestore.instance.collection('users').doc(user.uid).collection('outfits');
+    final user = (widget.auth ?? FirebaseAuth.instance).currentUser;
+    return user == null
+        ? null
+        : (widget.firestore ?? FirebaseFirestore.instance)
+              .collection('users')
+              .doc(user.uid)
+              .collection('outfits');
   }
 
   @override

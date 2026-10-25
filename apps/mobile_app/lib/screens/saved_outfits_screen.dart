@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SavedOutfitsScreen extends StatelessWidget {
-  const SavedOutfitsScreen({super.key});
+  const SavedOutfitsScreen({super.key, this.auth, this.firestore});
+
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = (auth ?? FirebaseAuth.instance).currentUser;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -18,7 +21,7 @@ class SavedOutfitsScreen extends StatelessWidget {
       body: user == null
           ? const Center(child: Text('Please sign in to see your outfits.'))
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
+              stream: (firestore ?? FirebaseFirestore.instance)
                   .collection('users')
                   .doc(user.uid)
                   .collection('outfits')

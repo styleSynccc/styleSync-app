@@ -7,12 +7,15 @@ import 'saved_outfits_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, this.auth, this.firestore});
+
+  final FirebaseAuth? auth;
+  final FirebaseFirestore? firestore;
 
   @override
   Widget build(BuildContext context) {
     final AuthController authController = Get.find();
-    final User? user = FirebaseAuth.instance.currentUser;
+    final User? user = (auth ?? FirebaseAuth.instance).currentUser;
 
     if (user == null) {
       return const Scaffold(body: Center(child: Text('Please log in again.')));
@@ -34,7 +37,10 @@ class ProfileScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
             child: StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+              stream: (firestore ?? FirebaseFirestore.instance)
+                  .collection('users')
+                  .doc(user.uid)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
@@ -84,10 +90,14 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     _buildSettingsOption(Icons.checkroom, 'My Outfits', () {
-                      Get.to(() => const SavedOutfitsScreen());
+                      Get.to(
+                        () => SavedOutfitsScreen(auth: auth, firestore: firestore),
+                      );
                     }),
                     _buildSettingsOption(Icons.edit, 'Edit Profile', () {
-                      Get.to(() => const EditProfileScreen());
+                      Get.to(
+                        () => EditProfileScreen(auth: auth, firestore: firestore),
+                      );
                     }),
                     _buildSettingsOption(Icons.lock, 'Change Password', () {
                       authController.resetPassword(email);
