@@ -25,6 +25,7 @@ class LikedOutfitsService {
   static Future<void> like({
     required Uint8List imageBytes,
     required String source,
+    required String ownerUid,
     String? title,
   }) async {
     final user = FirebaseAuth.instance.currentUser;
@@ -32,18 +33,24 @@ class LikedOutfitsService {
     if (user == null || outfits == null) {
       throw StateError('Please sign in to like outfits.');
     }
+    if (user.uid != ownerUid) {
+      throw StateError('Your sign-in changed. Reopen this page before saving.');
+    }
     final isPng =
         imageBytes.length > 3 && imageBytes[0] == 0x89 && imageBytes[1] == 0x50;
     final ext = isPng ? 'png' : 'jpg';
-    final path =
-        'users/${user.uid}/liked_outfits/${DateTime.now().millisecondsSinceEpoch}.$ext';
+    final document = outfits.doc();
+    final path = 'users/${user.uid}/liked_outfits/${document.id}.$ext';
     final ref = FirebaseStorage.instance.ref(path);
     await ref.putData(
       imageBytes,
       SettableMetadata(contentType: isPng ? 'image/png' : 'image/jpeg'),
     );
     final url = await ref.getDownloadURL();
-    await outfits.add({
+    if (FirebaseAuth.instance.currentUser?.uid != ownerUid) {
+      throw StateError('Your sign-in changed. Reopen this page before saving.');
+    }
+    await document.set({
       'imageUrl': url,
       'storagePath': path,
       'source': source,

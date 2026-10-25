@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  AuthController({FirebaseAuth? auth, FirebaseFirestore? firestore})
+    : _auth = auth ?? FirebaseAuth.instance,
+      _db = firestore ?? FirebaseFirestore.instance;
+
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _db;
 
   var isLoading = false.obs;
 
@@ -164,27 +168,18 @@ class AuthController extends GetxController {
             .doc(user.uid)
             .get();
 
-        print("----- DEBUGGING LOGIN -----");
-        print("Document exists: ${userDoc.exists}");
-
         if (userDoc.exists) {
           var data = userDoc.data() as Map<String, dynamic>?;
-          print("Data: $data");
-          print("isProfileComplete value: ${data?['isProfileComplete']}");
 
           if (data != null && data['isProfileComplete'] == true) {
-            print("Navigating to /home");
             Get.offAllNamed('/home');
           } else {
-            print("Navigating to /user-setup (flag is not true)");
             Get.offAllNamed('/user-setup');
           }
         } else {
-          print("Navigating to /user-setup (doc doesn't exist)");
           Get.offAllNamed('/user-setup');
         }
       }
-      print("---------------------------");
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message ?? "Login failed");
     } catch (e) {
@@ -194,11 +189,12 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String email, {bool closeDialog = false}) async {
+    if (isLoading.value) return;
     try {
       isLoading.value = true;
       await _auth.sendPasswordResetEmail(email: email);
-      Get.back(); // Close the dialog
+      if (closeDialog && Get.isDialogOpen == true) Get.back();
       Get.snackbar("Success", "Password reset link sent to your email.");
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message ?? "Failed to send reset email.");

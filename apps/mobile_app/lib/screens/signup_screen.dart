@@ -3,24 +3,43 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_controller.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final selectedGender = RxnString();
+  late final bool googleMode =
+      Get.arguments is Map && Get.arguments['googleMode'] == true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (googleMode) {
+      nameController.text =
+          FirebaseAuth.instance.currentUser?.displayName ?? '';
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AuthController authController = Get.find();
-    final bool googleMode =
-        Get.arguments is Map && Get.arguments['googleMode'] == true;
-    final googleUser = googleMode ? FirebaseAuth.instance.currentUser : null;
     final dynamic accountController = authController;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final RxnString selectedGender = RxnString();
-    if (googleUser != null) {
-      nameController.text = googleUser.displayName ?? '';
-    }
 
     // Validation functions
     String? validateName(String? value) {

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../services/ai_service.dart';
 import '../widgets/style_preference_selector.dart';
+import '../config/profile_validation.dart';
 
 /// Edits the information used to personalise a user's digital twin.
 /// The optional image is a twin source image, never a profile/avatar image.
@@ -37,12 +38,18 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
 
   Future<void> _loadTwin() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+    if (user == null) {
+      if (mounted) setState(() => _loading = false);
+      return;
+    }
     try {
       final document = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
+      if (!mounted || FirebaseAuth.instance.currentUser?.uid != user.uid) {
+        return;
+      }
       final data = document.data() ?? <String, dynamic>{};
       _nameController.text = data['name']?.toString() ?? user.displayName ?? '';
       _heightController.text = data['height']?.toString() ?? '';
@@ -52,6 +59,7 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
           .where(stylePreferenceOptions.contains)
           .toList();
     } catch (_) {
+      if (!mounted) return;
       Get.snackbar(
         'Could not load twin',
         'Please check your connection and try again.',
@@ -192,26 +200,27 @@ class _EditTwinScreenState extends State<EditTwinScreen> {
   );
 
   Future<void> _pickTwinPhoto() async {
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 85,
-    );
-    if (image != null && mounted) {
-      setState(() => _selectedTwinPhoto = File(image.path));
+    try {
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 85,
+      );
+      if (image != null && mounted) {
+        setState(() => _selectedTwinPhoto = File(image.path));
+      }
+    } catch (_) {
+      if (mounted) Get.snackbar('Could not open gallery', 'Please try again.');
     }
   }
 
   Future<void> _save() async {
+    if (_saving) return;
     final user = FirebaseAuth.instance.currentUser;
     final name = _nameController.text.trim();
-    final height = double.tryParse(_heightController.text.trim());
-    final weight = double.tryParse(_weightController.text.trim());
     if (user == null) return;
     if (name.isEmpty ||
-        height == null ||
-        weight == null ||
-        height <= 0 ||
-        weight <= 0) {
+        !isValidBodyMetric(_heightController.text) ||
+        !isValidBodyMetric(_weightController.text)) {
       Get.snackbar(
         'Invalid details',
         'Enter a name and valid height and weight.',

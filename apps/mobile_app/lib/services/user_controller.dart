@@ -6,12 +6,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'ai_service.dart';
+import '../config/profile_validation.dart';
 
 class UserController extends GetxController {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final AiService _aiService = AiService();
+  UserController({
+    FirebaseFirestore? firestore,
+    FirebaseStorage? storage,
+    FirebaseAuth? auth,
+    AiService? aiService,
+  }) : _db = firestore ?? FirebaseFirestore.instance,
+       _storage = storage ?? FirebaseStorage.instance,
+       _auth = auth ?? FirebaseAuth.instance,
+       _aiService = aiService ?? AiService();
+
+  final FirebaseFirestore _db;
+  final FirebaseStorage _storage;
+  final FirebaseAuth _auth;
+  final AiService _aiService;
 
   var isLoading = false.obs;
   var loadingMessage = ''.obs;
@@ -34,6 +45,17 @@ class UserController extends GetxController {
     String weight,
     List<String> stylePreferences,
   ) async {
+    if (isLoading.value) return;
+    if (!isValidBodyMetric(height) ||
+        !isValidBodyMetric(weight) ||
+        stylePreferences.isEmpty ||
+        selectedImage.value == null) {
+      Get.snackbar(
+        'Complete your profile',
+        'Choose a full-body photo, valid height and weight, and at least one style preference.',
+      );
+      return;
+    }
     try {
       isLoading.value = true;
 
@@ -101,9 +123,6 @@ class UserController extends GetxController {
       Get.snackbar("Success", "Digital Twin created successfully!");
       Get.offAllNamed('/home');
     } catch (e) {
-      print("----- SAVE USER DATA ERROR -----");
-      print(e.toString());
-      print("--------------------------------");
       Get.snackbar("Error", e.toString());
     } finally {
       isLoading.value = false;

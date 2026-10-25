@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../services/ai_service.dart';
@@ -10,6 +11,7 @@ import '../services/liked_outfits_service.dart';
 import '../widgets/generation_progress.dart';
 import '../widgets/generation_confirmation.dart';
 import '../config/generation_config.dart';
+import '../models/outfit_draft.dart';
 import 'edit_profile_screen.dart';
 
 class VirtualTryOnScreen extends StatefulWidget {
@@ -44,7 +46,8 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   String? _selectedShoesId;
   final Set<String> _selectedAccessoryIds = {};
   static const _maxAccessories = 5;
-  Uint8List? _resultImage;
+  OutfitDraft? _result;
+  Uint8List? get _resultImage => _result?.image;
   String? _error;
   bool _loading = true;
   bool _generating = false;
@@ -91,12 +94,13 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   }
 
   Future<void> _loadChoices({bool newOutfit = false}) async {
+    if (_result?.saving == true || _generating) return;
     setState(() {
       _loading = true;
       _error = null;
       if (newOutfit) {
         _refreshCount++;
-        _resultImage = null;
+        _result = null;
         _selectedTwinId = null;
         _selectedTopId = null;
         _selectedBottomId = null;
@@ -191,7 +195,13 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
     if (twinId == null ||
         garmentIds.isEmpty ||
         _generating ||
+        _result?.saving == true ||
         _confirmingGeneration) {
+      return;
+    }
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) {
+      setState(() => _error = 'Please sign in again before generating.');
       return;
     }
     _confirmingGeneration = true;
@@ -205,6 +215,12 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       _confirmingGeneration = false;
     }
     if (!confirmed || !mounted) return;
+    if (FirebaseAuth.instance.currentUser?.uid != uid) {
+      setState(
+        () => _error = 'Your sign-in changed. Please reopen Virtual Try-On.',
+      );
+      return;
+    }
 
     _generationStopwatch
       ..reset()
@@ -212,7 +228,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
     setState(() {
       _generating = true;
       _error = null;
-      _resultImage = null;
+      _result = null;
     });
     // The generate button sits below the pickers; bring the animated
     // loading indicator into view.
@@ -230,7 +246,13 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       );
       final result = base64Decode(response['resultImageB64'] as String);
       if (!mounted) return;
-      setState(() => _resultImage = result);
+      if (FirebaseAuth.instance.currentUser?.uid != uid) {
+        setState(
+          () => _error = 'Your sign-in changed. Please reopen Virtual Try-On.',
+        );
+        return;
+      }
+      setState(() => _result = OutfitDraft(image: result, ownerUid: uid));
     } on AiServiceException catch (error) {
       if (!mounted) return;
       setState(() => _error = error.message);
@@ -250,200 +272,207 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return PopScope(
+      canPop: !_generating && _result?.saving != true,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Get.back(),
-        ),
-        title: const Text(
-          'Virtual Try-On',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Refresh',
-            onPressed: _generating || _loading
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: _generating || _result?.saving == true
                 ? null
-                : () => _loadChoices(newOutfit: true),
-            icon: const Icon(Icons.refresh, color: Colors.black),
+                : () => Get.back(),
           ),
-        ],
-      ),
-      body: _loading
-          ? Center(
-              child: Obx(
-                () => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircularProgressIndicator(),
-                    if (_closet.syncStatus.value.isNotEmpty) ...[
-                      const SizedBox(height: 14),
-                      Text(_closet.syncStatus.value),
+          title: const Text(
+            'Virtual Try-On',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          actions: [
+            IconButton(
+              tooltip: 'Refresh',
+              onPressed: _generating || _loading || _result?.saving == true
+                  ? null
+                  : () => _loadChoices(newOutfit: true),
+              icon: const Icon(Icons.refresh, color: Colors.black),
+            ),
+          ],
+        ),
+        body: _loading
+            ? Center(
+                child: Obx(
+                  () => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(),
+                      if (_closet.syncStatus.value.isNotEmpty) ...[
+                        const SizedBox(height: 14),
+                        Text(_closet.syncStatus.value),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-              ),
-            )
-          : ListView(
-              key: ValueKey(_refreshCount),
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-              children: [
-                _resultCard(),
-                const SizedBox(height: 24),
-                _sectionTitle('1. Choose your digital twin'),
-                const SizedBox(height: 10),
-                if (_twins.isEmpty)
-                  _emptyCard(
-                    'Create a digital twin from your profile before trying on clothes.',
-                    actionLabel: 'Create digital twin',
-                    onAction: _openTwinSetup,
-                  )
-                else
-                  _choiceStrip(
-                    _twins,
-                    _selectedTwinId,
-                    (id) => setState(() => _selectedTwinId = id),
-                  ),
-                const SizedBox(height: 24),
-                _sectionTitle('2. Choose a Top'),
-                const SizedBox(height: 10),
-                if (_tops.isEmpty)
-                  _emptyCard(
-                    'No uploaded Tops are available. You can still generate with Pants or a Skirt only.',
-                    actionLabel: 'Back to closet',
-                    onAction: Get.back,
-                  )
-                else
-                  _garmentChoiceStrip(
-                    _tops,
-                    _selectedTopId,
-                    noneLabel: 'No top',
-                    onSelected: (id) => setState(() => _selectedTopId = id),
-                  ),
-                const SizedBox(height: 24),
-                _sectionTitle('3. Choose Pants or a Skirt'),
-                const SizedBox(height: 10),
-                if (_bottoms.isEmpty)
-                  _emptyCard(
-                    'No uploaded Pants or Skirts are available. You can still generate with a Top only.',
-                    actionLabel: 'Back to closet',
-                    onAction: Get.back,
-                  )
-                else
-                  _garmentChoiceStrip(
-                    _bottoms,
-                    _selectedBottomId,
-                    noneLabel: 'No bottoms',
-                    onSelected: (id) => setState(() => _selectedBottomId = id),
-                  ),
-                const SizedBox(height: 24),
-                _sectionTitle('4. Choose Shoes'),
-                const SizedBox(height: 10),
-                if (_shoes.isEmpty)
-                  _emptyCard(
-                    'No uploaded Shoes are available. You can still generate without shoes.',
-                    actionLabel: 'Back to closet',
-                    onAction: Get.back,
-                  )
-                else
-                  _garmentChoiceStrip(
-                    _shoes,
-                    _selectedShoesId,
-                    noneLabel: 'No shoes',
-                    onSelected: (id) => setState(() => _selectedShoesId = id),
-                  ),
-                const SizedBox(height: 24),
-                _sectionTitle('5. Choose Accessories'),
-                const SizedBox(height: 10),
-                if (_accessories.isEmpty)
-                  _emptyCard(
-                    'Add a clear accessory photo to the Accessories category in your closet. Hats, bags, glasses, and jewelry can be tried on.',
-                    actionLabel: 'Back to closet',
-                    onAction: Get.back,
-                  )
-                else
-                  _garmentChoiceStrip(
-                    _accessories,
-                    null,
-                    selectedIds: _selectedAccessoryIds,
-                    noneLabel: 'No accessories',
-                    onSelected: _toggleAccessory,
-                  ),
-                const SizedBox(height: 8),
-                Text(
-                  'Select up to $_maxAccessories accessories. Tap a selected item to remove it. '
-                  '${_selectedAccessoryIds.length} selected · ${maxQualityCreditCost(_selectedAccessoryIds.length)} accessory credits at $maxQualityLabel.',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                if (_selectedAccessoryIds.isNotEmpty)
-                  const Text(
-                    'Choose different accessory types, such as a hat, bag and necklace. Items worn in the same place may replace each other.',
+              )
+            : ListView(
+                key: ValueKey(_refreshCount),
+                controller: _scrollController,
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                children: [
+                  _resultCard(),
+                  const SizedBox(height: 24),
+                  _sectionTitle('1. Choose your digital twin'),
+                  const SizedBox(height: 10),
+                  if (_twins.isEmpty)
+                    _emptyCard(
+                      'Create a digital twin from your profile before trying on clothes.',
+                      actionLabel: 'Create digital twin',
+                      onAction: _openTwinSetup,
+                    )
+                  else
+                    _choiceStrip(
+                      _twins,
+                      _selectedTwinId,
+                      (id) => setState(() => _selectedTwinId = id),
+                    ),
+                  const SizedBox(height: 24),
+                  _sectionTitle('2. Choose a Top'),
+                  const SizedBox(height: 10),
+                  if (_tops.isEmpty)
+                    _emptyCard(
+                      'No uploaded Tops are available. You can still generate with Pants or a Skirt only.',
+                      actionLabel: 'Back to closet',
+                      onAction: Get.back,
+                    )
+                  else
+                    _garmentChoiceStrip(
+                      _tops,
+                      _selectedTopId,
+                      noneLabel: 'No top',
+                      onSelected: (id) => setState(() => _selectedTopId = id),
+                    ),
+                  const SizedBox(height: 24),
+                  _sectionTitle('3. Choose Pants or a Skirt'),
+                  const SizedBox(height: 10),
+                  if (_bottoms.isEmpty)
+                    _emptyCard(
+                      'No uploaded Pants or Skirts are available. You can still generate with a Top only.',
+                      actionLabel: 'Back to closet',
+                      onAction: Get.back,
+                    )
+                  else
+                    _garmentChoiceStrip(
+                      _bottoms,
+                      _selectedBottomId,
+                      noneLabel: 'No bottoms',
+                      onSelected: (id) =>
+                          setState(() => _selectedBottomId = id),
+                    ),
+                  const SizedBox(height: 24),
+                  _sectionTitle('4. Choose Shoes'),
+                  const SizedBox(height: 10),
+                  if (_shoes.isEmpty)
+                    _emptyCard(
+                      'No uploaded Shoes are available. You can still generate without shoes.',
+                      actionLabel: 'Back to closet',
+                      onAction: Get.back,
+                    )
+                  else
+                    _garmentChoiceStrip(
+                      _shoes,
+                      _selectedShoesId,
+                      noneLabel: 'No shoes',
+                      onSelected: (id) => setState(() => _selectedShoesId = id),
+                    ),
+                  const SizedBox(height: 24),
+                  _sectionTitle('5. Choose Accessories'),
+                  const SizedBox(height: 10),
+                  if (_accessories.isEmpty)
+                    _emptyCard(
+                      'Add a clear accessory photo to the Accessories category in your closet. Hats, bags, glasses, and jewelry can be tried on.',
+                      actionLabel: 'Back to closet',
+                      onAction: Get.back,
+                    )
+                  else
+                    _garmentChoiceStrip(
+                      _accessories,
+                      null,
+                      selectedIds: _selectedAccessoryIds,
+                      noneLabel: 'No accessories',
+                      onSelected: _toggleAccessory,
+                    ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Select up to $_maxAccessories accessories. Tap a selected item to remove it. '
+                    '${_selectedAccessoryIds.length} selected · ${maxQualityCreditCost(_selectedAccessoryIds.length)} accessory credits at $maxQualityLabel.',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
-                if (_error != null) ...[
-                  const SizedBox(height: 18),
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(12),
+                  if (_selectedAccessoryIds.isNotEmpty)
+                    const Text(
+                      'Choose different accessory types, such as a hat, bag and necklace. Items worn in the same place may replace each other.',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
-                    child: Text(
-                      _error!,
-                      style: TextStyle(color: Colors.red.shade800),
+                  if (_error != null) ...[
+                    const SizedBox(height: 18),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        _error!,
+                        style: TextStyle(color: Colors.red.shade800),
+                      ),
                     ),
+                  ],
+                  const SizedBox(height: 24),
+                  Text(
+                    'Try-On Max · $maxQualityLabel · ${maxQualityCreditCost(_selectedItemCount)} API credits for $_selectedItemCount selected item(s)',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                ],
-                const SizedBox(height: 24),
-                Text(
-                  'Try-On Max · $maxQualityLabel · ${maxQualityCreditCost(_selectedItemCount)} API credits for $_selectedItemCount selected item(s)',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 54,
-                  child: ElevatedButton.icon(
-                    onPressed:
-                        _selectedTwinId == null ||
-                            (_selectedTopId == null &&
-                                _selectedBottomId == null &&
-                                _selectedShoesId == null &&
-                                _selectedAccessoryIds.isEmpty) ||
-                            _generating
-                        ? null
-                        : _generate,
-                    icon: _generating
-                        ? null
-                        : const Icon(Icons.checkroom_outlined),
-                    label: Text(
-                      _generating
-                          ? 'Creating your try-on…'
-                          : 'Generate Virtual Try-On',
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: Colors.grey.shade400,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 54,
+                    child: ElevatedButton.icon(
+                      onPressed:
+                          _selectedTwinId == null ||
+                              (_selectedTopId == null &&
+                                  _selectedBottomId == null &&
+                                  _selectedShoesId == null &&
+                                  _selectedAccessoryIds.isEmpty) ||
+                              _generating ||
+                              _result?.saving == true
+                          ? null
+                          : _generate,
+                      icon: _generating
+                          ? null
+                          : const Icon(Icons.checkroom_outlined),
+                      label: Text(
+                        _generating
+                            ? 'Creating your try-on…'
+                            : 'Generate Virtual Try-On',
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: Colors.grey.shade400,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'All selected items use paid Try-On Max at $maxQualityCreditsPerImage credits each. Your twin and clothing images are sent to FASHN. Save your favorite results in My Outfits.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ],
-            ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'All selected items use paid Try-On Max at $maxQualityCreditsPerImage credits each. Your twin and clothing images are sent to FASHN. Save your favorite results in My Outfits.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 
@@ -467,9 +496,17 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                     right: 12,
                     bottom: 12,
                     child: FilledButton.icon(
-                      onPressed: _saveResult,
+                      onPressed: _result!.saving || _result!.saved
+                          ? null
+                          : _saveResult,
                       icon: const Icon(Icons.bookmark_add_outlined),
-                      label: const Text('Save Outfit'),
+                      label: Text(
+                        _result!.saving
+                            ? 'Saving…'
+                            : _result!.saved
+                            ? 'Saved'
+                            : 'Save Outfit',
+                      ),
                     ),
                   ),
                 ],
@@ -493,17 +530,26 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   }
 
   Future<void> _saveResult() async {
-    final image = _resultImage;
-    if (image == null) return;
+    final draft = _result;
+    if (draft == null || draft.saving || draft.saved) return;
     try {
-      await LikedOutfitsService.like(
-        imageBytes: image,
-        source: OutfitSource.tryOn,
-        title: 'Virtual Try-On',
+      final operation = draft.save(
+        currentUid: FirebaseAuth.instance.currentUser?.uid,
+        persist: () => LikedOutfitsService.like(
+          imageBytes: draft.image,
+          ownerUid: draft.ownerUid,
+          source: OutfitSource.tryOn,
+          title: 'Virtual Try-On',
+        ),
       );
-      Get.snackbar('Outfit saved', 'You can find it in My Outfits.');
+      setState(() {});
+      if (await operation && mounted) {
+        Get.snackbar('Outfit saved', 'You can find it in My Outfits.');
+      }
     } catch (error) {
-      Get.snackbar('Could not save outfit', error.toString());
+      if (mounted) Get.snackbar('Could not save outfit', error.toString());
+    } finally {
+      if (mounted) setState(() {});
     }
   }
 

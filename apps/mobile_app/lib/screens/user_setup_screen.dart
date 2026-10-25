@@ -3,17 +3,35 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../services/user_controller.dart';
 import '../widgets/style_preference_selector.dart';
+import '../config/profile_validation.dart';
 
-class UserSetupScreen extends StatelessWidget {
-  const UserSetupScreen({super.key});
+class UserSetupScreen extends StatefulWidget {
+  const UserSetupScreen({super.key, this.controller});
+  final UserController? controller;
+
+  @override
+  State<UserSetupScreen> createState() => _UserSetupScreenState();
+}
+
+class _UserSetupScreenState extends State<UserSetupScreen> {
+  late final UserController userController =
+      widget.controller ??
+      (Get.isRegistered<UserController>()
+          ? Get.find<UserController>()
+          : Get.put(UserController()));
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
+  final RxList<String> selectedStylePreferences = <String>[].obs;
+
+  @override
+  void dispose() {
+    heightController.dispose();
+    weightController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final UserController userController = Get.put(UserController());
-    final TextEditingController heightController = TextEditingController();
-    final TextEditingController weightController = TextEditingController();
-    final RxList<String> selectedStylePreferences = <String>[].obs;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Your Digital Twin'),
@@ -124,8 +142,8 @@ class UserSetupScreen extends StatelessWidget {
                               'Photo required',
                               'Choose a clear full-body photo first.',
                             );
-                          } else if (heightController.text.isNotEmpty &&
-                              weightController.text.isNotEmpty &&
+                          } else if (isValidBodyMetric(heightController.text) &&
+                              isValidBodyMetric(weightController.text) &&
                               selectedStylePreferences.isNotEmpty) {
                             userController.saveUserData(
                               heightController.text.trim(),
@@ -135,7 +153,7 @@ class UserSetupScreen extends StatelessWidget {
                           } else {
                             Get.snackbar(
                               'Complete your profile',
-                              'Add your height, weight, and at least one style preference.',
+                              'Enter valid positive height and weight, and select at least one style preference.',
                             );
                           }
                         },

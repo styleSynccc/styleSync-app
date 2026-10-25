@@ -175,12 +175,26 @@ class AiService {
       return body;
     }
     throw AiServiceException(
-      (body['error_type'] as String?) ?? 'UNKNOWN_ERROR',
-      (body['message'] as String?) ??
-          (body['detail'] as String?) ??
+      body['error_type']?.toString() ?? 'UNKNOWN_ERROR',
+      _errorMessage(body['message']) ??
+          _errorMessage(body['detail']) ??
           'Something went wrong (HTTP ${response.statusCode}).',
-      reason: body['reason'] as String?,
+      reason: body['reason']?.toString(),
     );
+  }
+
+  // FastAPI validation errors contain a list of {loc, msg, type}, not a
+  // String. Casting that list used to hide the real error as NETWORK_ERROR.
+  String? _errorMessage(dynamic value) {
+    if (value is String && value.trim().isNotEmpty) return value;
+    if (value is Map) {
+      return _errorMessage(value['message']) ?? _errorMessage(value['msg']);
+    }
+    if (value is List) {
+      final messages = value.map(_errorMessage).whereType<String>().take(3);
+      if (messages.isNotEmpty) return messages.join('\n');
+    }
+    return null;
   }
 
   /// POST /v1/twins - a full-body photo -> a saved digital twin.

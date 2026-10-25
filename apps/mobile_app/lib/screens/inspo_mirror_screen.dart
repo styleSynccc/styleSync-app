@@ -120,6 +120,11 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
     if (_busy || _confirmingGeneration || twinId == null || reference == null) {
       return;
     }
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) {
+      setState(() => _error = 'Please sign in again before generating.');
+      return;
+    }
     _confirmingGeneration = true;
     bool confirmed;
     try {
@@ -132,7 +137,12 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
       _confirmingGeneration = false;
     }
     if (!confirmed || !mounted) return;
-    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (FirebaseAuth.instance.currentUser?.uid != uid) {
+      setState(
+        () => _error = 'Your sign-in changed. Please reopen Inspo Mirror.',
+      );
+      return;
+    }
     _generationStopwatch
       ..reset()
       ..start();
@@ -185,7 +195,8 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
 
   Future<void> _save() async {
     if (_busy || _result == null || _saved) return;
-    if (_resultUid != FirebaseAuth.instance.currentUser?.uid) {
+    if (_resultUid == null ||
+        _resultUid != FirebaseAuth.instance.currentUser?.uid) {
       setState(
         () => _error = 'Your sign-in changed. Please reopen Inspo Mirror.',
       );
@@ -199,6 +210,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
       await LikedOutfitsService.like(
         imageBytes: _result!,
         source: OutfitSource.inspoMirror,
+        ownerUid: _resultUid!,
         title: _title.text.trim().isEmpty
             ? 'Inspo Mirror Outfit'
             : _title.text.trim(),

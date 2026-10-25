@@ -2,16 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/auth_controller.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final resetEmailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    resetEmailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AuthController authController = Get.find();
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController resetEmailController = TextEditingController();
 
     String? validateEmail(String? value) {
       if (value == null || value.trim().isEmpty) {
@@ -105,6 +119,7 @@ class LoginScreen extends StatelessWidget {
                                         )) {
                                       authController.resetPassword(
                                         resetEmailController.text.trim(),
+                                        closeDialog: true,
                                       );
                                     } else {
                                       Get.snackbar(

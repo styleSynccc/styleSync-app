@@ -6,6 +6,56 @@ import 'package:http/testing.dart';
 import 'package:mobile_app/services/ai_service.dart';
 
 void main() {
+  test(
+    'FastAPI validation list is displayed instead of a false connection error',
+    () async {
+      final api = AiService(
+        tokenProvider: () async => 'test-token',
+        client: MockClient(
+          (_) async => http.Response(
+            '{"detail":[{"loc":["body","confirmedCredits"],"msg":"Input should be a valid integer","type":"int_type"}]}',
+            422,
+          ),
+        ),
+      );
+      await expectLater(
+        api.tryOn(twinId: 'twin', garmentItemIds: ['shirt']),
+        throwsA(
+          isA<AiServiceException>()
+              .having((e) => e.errorType, 'type', 'UNKNOWN_ERROR')
+              .having(
+                (e) => e.message,
+                'message',
+                'Input should be a valid integer',
+              ),
+        ),
+      );
+    },
+  );
+
+  test(
+    'structured server errors and non-string reason fields remain readable',
+    () async {
+      final api = AiService(
+        tokenProvider: () async => 'test-token',
+        client: MockClient(
+          (_) async => http.Response(
+            '{"error_type":"INVALID_IMAGE","detail":{"message":"Choose a clearer photo"},"reason":123}',
+            400,
+          ),
+        ),
+      );
+      await expectLater(
+        api.listTwins(),
+        throwsA(
+          isA<AiServiceException>()
+              .having((e) => e.message, 'message', 'Choose a clearer photo')
+              .having((e) => e.reason, 'reason', '123'),
+        ),
+      );
+    },
+  );
+
   test('unreachable twin list times out without retrying', () async {
     var requests = 0;
     final api = AiService(
