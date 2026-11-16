@@ -1,0 +1,92 @@
+[
+  {
+    "path": "backend.log",
+    "bytes": 30686,
+    "sha256": "619cb4a83e1e320d1f7b269bf9b8a4b5276c20096c5fb1e6324c799ddb566a6b"
+  },
+  {
+    "path": "backend.meta.json",
+    "bytes": 487,
+    "sha256": "c5c109daf182453d5e5d3d109aac499b13af594580057b4aeec9527d6589d481"
+  },
+  {
+    "path": "backend.xml",
+    "bytes": 17954,
+    "sha256": "8544bebca53a35d32d6581858cca1534c06b6ce4d6b80bb64e5dfe6ef9de9c14"
+  },
+  {
+    "path": "flutter.jsonl",
+    "bytes": 74628,
+    "sha256": "b1346755d55fb70e936a7539ab52654d7655560b56f0d313cad48d7939a5598d"
+  },
+  {
+    "path": "flutter.log",
+    "bytes": 55198,
+    "sha256": "1bfd2a4b040630afd8ee6e50cffc7946fac6752788384fe9ace83d94a7b66987"
+  },
+  {
+    "path": "flutter.meta.json",
+    "bytes": 471,
+    "sha256": "2e1d72cab87cfd8742b2ca880e88828c0f9ad6dd154d9c40f0f4b44561367f91"
+  },
+  {
+    "path": "original_widget_screenshots/TC-002_empty_signup_widget.png",
+    "bytes": 33099,
+    "sha256": "9325aef685bf7faa931d8973fae2048c3866d4c99ed3aa483741756678eb70ec"
+  },
+  {
+    "path": "original_widget_screenshots/TC-006_empty_login_widget.png",
+    "bytes": 31554,
+    "sha256": "35817b9b12731b7c9af3d7be41be0a98354b6ea30f6b7c799fb5a7bed5b2121b"
+  },
+  {
+    "path": "original_widget_screenshots/TC-008_missing_photo_widget.png",
+    "bytes": 46435,
+    "sha256": "797b31a847715b1618b1c75fbfaefe980ee7917de03a67e1070c446beec2eb8b"
+  },
+  {
+    "path": "results.json",
+    "bytes": 73345,
+    "sha256": "14baeb610ed61b3d46c2a93f63267172e859e6a9759969bcad2414159ed4c67a"
+  },
+  {
+    "path": "Results.md",
+    "bytes": 7327,
+    "sha256": "aea387386cd12f48bcaa78183ef98ee51b0e8a79d309e6d804f7aef306c56583"
+  },
+  {
+    "path": "summarize.py",
+    "bytes": 9416,
+    "sha256": "27bd9584918a60539023d11702cf4571e450f6e36af2fb0f94901b145b19758a"
+  },
+  {
+    "path": "widget_screenshots/TC-002_empty_signup_widget.png",
+    "bytes": 10588,
+    "sha256": "c3a5e5172a0973869e5f66b9677dcbddffe740b68e8c35641d0a954ec75698f5"
+  },
+  {
+    "path": "widget_screenshots/TC-006_empty_login_widget.png",
+    "bytes": 10666,
+    "sha256": "232ffad772771650cea966b18f465b2bc7d637f61c073eb24652137fa02d984e"
+  },
+  {
+    "path": "widget_screenshots/TC-008_missing_photo_widget.png",
+    "bytes": 23900,
+    "sha256": "d3e2b5c20a098faa81b8bac25ae24e829f2f13508aea325c150d428cbb2eda0e"
+  },
+  {
+    "path": "worker.log",
+    "bytes": 4628,
+    "sha256": "55b4ec134dd0fe37d859f16d33e183a163088d4b7cc9f0f60df56728b5eeeb09"
+  },
+  {
+    "path": "worker.meta.json",
+    "bytes": 531,
+    "sha256": "2e14046550fb97574818723ed5fa25e9d7fa5884c9bb3d1d35888ed9508ac694"
+  },
+  {
+    "path": "worker.xml",
+    "bytes": 1819,
+    "sha256": "ac178d70d7eb9bb6fa64c2899bce359b349338a49984446f539c8d2f6ab377e8"
+  }
+]

@@ -275,8 +275,8 @@ Save redacted execution notes under `testing_evidence/logs/integration/TC-NNN_ma
     # Include all attempt logs and source in this report's own manifest.
     paths = [p for p in (reports / 'Functional_Gap_Coverage_Matrix.md', reports / 'Functional_Gap_Coverage_Matrix.csv', reports / 'Functional_Gap_Coverage_Matrix.json', reports / 'Functional_Gap_Manual_Guide.md')]
     paths += [p for folder in ['flutter','fastapi'] for p in (EVIDENCE / 'logs' / folder).glob('gap_*') if p.is_file()]
-    paths += list((ROOT / 'apps/mobile_app/test').glob('fyp_*workflow_test.dart'))
-    paths += [ROOT / 'apps/mobile_app/test/support/functional_fakes.dart', ROOT / 'apps/ai_service/tests/test_fyp_workflow_gaps.py']
+    paths += list((ROOT / 'apps/mobile_app/test').glob('*_workflow_test.dart'))
+    paths += [ROOT / 'apps/mobile_app/test/support/functional_fakes.dart', ROOT / 'apps/ai_service/tests/test_workflow_gaps.py']
     manifest = [{'path_from_repo': p.relative_to(ROOT).as_posix(), 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(set(paths))]
     (reports / 'Functional_Gap_Evidence_Manifest.json').write_text(json.dumps({'generated_at': stamp(), 'files': manifest}, indent=2), encoding='utf-8')
     print(json.dumps({'new': Counter(r['status'] for r in new), 'full': Counter(r['status'] for r in current), 'individual_attempts': len(attempts), 'nonzero_individual_attempts': len(failed_attempts), 'mapped_cases': len(rows), 'original_test_hashes_verified': len(integrity['existing_test_integrity'])}, indent=2))

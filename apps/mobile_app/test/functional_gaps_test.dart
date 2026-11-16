@@ -1,4 +1,4 @@
-// Isolated FYP checks. Firebase, the picker, and HTTP are faked; no live writes.
+// Isolated functional checks. Firebase, the picker, and HTTP are faked; no live writes.
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;

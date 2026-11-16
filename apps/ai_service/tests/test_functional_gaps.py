@@ -1,4 +1,4 @@
-"""Missing FYP guards; isolated FastAPI calls, fake AI, temporary filesystem only."""
+"""Missing functional guards; isolated FastAPI calls, fake AI, temporary filesystem only."""
 from io import BytesIO
 
 from fastapi.testclient import TestClient

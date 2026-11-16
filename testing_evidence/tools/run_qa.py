@@ -116,7 +116,7 @@ def main() -> None:
         command = [str(PYTHON), "-m", "pytest", "-vv", "-ra", "--tb=short", "-p", "no:cacheprovider",
                    f"--junitxml={EVIDENCE / ('logs/fastapi/' + label + '.xml')}"]
         if added:
-            command.append("tests/test_fyp_functional_gaps.py")
+            command.append("tests/test_functional_gaps.py")
         capture(f"fastapi/{label}.log", command, BACKEND)
     else:
         added = action.endswith("added")
@@ -127,7 +127,7 @@ def main() -> None:
         command = [shutil.which("flutter"), "test", "--no-pub", "--reporter", "expanded",
                    "--file-reporter", f"json:{EVIDENCE / ('logs/flutter/' + label + '.jsonl')}"]
         if added:
-            command.append("test/fyp_functional_gaps_test.dart")
+            command.append("test/functional_gaps_test.dart")
         capture(f"flutter/{label}.log", command, MOBILE)
 
 

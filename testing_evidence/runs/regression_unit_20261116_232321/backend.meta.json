@@ -1,0 +1,9 @@
+﻿{
+    "suite":  "backend",
+    "command":  ".\\.venv\\Scripts\\python.exe -m pytest -vv -ra --tb=short -p no:cacheprovider --junitxml=\u0027C:\\Users\\User\\styleSync-app\\testing_evidence\\runs\\regression_unit_20261116_232321\\backend.xml\u0027",
+    "cwd":  "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+    "started":  "2026-11-16T23:23:34.6996700+08:00",
+    "ended":  "2026-11-16T23:23:58.8327910+08:00",
+    "duration_seconds":  24.133121,
+    "exit_code":  0
+}

@@ -1,0 +1,9 @@
+﻿{
+    "suite":  "worker",
+    "command":  "..\\ai_service\\.venv\\Scripts\\python.exe -m pytest test_worker_extraction.py -vv -ra --tb=short -p no:cacheprovider --junitxml=\u0027C:\\Users\\User\\styleSync-app\\testing_evidence\\runs\\regression_unit_20261116_232321\\worker.xml\u0027",
+    "cwd":  "C:\\Users\\User\\styleSync-app\\apps\\fashn_vton_worker",
+    "started":  "2026-11-16T23:23:34.7328139+08:00",
+    "ended":  "2026-11-16T23:23:42.7076107+08:00",
+    "duration_seconds":  7.9747968,
+    "exit_code":  0
+}

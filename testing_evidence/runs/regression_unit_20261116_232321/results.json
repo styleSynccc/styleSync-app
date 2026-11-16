@@ -1,0 +1,2296 @@
+{
+  "revision": "9a4d157c7c5d547812cb0a1f1307a0b1bda74cde",
+  "timezone": "Asia/Kuala_Lumpur",
+  "metadata": {
+    "flutter": {
+      "suite": "flutter",
+      "command": "flutter test --no-pub --reporter expanded --file-reporter 'json:C:\\Users\\User\\styleSync-app\\testing_evidence\\runs\\regression_unit_20261116_232321\\flutter.jsonl'",
+      "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+      "started": "2026-11-16T23:23:34.6740842+08:00",
+      "ended": "2026-11-16T23:23:46.1114862+08:00",
+      "duration_seconds": 11.437401999999999,
+      "exit_code": 1
+    },
+    "backend": {
+      "suite": "backend",
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest -vv -ra --tb=short -p no:cacheprovider --junitxml='C:\\Users\\User\\styleSync-app\\testing_evidence\\runs\\regression_unit_20261116_232321\\backend.xml'",
+      "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+      "started": "2026-11-16T23:23:34.6996700+08:00",
+      "ended": "2026-11-16T23:23:58.8327910+08:00",
+      "duration_seconds": 24.133121,
+      "exit_code": 0
+    },
+    "worker": {
+      "suite": "worker",
+      "command": "..\\ai_service\\.venv\\Scripts\\python.exe -m pytest test_worker_extraction.py -vv -ra --tb=short -p no:cacheprovider --junitxml='C:\\Users\\User\\styleSync-app\\testing_evidence\\runs\\regression_unit_20261116_232321\\worker.xml'",
+      "cwd": "C:\\Users\\User\\styleSync-app\\apps\\fashn_vton_worker",
+      "started": "2026-11-16T23:23:34.7328139+08:00",
+      "ended": "2026-11-16T23:23:42.7076107+08:00",
+      "duration_seconds": 7.9747968,
+      "exit_code": 0
+    }
+  },
+  "counts": {
+    "flutter": {
+      "success": 104,
+      "error": 6
+    },
+    "backend": {
+      "success": 151
+    },
+    "worker": {
+      "success": 13
+    }
+  },
+  "tests": [
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "FastAPI validation list is displayed instead of a false connection error",
+      "line": 9,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "structured server errors and non-string reason fields remain readable",
+      "line": 36,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "unreachable twin list times out without retrying",
+      "line": 59,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "stuck authentication times out before sending any API request",
+      "line": 82,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "refresh recovers after an offline list request",
+      "line": 108,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "wardrobe list has the same bounded loading behaviour",
+      "line": 135,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart",
+      "name": "a generation timeout is not misreported as a connection failure",
+      "line": 156,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-001 registration persists profile for returned uid and routes to setup",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart",
+      "name": "login keeps typed fields after parent rebuild",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-004 login routes complete profile after credential success",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-004 login routes incomplete profile after credential success",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-004 login routes missing profile after credential success",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart",
+      "name": "sign-up keeps typed fields after parent rebuild",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-002 empty sign-up fields show all required errors without registration",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart",
+      "name": "twin setup keeps height, weight and preferences after rebuild",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-006 empty login fields prevent credential submission",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-002 malformed email cannot reach Firebase",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart",
+      "name": "TC-022 selecting reference previews locally without uploading or generating",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-006 malformed email cannot reach Firebase",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-001 valid sign-up form forwards all details to an isolated controller",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart",
+      "name": "TC-024 cancelling replacement picker preserves previously selected reference",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-004 valid login form forwards credentials to an isolated controller",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-002 short password cannot reach Firebase",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-003 Firebase rejection is shown and loading stops (fake Auth)",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-005 Firebase rejection is shown and loading stops (fake Auth)",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart",
+      "name": "TC-017 changing top before confirmation sends only final selection once",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-028 TC-031 selected future date stores plan and displays items with reminder",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-002 no_uppercase password cannot reach Firebase",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart",
+      "name": "TC-018 try-on without twin disables Generate and shows setup guidance",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-008 setup cannot continue without a body photo",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-008 controller rejects incomplete metrics before Firebase or file access",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart",
+      "name": "TC-007 accepted twin photo persists processed image and completed merged profile",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart",
+      "name": "TC-002 no_special password cannot reach Firebase",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart",
+      "name": "TC-008 missing weight blocks profile creation before API and storage",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart",
+      "name": "TC-025 selected twin and reference generate one visible inspired result",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart",
+      "name": "TC-008 missing styles blocks profile creation before API and storage",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-024 cancelling inspiration picker leaves selection empty and sends no generation",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-029 changing selected date before commit writes only final date",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-036 missing saved outfit image has a thumbnail fallback",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart",
+      "name": "TC-036 missing saved outfit image has a detail message",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart",
+      "name": "TC-009 twin screen retrieves processed saved twin rather than fallback URL",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart",
+      "name": "TC-035 missing twin screen offers Create Twin without a broken image",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart",
+      "name": "TC-026 selected reference without twin cannot generate",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart",
+      "name": "TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-030 cancelling date selection creates no plan or alarm",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart",
+      "name": "TC-027 mocked processing rejection is readable and retains reference for retry",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "maximum-quality quote counts every item including accessories",
+      "line": 14,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-030 cancelling time selection creates no plan or alarm",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart",
+      "name": "TC-020 revised leave-generated-result-unsaved creates no liked outfit",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart",
+      "name": "TC-036 unavailable remote outfit image keeps full gallery viewer usable",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-030 cancelling items selection creates no plan or alarm",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-010 TC-013 gallery clothing upload stores processed bytes and category",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-032 revised empty upcoming list explains how to create a plan",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart",
+      "name": "TC-033 revised multiple dated cards preserve chronological date and item pairing",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-011 TC-013 camera clothing upload stores processed bytes and category",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-012 cancelling gallery clothing picker performs no IO writes",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/notification_service_test.dart",
+      "name": "Malaysian 10:11 PM is scheduled at 10:11 PM, with exact timing",
+      "line": 52,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-012 cancelling camera clothing picker performs no IO writes",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/notification_service_test.dart",
+      "name": "unknown timezone fallback preserves the instant instead of shifting eight hours",
+      "line": 83,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/notification_service_test.dart",
+      "name": "denied exact access uses approximate timing and reports it",
+      "line": 110,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/notification_service_test.dart",
+      "name": "disabled notifications and past times do not create alarms",
+      "line": 128,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "VTON shows the total and cancellation declines generation",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 84,
+          "error": "Test failed. See exception logs above.\nThe test description was: VTON shows the total and cancellation declines generation",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 7968
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_draft_test.dart",
+      "name": "double tapping save uploads once and successful saves stay saved",
+      "line": 10,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_draft_test.dart",
+      "name": "a failed upload unlocks save for a retry",
+      "line": 33,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_draft_test.dart",
+      "name": "result cannot be saved after account changes to null",
+      "line": 53,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_draft_test.dart",
+      "name": "result cannot be saved after account changes to another-user",
+      "line": 53,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Inspo confirms exactly one three-credit generation",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 108,
+          "error": "Test failed. See exception logs above.\nThe test description was: Inspo confirms exactly one three-credit generation",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 8160
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "VTON sends its confirmed total once",
+      "line": 83,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "cost confirmation remains usable in landscape",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 117,
+          "error": "Test failed. See exception logs above.\nThe test description was: cost confirmation remains usable in landscape",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 8331
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Inspo sends the three-credit confirmation in its multipart request",
+      "line": 126,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Fast sends matching mode and cost to both endpoints",
+      "line": 148,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart",
+      "name": "empty twin list explains setup and cannot submit a paid request",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "a past reminder today is no longer upcoming",
+      "line": 8,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Fast confirmation shows its own total",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 120,
+          "error": "Test failed. See exception logs above.\nThe test description was: Fast confirmation shows its own total",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 8505
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "a plan expires at its selected time, not at midnight",
+      "line": 16,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "a future reminder is upcoming",
+      "line": 29,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "legacy date-only plan expires at the next local midnight",
+      "line": 38,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Balanced sends matching mode and cost to both endpoints",
+      "line": 148,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "a date-only plan from yesterday is not upcoming",
+      "line": 45,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "missing or invalid dates do not produce upcoming outfits",
+      "line": 54,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "existing planner records appear in gallery without createdAt or imageUrl",
+      "line": 59,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-015 dismissing category sheet leaves closet and services unchanged",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_plan_test.dart",
+      "name": "gallery preserves custom titles and creation dates",
+      "line": 89,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Balanced confirmation shows its own total",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 129,
+          "error": "Test failed. See exception logs above.\nThe test description was: Balanced confirmation shows its own total",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 8650
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Quality sends matching mode and cost to both endpoints",
+      "line": 148,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart",
+      "name": "API error can be recovered by refreshing twins",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "Quality confirmation shows its own total",
+      "line": 174,
+      "status": "error",
+      "errors": [
+        {
+          "testID": 137,
+          "error": "Test failed. See exception logs above.\nThe test description was: Quality confirmation shows its own total",
+          "stackTrace": "",
+          "isFailure": false,
+          "type": "error",
+          "time": 8790
+        }
+      ]
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart",
+      "name": "TC-014 revised pre-upload category choice uses the newly selected category",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart",
+      "name": "mode selector switches choices and wraps on small screens",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"abc\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"-1\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"0\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"NaN\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"Infinity\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"-Infinity\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "invalid body metric \"1e999\" is rejected",
+      "line": 15,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "valid body metric \"170\" is accepted",
+      "line": 20,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "valid body metric \"65.5\" is accepted",
+      "line": 20,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/profile_validation_test.dart",
+      "name": "valid body metric \" 165.5 \" is accepted",
+      "line": 20,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/wardrobe_recovery_test.dart",
+      "name": "owned closet image paths accepts current and legacy paths only for this user",
+      "line": 6,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/wardrobe_recovery_test.dart",
+      "name": "recovers missing gallery and bundled items without duplicating linked items",
+      "line": 31,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/wardrobe_recovery_test.dart",
+      "name": "continues after missing images or failed uploads and leaves changed records alone",
+      "line": 104,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart",
+      "name": "planner thumbnail fits all six clothing pieces",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/widget_test.dart",
+      "name": "Placeholder test",
+      "line": 4,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart",
+      "name": "planner detail shows categories and can scroll",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart",
+      "name": "empty planner outfit has a friendly preview",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart",
+      "name": "gallery upload uses its actual network URL",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart",
+      "name": "reset from profile does not pop the profile page",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "flutter",
+      "file": "C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart",
+      "name": "login reset closes its dialog, not the underlying page",
+      "line": 174,
+      "status": "success",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_auth",
+      "name": "test_verify_returns_firebase_uid",
+      "status": "success",
+      "duration_seconds": "1.076",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_auth",
+      "name": "test_verify_rejects_invalid_firebase_claims[claims0]",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_auth",
+      "name": "test_verify_rejects_invalid_firebase_claims[claims1]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_auth",
+      "name": "test_verify_rejects_invalid_firebase_claims[claims2]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_auth",
+      "name": "test_verify_rejects_invalid_firebase_claims[claims3]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_enhance_quality",
+      "name": "test_denoising_reduces_noise_variance",
+      "status": "success",
+      "duration_seconds": "0.692",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_enhance_quality",
+      "name": "test_sharpening_increases_edge_contrast",
+      "status": "success",
+      "duration_seconds": "0.179",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_enhance_quality",
+      "name": "test_low_contrast_channel_is_stretched",
+      "status": "success",
+      "duration_seconds": "0.066",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_enhance_quality",
+      "name": "test_does_not_shift_a_dominant_garment_colour",
+      "status": "success",
+      "duration_seconds": "0.058",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_enhance_quality",
+      "name": "test_flat_image_is_not_corrupted",
+      "status": "success",
+      "duration_seconds": "0.023",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_shoes_require_server_side_api_key",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_shoe_generation_submits_polls_and_decodes",
+      "status": "success",
+      "duration_seconds": "0.015",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_inspo_uses_one_quality_1k_call_and_identity_prompt",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_inspo_invalid_provider_response_is_handled",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_accessories_request_quality_1k_and_preserve_clothing",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Tops]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Pants]",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Skirts]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fashn_api",
+      "name": "test_failed_prediction_is_not_resubmitted",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC007_missing_twin_photo_is_schema_error_and_saves_nothing",
+      "status": "success",
+      "duration_seconds": "0.065",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC013_missing_category_is_schema_error_and_saves_nothing",
+      "status": "success",
+      "duration_seconds": "0.029",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC026_absent_twin_rejects_before_provider_or_result_save",
+      "status": "success",
+      "duration_seconds": "0.027",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC023_svg_reference_is_rejected_before_provider_or_result_save",
+      "status": "success",
+      "duration_seconds": "0.617",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC027_low_resolution_reference_is_rejected_before_provider",
+      "status": "success",
+      "duration_seconds": "0.038",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_functional_gaps",
+      "name": "test_TC027_characterization_blank_decodable_reference_reaches_fake_provider",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_workflow_gaps",
+      "name": "test_TC007_TC009_created_twin_survives_app_restart_and_stays_user_scoped",
+      "status": "success",
+      "duration_seconds": "0.836",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_fyp_workflow_gaps",
+      "name": "test_TC010_TC013_uploaded_category_and_processed_image_survive_app_restart",
+      "status": "success",
+      "duration_seconds": "0.820",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_errors[422-NoGarmentError]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_errors[503-GarmentExtractionError]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_connection_failure",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_mask_response[204-None]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_mask_response[200-shape1]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_garment_extraction",
+      "name": "test_worker_mask_response[200-shape2]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.144",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.167",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.090",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.074",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.107",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.068",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[fast-3-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.062",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[fast-3-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[balanced-1-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.057",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[balanced-1-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.051",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[quality-2-tryon-2]",
+      "status": "success",
+      "duration_seconds": "0.063",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_wrong_mode_quote_never_submits_a_paid_call[quality-2-inspo-1]",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[turbo-tryon]",
+      "status": "success",
+      "duration_seconds": "0.034",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[turbo-inspo]",
+      "status": "success",
+      "duration_seconds": "0.038",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[FAST-tryon]",
+      "status": "success",
+      "duration_seconds": "0.034",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[FAST-inspo]",
+      "status": "success",
+      "duration_seconds": "0.036",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[fast -tryon]",
+      "status": "success",
+      "duration_seconds": "0.037",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_invalid_modes_never_submit_a_paid_call[fast -inspo]",
+      "status": "success",
+      "duration_seconds": "0.039",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_missing_fast_quote_never_submits_a_paid_call[tryon]",
+      "status": "success",
+      "duration_seconds": "0.065",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_missing_fast_quote_never_submits_a_paid_call[inspo]",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_generation_modes",
+      "name": "test_requests_with_different_modes_do_not_change_each_others_engine",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_hijab_mediapipe",
+      "name": "test_head_covered_by_clothing_is_hijab_with_mask",
+      "status": "success",
+      "duration_seconds": "0.196",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_hijab_mediapipe",
+      "name": "test_visible_hair_is_not_hijab",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_hijab_mediapipe",
+      "name": "test_visible_neck_skin_is_not_hijab",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_hijab_mediapipe",
+      "name": "test_no_face_means_no_decision",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_hijab_mediapipe",
+      "name": "test_head_crop_box_is_centred_on_nose_and_clipped_to_canvas",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_imaging",
+      "name": "test_transparent_product_image_is_flattened_on_white",
+      "status": "success",
+      "duration_seconds": "0.004",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_inspo_returns_and_persists_result",
+      "status": "success",
+      "duration_seconds": "0.060",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_inspo_rejects_other_users_twin_without_calling_provider",
+      "status": "success",
+      "duration_seconds": "0.028",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_inspo_requires_firebase_auth",
+      "status": "success",
+      "duration_seconds": "0.019",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_inspo_validates_before_paid_generation",
+      "status": "success",
+      "duration_seconds": "0.045",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_inspo_missing_key_returns_actionable_error",
+      "status": "success",
+      "duration_seconds": "0.038",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_inspo_api",
+      "name": "test_provider_failure_does_not_save_a_result",
+      "status": "success",
+      "duration_seconds": "0.042",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_list_twins_empty",
+      "status": "success",
+      "duration_seconds": "0.017",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_list_twins_newest_first",
+      "status": "success",
+      "duration_seconds": "0.050",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_list_twins_only_returns_this_users_twins",
+      "status": "success",
+      "duration_seconds": "0.043",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_list_wardrobe_newest_first",
+      "status": "success",
+      "duration_seconds": "0.048",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_list_wardrobe_empty",
+      "status": "success",
+      "duration_seconds": "0.017",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_twins_list_requires_auth",
+      "status": "success",
+      "duration_seconds": "0.014",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_list_endpoints",
+      "name": "test_wardrobe_list_requires_auth",
+      "status": "success",
+      "duration_seconds": "0.019",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_item_quote_must_be_six_before_any_paid_call[None]",
+      "status": "success",
+      "duration_seconds": "0.059",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_item_quote_must_be_six_before_any_paid_call[0]",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_item_quote_must_be_six_before_any_paid_call[3]",
+      "status": "success",
+      "duration_seconds": "0.064",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_item_quote_must_be_six_before_any_paid_call[10]",
+      "status": "success",
+      "duration_seconds": "0.059",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_item_quote_must_be_six_before_any_paid_call[True]",
+      "status": "success",
+      "duration_seconds": "0.031",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_two_paid_passes_keep_provider_size_between_steps_and_in_saved_result",
+      "status": "success",
+      "duration_seconds": "0.084",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_inspo_requires_three_credit_quote_without_provider_calls[None]",
+      "status": "success",
+      "duration_seconds": "0.052",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_inspo_requires_three_credit_quote_without_provider_calls[2]",
+      "status": "success",
+      "duration_seconds": "0.041",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_inspo_requires_three_credit_quote_without_provider_calls[5]",
+      "status": "success",
+      "duration_seconds": "0.044",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_max_quality",
+      "name": "test_inspo_single_three_credit_pass_preserves_provider_size",
+      "status": "success",
+      "duration_seconds": "0.050",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_happy_path_saves_all_artifacts",
+      "status": "success",
+      "duration_seconds": "0.789",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_hijab_mask_is_saved_when_analyzer_provides_one",
+      "status": "success",
+      "duration_seconds": "0.769",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_no_body_is_422_and_skips_background_removal",
+      "status": "success",
+      "duration_seconds": "0.026",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_bad_posture_is_rejected_before_background_removal",
+      "status": "success",
+      "duration_seconds": "0.025",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_garbage_bytes_are_400",
+      "status": "success",
+      "duration_seconds": "0.020",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_oversized_upload_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.021",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_pixel_bomb_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.021",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_50mp_phone_photo_is_accepted",
+      "status": "success",
+      "duration_seconds": "1.375",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_too_small_photo_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.020",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_auth_required_when_not_disabled",
+      "status": "success",
+      "duration_seconds": "0.021",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_resize_and_pad_keeps_aspect_and_centres",
+      "status": "success",
+      "duration_seconds": "0.003",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pipeline_api",
+      "name": "test_composite_on_white",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_valid_standing_pose",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_side_profile",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_small_front_facing_person_is_not_a_side_profile",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_sitting",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_hidden_arms",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_loose_sleeves_with_borderline_wrist_visibility_are_accepted",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_head_direction_is_not_checked",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_pose",
+      "name": "test_hidden_knees_skip_sitting_test_instead_of_rejecting",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_unknown_twin_is_404",
+      "status": "success",
+      "duration_seconds": "0.024",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_unknown_garment_is_404",
+      "status": "success",
+      "duration_seconds": "0.039",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_hijab_item_rejected_as_garment",
+      "status": "success",
+      "duration_seconds": "0.054",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_non_hijab_item_rejected_as_hijab_choice",
+      "status": "success",
+      "duration_seconds": "0.077",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_top_and_pants_are_applied_in_stable_order",
+      "status": "success",
+      "duration_seconds": "0.088",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_top_and_skirt_are_applied_in_stable_order",
+      "status": "success",
+      "duration_seconds": "0.083",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_pants_and_skirt_cannot_be_selected_together",
+      "status": "success",
+      "duration_seconds": "0.072",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_top_pants_and_shoes_are_applied_in_stable_order",
+      "status": "success",
+      "duration_seconds": "0.119",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_two_items_from_the_same_category_are_rejected",
+      "status": "success",
+      "duration_seconds": "0.071",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_at_least_one_garment_is_required",
+      "status": "success",
+      "duration_seconds": "0.028",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_garment_only_protects_twins_own_hijab",
+      "status": "success",
+      "duration_seconds": "0.089",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_chosen_hijab_runs_both_stages_and_protects_its_own_placement",
+      "status": "success",
+      "duration_seconds": "0.111",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_result_is_persisted",
+      "status": "success",
+      "duration_seconds": "0.070",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_worker_unavailable_by_default",
+      "status": "success",
+      "duration_seconds": "0.048",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_shoes_explain_missing_hosted_api_key",
+      "status": "success",
+      "duration_seconds": "0.050",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_auth_required_when_not_disabled",
+      "status": "success",
+      "duration_seconds": "0.031",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_accessory_only_keeps_full_frame_and_records_item",
+      "status": "success",
+      "duration_seconds": "0.063",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_accessory_runs_after_complete_outfit",
+      "status": "success",
+      "duration_seconds": "0.121",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_multiple_accessories_keep_selection_order_and_accumulate",
+      "status": "success",
+      "duration_seconds": "0.091",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_five_accessories_combine_with_top_pants_and_shoes",
+      "status": "success",
+      "duration_seconds": "0.199",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_six_accessories_are_rejected_before_generation",
+      "status": "success",
+      "duration_seconds": "0.137",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_duplicate_accessory_is_rejected_before_generation",
+      "status": "success",
+      "duration_seconds": "0.034",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_api",
+      "name": "test_accessories_use_hosted_engine_and_require_key",
+      "status": "success",
+      "duration_seconds": "0.055",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_crop",
+      "name": "test_crop_removes_empty_side_margins_and_keeps_portrait_aspect",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_crop",
+      "name": "test_invalid_landmarks_leave_the_image_unchanged",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_crop",
+      "name": "test_result_is_normalized_to_storage_size",
+      "status": "success",
+      "duration_seconds": "0.005",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_engine_selection",
+      "name": "test_fashn_is_the_only_default_engine",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_engine_selection",
+      "name": "test_fashn_api_key_enables_hosted_shoe_engine",
+      "status": "success",
+      "duration_seconds": "0.000",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_engine_selection",
+      "name": "test_skirt_uses_local_bottoms_engine",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_mask",
+      "name": "test_top_mask_covers_torso_but_not_face_or_hands",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_mask",
+      "name": "test_pants_mask_covers_legs_but_not_torso",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_mask",
+      "name": "test_shoes_mask_covers_feet_but_not_legs",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_tryon_mask",
+      "name": "test_protected_pixels_are_removed_from_replacement_mask",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_garment_item_saved_without_mask",
+      "status": "success",
+      "duration_seconds": "0.789",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_hijab_item_saves_style_and_mask",
+      "status": "success",
+      "duration_seconds": "0.782",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_unknown_category_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.020",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_hijab_without_style_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.018",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_hijab_with_unknown_style_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.017",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_style_is_ignored_for_non_hijab_category",
+      "status": "success",
+      "duration_seconds": "0.749",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_blank_photo_is_rejected_as_no_garment",
+      "status": "success",
+      "duration_seconds": "0.062",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_too_small_photo_is_rejected",
+      "status": "success",
+      "duration_seconds": "0.017",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_square_bundled_asset_resolution_is_accepted",
+      "status": "success",
+      "duration_seconds": "0.734",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_auth_required_when_not_disabled",
+      "status": "success",
+      "duration_seconds": "0.021",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_person_photo_saves_only_selected_garment[Tops-2]",
+      "status": "success",
+      "duration_seconds": "0.092",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_person_photo_saves_only_selected_garment[Pants-0]",
+      "status": "success",
+      "duration_seconds": "0.090",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_person_photo_saves_only_selected_garment[Skirts-0]",
+      "status": "success",
+      "duration_seconds": "0.093",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_extraction_failure_does_not_save_whole_person[error0-422]",
+      "status": "success",
+      "duration_seconds": "0.032",
+      "errors": []
+    },
+    {
+      "suite": "backend",
+      "file": "tests.test_wardrobe_api",
+      "name": "test_extraction_failure_does_not_save_whole_person[error1-503]",
+      "status": "success",
+      "duration_seconds": "0.031",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_keeps_only_selected_garment[Tops-3]",
+      "status": "success",
+      "duration_seconds": "0.013",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_keeps_only_selected_garment[Pants-6]",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_keeps_only_selected_garment[Skirts-5]",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_product_photo_uses_background_removal",
+      "status": "success",
+      "duration_seconds": "0.001",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_keeps_separate_pant_legs_but_removes_label_specks",
+      "status": "success",
+      "duration_seconds": "0.006",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_extraction_endpoint[None-204]",
+      "status": "success",
+      "duration_seconds": "0.309",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_extraction_endpoint[result1-422]",
+      "status": "success",
+      "duration_seconds": "0.014",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_extraction_endpoint[result2-200]",
+      "status": "success",
+      "duration_seconds": "0.019",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_generation_passes_masking_choice_to_pipeline[false-False]",
+      "status": "success",
+      "duration_seconds": "0.034",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_generation_passes_masking_choice_to_pipeline[true-True]",
+      "status": "success",
+      "duration_seconds": "0.018",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_skirt_generation_retries_and_rejects_wrong_clothing[labels0-expected_seeds0]",
+      "status": "success",
+      "duration_seconds": "0.002",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_skirt_generation_retries_and_rejects_wrong_clothing[labels1-expected_seeds1]",
+      "status": "success",
+      "duration_seconds": "0.003",
+      "errors": []
+    },
+    {
+      "suite": "worker",
+      "file": "test_worker_extraction",
+      "name": "test_skirt_generation_retries_and_rejects_wrong_clothing[labels2-expected_seeds2]",
+      "status": "success",
+      "duration_seconds": "0.003",
+      "errors": []
+    }
+  ],
+  "historical_flutter_failure_names_match": true,
+  "new_flutter_failure_names_vs_historical": [],
+  "tracked_files_changed_after_run": []
+}
