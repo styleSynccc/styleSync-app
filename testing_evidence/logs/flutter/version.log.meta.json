@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "--version"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T22:10:55.833784+08:00",
+  "ended_at": "2026-11-16T22:10:56.991333+08:00",
+  "seconds": 1.156,
+  "exit_code": 0,
+  "log": "logs\\flutter\\version.log"
+}

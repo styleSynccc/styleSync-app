@@ -1,0 +1,2 @@
+# Keep sanitized execution evidence despite the repository-wide *.log rule.
+!**/*.log

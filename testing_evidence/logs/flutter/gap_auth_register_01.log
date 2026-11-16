@@ -1,0 +1,14 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart
+test/support/functional_fakes.dart:297:15: Error: This expression has type 'void' and can't be used.
+    await Get.reset();
+              ^
+00:00 +0 -1: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart [E]
+  Failed to load "C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart":
+  Compilation failed for testPath=C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: test/support/functional_fakes.dart:297:15: Error: This expression has type 'void' and can't be used.
+      await Get.reset();
+                ^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart

@@ -1,0 +1,881 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart
+00:00 +0: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: FastAPI validation list is displayed instead of a false connection error
+00:00 +1: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: structured server errors and non-string reason fields remain readable
+00:00 +2: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: unreachable twin list times out without retrying
+00:00 +3: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: stuck authentication times out before sending any API request
+00:00 +4: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: refresh recovers after an offline list request
+00:00 +5: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: wardrobe list has the same bounded loading behaviour
+00:00 +6: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: a generation timeout is not misreported as a connection failure
+00:00 +7: C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart: login keeps typed fields after parent rebuild
+00:01 +8: C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart: login keeps typed fields after parent rebuild
+00:01 +9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes complete profile after credential success
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: <1>
+  Actual: <0>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart:79:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart line 79
+The test description was:
+  TC-004 login routes complete profile after credential success
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +9 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +9 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes complete profile after credential success [E]
+  Test failed. See exception logs above.
+  The test description was: TC-004 login routes complete profile after credential success
+  
+00:01 +9 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes incomplete profile after credential success
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: <1>
+  Actual: <0>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart:79:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart line 79
+The test description was:
+  TC-004 login routes incomplete profile after credential success
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +9 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +9 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes incomplete profile after credential success [E]
+  Test failed. See exception logs above.
+  The test description was: TC-004 login routes incomplete profile after credential success
+  
+00:01 +9 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes missing profile after credential success
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: <1>
+  Actual: <0>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart:79:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart line 79
+The test description was:
+  TC-004 login routes missing profile after credential success
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +9 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +9 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes missing profile after credential success [E]
+  Test failed. See exception logs above.
+  The test description was: TC-004 login routes missing profile after credential success
+  
+00:01 +10 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:02 +11 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:02 +12 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:02 +13 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:02 +14 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:02 +15 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +16 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +17 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +18 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +19 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +20 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +21 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +22 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +23 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:03 +24 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:03 +25 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:03 +26 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:04 +27 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:04 +28 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-025 selected twin and reference generate one visible inspired result
+00:04 +29 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:04 +30 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +31 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +32 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +33 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +34 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +35 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:04 +36 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: ['users/qa-only-user/outfitPlans/2026-11-19']
+  Actual: []
+   Which: at location [0] is [] which shorter than expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:119:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart line 119
+The test description was:
+  TC-029 changing selected date before commit writes only final date
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:04 +36 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+00:04 +36 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date [E]
+  Test failed. See exception logs above.
+  The test description was: TC-029 changing selected date before commit writes only final date
+  
+00:04 +37 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Saved": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:162:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:154:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart line 162
+The test description was:
+  TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:04 +37 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-009 twin screen retrieves processed saved twin rather than fallback URL
+00:04 +37 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer [E]
+  Test failed. See exception logs above.
+  The test description was: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+  
+00:04 +37 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-009 twin screen retrieves processed saved twin rather than fallback URL
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: ['users/qa-only-user']
+  Actual: []
+   Which: at location [0] is [] which shorter than expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart:142:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart:131:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart line 142
+The test description was:
+  TC-009 twin screen retrieves processed saved twin rather than fallback URL
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:04 +37 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling date selection creates no plan or alarm
+00:04 +37 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-009 twin screen retrieves processed saved twin rather than fallback URL [E]
+  Test failed. See exception logs above.
+  The test description was: TC-009 twin screen retrieves processed saved twin rather than fallback URL
+  
+00:05 +37 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling date selection creates no plan or alarm
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: WhereIterable<MethodCall>:[
+            MethodCall:MethodCall(zonedSchedule, {id: 20261118, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-18T08:00:00, scheduledDateTimeISO8601: 2026-11-18T08:00:00.000+0800}),
+            MethodCall:MethodCall(zonedSchedule, {id: 20261119, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-19T08:00:00, scheduledDateTimeISO8601: 2026-11-19T08:00:00.000+0800})
+          ]
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:150:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart line 150
+The test description was:
+  TC-030 cancelling date selection creates no plan or alarm
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +38 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling date selection creates no plan or alarm
+00:05 +38 -7: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-020 revised leave-generated-result-unsaved creates no liked outfit
+00:05 +38 -7: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling date selection creates no plan or alarm [E]
+  Test failed. See exception logs above.
+  The test description was: TC-030 cancelling date selection creates no plan or alarm
+  
+00:05 +38 -7: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-035 missing twin screen offers Create Twin without a broken image
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "No virtual twin yet.": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart:160:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart:157:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart line 160
+The test description was:
+  TC-035 missing twin screen offers Create Twin without a broken image
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +38 -8: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-020 revised leave-generated-result-unsaved creates no liked outfit
+00:05 +38 -8: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-035 missing twin screen offers Create Twin without a broken image [E]
+  Test failed. See exception logs above.
+  The test description was: TC-035 missing twin screen offers Create Twin without a broken image
+  
+00:05 +38 -8: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-020 revised leave-generated-result-unsaved creates no liked outfit
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing No saved outfits yet.:
+[]>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:198:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:191:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart line 198
+The test description was:
+  TC-020 revised leave-generated-result-unsaved creates no liked outfit
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +38 -9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling time selection creates no plan or alarm
+00:05 +38 -9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-020 revised leave-generated-result-unsaved creates no liked outfit [E]
+  Test failed. See exception logs above.
+  The test description was: TC-020 revised leave-generated-result-unsaved creates no liked outfit
+  
+00:05 +39 -9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling time selection creates no plan or alarm
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: WhereIterable<MethodCall>:[
+            MethodCall:MethodCall(zonedSchedule, {id: 20261118, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-18T08:00:00, scheduledDateTimeISO8601: 2026-11-18T08:00:00.000+0800}),
+            MethodCall:MethodCall(zonedSchedule, {id: 20261119, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-19T08:00:00, scheduledDateTimeISO8601: 2026-11-19T08:00:00.000+0800})
+          ]
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:150:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart line 150
+The test description was:
+  TC-030 cancelling time selection creates no plan or alarm
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +39 -10: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:05 +39 -10: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling time selection creates no plan or alarm [E]
+  Test failed. See exception logs above.
+  The test description was: TC-030 cancelling time selection creates no plan or alarm
+  
+00:05 +39 -10: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-036 unavailable remote outfit image keeps full gallery viewer usable
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: true
+  Actual: <false>
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:220:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:208:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart line 220
+The test description was:
+  TC-036 unavailable remote outfit image keeps full gallery viewer usable
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +39 -11: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:05 +39 -11: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-036 unavailable remote outfit image keeps full gallery viewer usable [E]
+  Test failed. See exception logs above.
+  The test description was: TC-036 unavailable remote outfit image keeps full gallery viewer usable
+  
+00:06 +40 -11: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +40 -11: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling items selection creates no plan or alarm
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: WhereIterable<MethodCall>:[
+            MethodCall:MethodCall(zonedSchedule, {id: 20261118, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-18T08:00:00, scheduledDateTimeISO8601: 2026-11-18T08:00:00.000+0800}),
+            MethodCall:MethodCall(zonedSchedule, {id: 20261119, title: Your planned outfit is ready,
+body: You selected 1 item for today., platformSpecifics: {icon: null, channelId: outfit_reminders,
+channelName: Outfit reminders, channelDescription: Reminders for outfits planned in StyleSync,
+channelShowBadge: true, channelAction: 0, importance: 4, channelBypassDnd: false, priority: 1,
+playSound: true, enableVibration: true, vibrationPattern: null, groupKey: null, setAsGroupSummary:
+false, groupAlertBehavior: 0, autoCancel: true, ongoing: false, silent: false, colorAlpha: null,
+colorRed: null, colorGreen: null, colorBlue: null, onlyAlertOnce: false, showWhen: true, when: null,
+usesChronometer: false, chronometerCountDown: false, showProgress: false, maxProgress: 0, progress:
+0, indeterminate: false, enableLights: false, ledColorAlpha: null, ledColorRed: null, ledColorGreen:
+null, ledColorBlue: null, ledOnMs: null, ledOffMs: null, ticker: null, visibility: null,
+timeoutAfter: null, category: null, fullScreenIntent: false, shortcutId: null, additionalFlags:
+null, subText: null, tag: null, colorized: false, number: null, audioAttributesUsage: 5, style: 0,
+styleInformation: {htmlFormatContent: false, htmlFormatTitle: false}, scheduleMode:
+exactAllowWhileIdle}, payload: /planner, timeZoneName: Asia/Kuala_Lumpur, scheduledDateTime:
+2026-11-19T08:00:00, scheduledDateTimeISO8601: 2026-11-19T08:00:00.000+0800})
+          ]
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:150:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart line 150
+The test description was:
+  TC-030 cancelling items selection creates no plan or alarm
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +40 -12: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +40 -12: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-030 cancelling items selection creates no plan or alarm [E]
+  Test failed. See exception logs above.
+  The test description was: TC-030 cancelling items selection creates no plan or alarm
+  
+00:06 +40 -12: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-011 TC-013 camera clothing upload stores processed bytes and category
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: ['users/qa-only-user/clothes/processed-top.jpg']
+  Actual: _CompactKeysIterable<String>:[]
+   Which: at location [0] is _CompactKeysIterable<String>:[] which shorter than expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:50:11)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:25:9)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart line 50
+The test description was:
+  TC-011 TC-013 camera clothing upload stores processed bytes and category
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +40 -13: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +40 -13: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-011 TC-013 camera clothing upload stores processed bytes and category [E]
+  Test failed. See exception logs above.
+  The test description was: TC-011 TC-013 camera clothing upload stores processed bytes and category
+  
+00:06 +41 -13: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +41 -13: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-032 revised empty upcoming list explains how to create a plan
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "No upcoming outfits.
+          Create a new plan above. Past plans are saved in My Outfits.": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:164:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart line 164
+The test description was:
+  TC-032 revised empty upcoming list explains how to create a plan
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +41 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +41 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-032 revised empty upcoming list explains how to create a plan [E]
+  Test failed. See exception logs above.
+  The test description was: TC-032 revised empty upcoming list explains how to create a plan
+  
+00:06 +42 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +43 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +44 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +45 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +46 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +47 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +48 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +49 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +50 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +50 -14: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-033 revised multiple dated cards preserve chronological date and item pairing
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+Cannot remove entry from a disposed snackbar
+'package:get/get_navigation/src/snackbar/snackbar_controller.dart':
+Failed assertion: line 304 pos 7: '!_transitionCompleter.isCompleted'
+
+When the exception was thrown, this was the stack:
+#2      SnackbarController._removeEntry (package:get/get_navigation/src/snackbar/snackbar_controller.dart:304:7)
+#3      SnackbarController.close (package:get/get_navigation/src/snackbar/snackbar_controller.dart:55:5)
+#4      _SnackBarQueue._cancelAllJobs (package:get/get_navigation/src/snackbar/snackbar_controller.dart:363:29)
+#5      SnackbarController.cancelAllSnackbars (package:get/get_navigation/src/snackbar/snackbar_controller.dart:336:20)
+#6      GetNavigation.closeAllSnackbars (package:get/get_navigation/src/extension_navigation.dart:1124:24)
+#7      main.close (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:63:9)
+#8      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart:219:13)
+<asynchronous suspension>
+#9      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#10     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 3 frames from class _AssertionError and package:stack_trace)
+
+The test description was:
+  TC-033 revised multiple dated cards preserve chronological date and item pairing
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +50 -15: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:06 +50 -15: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-033 revised multiple dated cards preserve chronological date and item pairing [E]
+  Test failed. See exception logs above.
+  The test description was: TC-033 revised multiple dated cards preserve chronological date and item pairing
+  
+00:06 +50 -15: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 9 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:42:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 42
+The test description was:
+  VTON shows the total and cancellation declines generation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +50 -16: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:06 +50 -16: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation [E]
+  Test failed. See exception logs above.
+  The test description was: VTON shows the total and cancellation declines generation
+  
+00:06 +50 -16: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Inspo confirms exactly one three-credit generation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 3 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:76:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 76
+The test description was:
+  Inspo confirms exactly one three-credit generation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +50 -17: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:06 +50 -17: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Inspo confirms exactly one three-credit generation [E]
+  Test failed. See exception logs above.
+  The test description was: Inspo confirms exactly one three-credit generation
+  
+00:06 +51 -17: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:06 +51 -17: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: cost confirmation remains usable in landscape
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 24 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:118:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 118
+The test description was:
+  cost confirmation remains usable in landscape
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:06 +51 -18: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:06 +51 -18: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: cost confirmation remains usable in landscape [E]
+  Test failed. See exception logs above.
+  The test description was: cost confirmation remains usable in landscape
+  
+00:06 +52 -18: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:06 +53 -18: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +53 -18: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Fast confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 3 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Fast confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +53 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +53 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Fast confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Fast confirmation shows its own total
+  
+00:07 +54 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +55 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +56 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +57 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +58 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +59 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +60 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +61 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +62 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +62 -19: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Balanced confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 6 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Balanced confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +62 -20: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +62 -20: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-015 dismissing category sheet leaves closet and services unchanged
+══╡ EXCEPTION CAUGHT BY IMAGE RESOURCE SERVICE ╞════════════════════════════════════════════════════
+The following StateError was thrown resolving an image codec:
+Bad state: Unexpected test HTTP: GET /users/qa-only-user/clothes/processed-top.jpg
+
+When the exception was thrown, this was the stack:
+#0      QaHttpRequest.close (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:347:7)
+#1      NetworkImage._loadAsync (package:flutter/src/painting/_network_image_io.dart:125:57)
+<asynchronous suspension>
+#2      MultiFrameImageStreamCompleter._handleCodecReady (package:flutter/src/painting/image_stream.dart:1021:3)
+<asynchronous suspension>
+
+Image provider: NetworkImage("https://qa-only.invalid/users/qa-only-user/clothes/processed-top.jpg",
+  scale: 1.0, webHtmlElementStrategy: never, headers: null)
+Image key: NetworkImage("https://qa-only.invalid/users/qa-only-user/clothes/processed-top.jpg",
+  scale: 1.0, webHtmlElementStrategy: never, headers: null)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: no matching candidates
+  Actual: _TextWidgetFinder:<Found 1 widget with text "Choose Tops": [
+            Text("Choose Tops", inherit: true, size: 22.0, weight: 700, dependencies:
+[DefaultSelectionStyle, DefaultTextStyle, MediaQuery]),
+          ]>
+   Which: means one was found but none were expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:105:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:96:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart line 105
+The test description was:
+  TC-015 dismissing category sheet leaves closet and services unchanged
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +62 -20: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Balanced confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Balanced confirmation shows its own total
+  
+00:07 +62 -21: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:07 +62 -21: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-015 dismissing category sheet leaves closet and services unchanged [E]
+  Test failed. See exception logs above.
+  The test description was: TC-015 dismissing category sheet leaves closet and services unchanged
+  
+00:07 +63 -21: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality sends matching mode and cost to both endpoints
+00:07 +64 -21: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+00:07 +64 -21: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 9 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Quality confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +64 -22: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+00:07 +64 -22: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Quality confirmation shows its own total
+  
+00:07 +65 -22: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+00:07 +66 -22: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+══╡ EXCEPTION CAUGHT BY IMAGE RESOURCE SERVICE ╞════════════════════════════════════════════════════
+The following StateError was thrown resolving an image codec:
+Bad state: Unexpected test HTTP: GET /users/qa-only-user/clothes/processed-top.jpg
+
+When the exception was thrown, this was the stack:
+#0      QaHttpRequest.close (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:347:7)
+#1      NetworkImage._loadAsync (package:flutter/src/painting/_network_image_io.dart:125:57)
+<asynchronous suspension>
+#2      MultiFrameImageStreamCompleter._handleCodecReady (package:flutter/src/painting/image_stream.dart:1021:3)
+<asynchronous suspension>
+
+Image provider: NetworkImage("https://qa-only.invalid/users/qa-only-user/clothes/processed-top.jpg",
+  scale: 1.0, webHtmlElementStrategy: never, headers: null)
+Image key: NetworkImage("https://qa-only.invalid/users/qa-only-user/clothes/processed-top.jpg",
+  scale: 1.0, webHtmlElementStrategy: never, headers: null)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: [Instance of 'QaRequest']
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:133:9)
+<asynchronous suspension>
+#5      FunctionalHarness.network (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/support/functional_fakes.dart:468:14)
+<asynchronous suspension>
+#6      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:118:7)
+<asynchronous suspension>
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart line 133
+The test description was:
+  TC-014 revised pre-upload category choice uses the newly selected category
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:07 +66 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:07 +66 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category [E]
+  Test failed. See exception logs above.
+  The test description was: TC-014 revised pre-upload category choice uses the newly selected category
+  
+00:08 +67 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +68 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +69 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +70 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +71 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +72 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +73 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +74 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +75 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +76 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +77 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:08 +78 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:08 +79 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:08 +80 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:08 +81 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: gallery upload uses its actual network URL
+00:08 +82 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: login reset closes its dialog, not the underlying page
+00:08 +83 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: login reset closes its dialog, not the underlying page
+00:08 +84 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: login reset closes its dialog, not the underlying page
+00:08 +85 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: login reset closes its dialog, not the underlying page
+00:08 +86 -23: C:/Users/User/styleSync-app/apps/mobile_app/test/widget_test.dart: Placeholder test
+00:08 +87 -23: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes complete profile after credential success
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes incomplete profile after credential success
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: TC-004 login routes missing profile after credential success
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+  ... and 19 more

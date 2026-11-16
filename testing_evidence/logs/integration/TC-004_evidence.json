@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-004",
+  "use_case": "UC-02",
+  "original_scenario": "Login using valid credentials",
+  "status": "BLOCKED",
+  "expected": "Authenticate and route to Home for a completed profile, otherwise setup.",
+  "actual": "Valid form forwarded credentials to a fake controller. No live Firebase login or profile-based routing executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_auth.py::test_verify_returns_firebase_uid",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-004 valid login form forwards credentials to an isolated controller",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

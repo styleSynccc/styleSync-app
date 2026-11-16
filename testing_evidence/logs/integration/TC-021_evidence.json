@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-021",
+  "use_case": "UC-07",
+  "original_scenario": "Save an already saved outfit",
+  "status": "BLOCKED",
+  "expected": "Repeated taps on the current saved draft do not create duplicate uploads/documents.",
+  "actual": "Draft test proves one injected persist call across concurrent and repeated saves. Cross-session/content-hash deduplication is not implemented or claimed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "outfit_draft_test.dart::double tapping save uploads once and successful saves stay saved",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

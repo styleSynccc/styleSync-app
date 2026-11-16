@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "--file-reporter",
+    "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\gap_inspo_generate_01.jsonl",
+    "test/fyp_inspo_workflow_test.dart",
+    "--plain-name",
+    "TC-025 selected twin and reference generate one visible inspired result"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T23:03:28.028198+08:00",
+  "ended_at": "2026-11-16T23:03:33.072989+08:00",
+  "seconds": 5.032,
+  "exit_code": 1,
+  "log": "logs\\flutter\\gap_inspo_generate_01.log"
+}

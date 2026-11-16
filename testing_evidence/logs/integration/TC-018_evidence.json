@@ -1,0 +1,20 @@
+{
+  "test_case": "TC-018",
+  "use_case": "UC-06",
+  "original_scenario": "Attempt Virtual Try-On without Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Disable generation with setup guidance; reject unknown twin in API.",
+  "actual": "API returned 404 TWIN_NOT_FOUND for an unknown twin with a fake engine. VTON empty-twin UI was not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_tryon_api.py::test_unknown_twin_is_404",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

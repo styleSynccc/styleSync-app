@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "--file-reporter",
+    "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\gap_twin_create_01.jsonl",
+    "test/fyp_twin_workflow_test.dart",
+    "--plain-name",
+    "TC-007 accepted twin photo persists processed image and completed merged profile"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T22:58:55.941308+08:00",
+  "ended_at": "2026-11-16T22:59:00.011619+08:00",
+  "seconds": 4.078,
+  "exit_code": 0,
+  "log": "logs\\flutter\\gap_twin_create_01.log"
+}

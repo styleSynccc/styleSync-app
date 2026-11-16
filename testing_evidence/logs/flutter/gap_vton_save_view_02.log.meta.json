@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "--file-reporter",
+    "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\gap_vton_save_view_02.jsonl",
+    "test/fyp_tryon_workflow_test.dart",
+    "--plain-name",
+    "TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T23:02:07.960850+08:00",
+  "ended_at": "2026-11-16T23:02:12.852666+08:00",
+  "seconds": 4.891,
+  "exit_code": 0,
+  "log": "logs\\flutter\\gap_vton_save_view_02.log"
+}

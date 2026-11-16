@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-017",
+  "use_case": "UC-06",
+  "original_scenario": "Change clothing selection before generation",
+  "status": "BLOCKED",
+  "expected": "Generate only the final selected item IDs, without an earlier unconfirmed request.",
+  "actual": "Existing HTTP mock asserts a fixed item list, not UI selection changes. No running selection flow executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "generation_confirmation_test.dart::VTON sends its confirmed total once",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-011",
+  "use_case": "UC-04",
+  "original_scenario": "Capture clothing image using camera",
+  "status": "BLOCKED",
+  "expected": "Open permitted camera, accept captured photo, and add processed item.",
+  "actual": "Camera source wiring was found in code; no connected Android device and no camera capture executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-014",
+  "use_case": "UC-05",
+  "original_scenario": "Change clothing category",
+  "status": "NOT RUN",
+  "expected": "Original: edit saved item category. Proposed: dismiss and choose another category before upload.",
+  "actual": "No saved-item category editing operation was found in UI/controller or FastAPI routes. Proposed pre-upload replacement was not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

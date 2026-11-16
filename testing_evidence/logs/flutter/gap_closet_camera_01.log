@@ -1,0 +1,33 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart
+00:00 +0: TC-011 TC-013 camera clothing upload stores processed bytes and category
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: ['users/qa-only-user/clothes/processed-top.jpg']
+  Actual: _CompactKeysIterable<String>:[]
+   Which: at location [0] is _CompactKeysIterable<String>:[] which shorter than expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:31:9)
+<asynchronous suspension>
+#5      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart:18:7)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart line 31
+The test description was:
+  TC-011 TC-013 camera clothing upload stores processed bytes and category
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: TC-011 TC-013 camera clothing upload stores processed bytes and category [E]
+  Test failed. See exception logs above.
+  The test description was: TC-011 TC-013 camera clothing upload stores processed bytes and category
+  
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-011 TC-013 camera clothing upload stores processed bytes and category

@@ -1,0 +1,11 @@
+[2026-11-16T14:11:04.667Z] ----------------------------------------------------------------------
+[2026-11-16T14:11:04.677Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js --version
+[2026-11-16T14:11:04.677Z] CLI Version:   15.24.0
+[2026-11-16T14:11:04.677Z] Platform:      win32
+[2026-11-16T14:11:04.677Z] Node Version:  v24.15.0
+[2026-11-16T14:11:04.678Z] Detected Agent: codex_cli
+[2026-11-16T14:11:04.678Z] Time:          Mon Nov 16 2026 22:11:04 GMT+0800 (Malaysia Time)
+[2026-11-16T14:11:04.678Z] ----------------------------------------------------------------------
+
+[2026-11-16T14:11:04.709Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+15.24.0

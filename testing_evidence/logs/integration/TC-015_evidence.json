@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-015",
+  "use_case": "UC-05",
+  "original_scenario": "Cancel categorization",
+  "status": "BLOCKED",
+  "expected": "Dismiss category selection without saving or processing an item.",
+  "actual": "Category selection is a bottom sheet before upload; no separate categorization transaction. Dismissal behavior was not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

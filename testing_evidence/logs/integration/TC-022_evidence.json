@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-022",
+  "use_case": "UC-08",
+  "original_scenario": "Upload valid inspiration image",
+  "status": "BLOCKED",
+  "expected": "Preview selected image locally; upload only on confirmed generation with a saved twin.",
+  "actual": "Multipart mock and fake inspo endpoint pass. Selection is local; standalone upload is not an API operation.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_returns_and_persists_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Inspo sends the three-credit confirmation in its multipart request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

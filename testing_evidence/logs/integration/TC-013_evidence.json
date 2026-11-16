@@ -1,0 +1,34 @@
+{
+  "test_case": "TC-013",
+  "use_case": "UC-05",
+  "original_scenario": "Assign clothing category",
+  "status": "BLOCKED",
+  "expected": "Use category chosen before upload and persist matching category/item reference.",
+  "actual": "API category assignment/style checks pass; missing category returns 422 and saves nothing. Mobile category-first flow and Firebase persistence unverified.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_wardrobe_api.py::test_garment_item_saved_without_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_unknown_category_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC013_missing_category_is_schema_error_and_saves_nothing",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

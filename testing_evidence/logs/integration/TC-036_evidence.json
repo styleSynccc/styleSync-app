@@ -1,0 +1,36 @@
+{
+  "test_case": "TC-036",
+  "use_case": "UC-12",
+  "original_scenario": "Display unavailable outfit",
+  "status": "BLOCKED",
+  "expected": "Show a safe missing-image state for absent/unavailable saved outfit image, with no crash.",
+  "actual": "Two added widget tests passed for missing generated-image URL: thumbnail icon and readable detail message. Missing remote object/document and Android full viewer not exercised.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_tryon_api.py::test_unknown_garment_is_404",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a thumbnail fallback",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a detail message",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

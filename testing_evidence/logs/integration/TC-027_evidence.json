@@ -1,0 +1,27 @@
+{
+  "test_case": "TC-027",
+  "use_case": "UC-09",
+  "original_scenario": "Process an unsuitable inspiration image",
+  "status": "BLOCKED",
+  "expected": "Reject malformed/undersized inputs locally; define desired handling for valid-sized non-outfit scenes.",
+  "actual": "Tiny reference returned 400 before provider. Valid-sized flat blank JPEG returned 201 and called fake provider once. Semantic suitability is not checked locally; real provider response and acceptance criteria remain unresolved.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC027_low_resolution_reference_is_rejected_before_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC027_characterization_blank_decodable_reference_reaches_fake_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

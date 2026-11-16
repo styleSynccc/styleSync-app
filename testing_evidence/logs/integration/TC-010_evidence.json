@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-010",
+  "use_case": "UC-04",
+  "original_scenario": "Upload clothing image from gallery",
+  "status": "BLOCKED",
+  "expected": "Process selected clothing, store image and clothes record, and refresh closet.",
+  "actual": "Wardrobe API processed synthetic image using FakeEngine; link recovery tests pass. OS gallery and Firebase upload were not exercised.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_wardrobe_api.py::test_garment_item_saved_without_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "wardrobe_recovery_test.dart::recovers missing gallery and bundled items without duplicating linked items",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

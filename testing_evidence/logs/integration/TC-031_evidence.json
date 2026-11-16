@@ -1,0 +1,45 @@
+{
+  "test_case": "TC-031",
+  "use_case": "UC-11",
+  "original_scenario": "View scheduled outfit",
+  "status": "BLOCKED",
+  "expected": "Show upcoming dated card and its closet-item thumbnails; past plan remains in My Outfits.",
+  "actual": "Upcoming/legacy expiry and gallery conversion unit checks pass; preview renders item collage. No real plan stream displayed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "outfit_plan_test.dart::a future reminder is upcoming",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::legacy date-only plan expires at the next local midnight",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::existing planner records appear in gallery without createdAt or imageUrl",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::planner thumbnail fits all six clothing pieces",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

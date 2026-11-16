@@ -1,0 +1,23 @@
+{
+  "test_case": "TC-002",
+  "use_case": "UC-01",
+  "original_scenario": "Submit empty required fields",
+  "status": "PASS",
+  "expected": "Show all required field errors and send no registration call.",
+  "actual": "Widget submission showed name/email/gender/password errors; fake controller received no registration. Actual widget screenshot captured.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-002 empty sign-up fields show all required errors without registration",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [
+    "screenshots/UC-01/TC-002_empty_signup_widget.png"
+  ],
+  "no_match_note": null
+}

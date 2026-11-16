@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-034",
+  "use_case": "UC-12",
+  "original_scenario": "Display outfit on Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Display the generated outfit-on-twin image and reopen its saved result; planner item collage remains distinct.",
+  "actual": "VTON/Inspo result display and saved-image viewer exist in source; fake try-on returns image data. No complete result display executed. If this means dressing a twin from a saved planner outfit, that separate operation is absent and needs clarification.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_tryon_api.py::test_top_and_pants_are_applied_in_stable_order",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "outfit_preview_test.dart::planner detail shows categories and can scroll",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

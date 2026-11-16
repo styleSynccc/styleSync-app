@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-003",
+  "use_case": "UC-01",
+  "original_scenario": "Register using an existing email",
+  "status": "BLOCKED",
+  "expected": "Show existing-email error and create no duplicate account.",
+  "actual": "Real controller displayed a fake Firebase email-already-in-use error and reset loading. Live duplicate-account handling remains unverified.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-003 Firebase rejection is shown and loading stops (fake Auth)",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

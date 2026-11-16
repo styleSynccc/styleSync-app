@@ -1,0 +1,13 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart
+00:00 +0: TC-002 empty sign-up fields show all required errors without registration
+00:01 +1: TC-006 empty login fields prevent credential submission
+00:01 +2: TC-001 valid sign-up form forwards all details to an isolated controller
+00:01 +3: TC-004 valid login form forwards credentials to an isolated controller
+00:01 +4: TC-003 Firebase rejection is shown and loading stops (fake Auth)
+00:01 +5: TC-005 Firebase rejection is shown and loading stops (fake Auth)
+00:01 +6: TC-008 setup cannot continue without a body photo
+00:02 +7: TC-008 controller rejects incomplete metrics before Firebase or file access
+00:02 +8: TC-024 cancelling inspiration picker leaves selection empty and sends no generation
+00:02 +9: TC-036 missing saved outfit image has a thumbnail fallback
+00:02 +10: TC-036 missing saved outfit image has a detail message
+00:02 +11: All tests passed!

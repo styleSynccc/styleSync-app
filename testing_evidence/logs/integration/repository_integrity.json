@@ -1,0 +1,162 @@
+{
+  "captured_at": "2026-11-16T22:25:16.317489+08:00",
+  "head": "9526aba52a570018f25ab00618d687099df4e898",
+  "tracked_changes": [],
+  "existing_test_integrity": [
+    {
+      "path": "apps/ai_service/tests/conftest.py",
+      "sha256": "9415ced7a3e72e3807efd2ffb35ca5a86e4841542c986f87eedae5d3b0450a6b",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_auth.py",
+      "sha256": "6fbdab81d3ceb8d602259794c50fcc78e615a962e9896ff265056f78930867e1",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_enhance_quality.py",
+      "sha256": "af361129994c29cb2cca3a68e454f1ffc3605d88b2b0d121efe494e08398e92a",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_fashn_api.py",
+      "sha256": "67415454aa9744950a73a148da6a725bded1669aa26e5317766306e020569383",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_garment_extraction.py",
+      "sha256": "c3a2258b113d4c83d5041f5defcf9e2e1082b6d4e67124055f2f0285e2fb4e9d",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_generation_modes.py",
+      "sha256": "cedd081be9010df9ee66c35a71cd59e6f7a54d5c5d84465851849170fda9b9a5",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_hijab_mediapipe.py",
+      "sha256": "05fb2c4aa4498ed9e4b0e44e75dce1b986d0af5220aa4e3087544b11871c8972",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_imaging.py",
+      "sha256": "2d1eee70f7a9a11f2e682abfcf220ec1f1cc2bc65c1a4fd93f5fd8d290ff9af5",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_inspo_api.py",
+      "sha256": "2ae0224e82c39105a8ebb00936efc8c672504080922c7fa375c771ab9899c83f",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_list_endpoints.py",
+      "sha256": "ad1b1439fe811c6fd861748d7bcfeda4f3d8b18da33375e16a910752ec89e82d",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_max_quality.py",
+      "sha256": "9f3f55b2c888fff892a7704003bf95ff5c9afacdfa0292067fda45638245c863",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_pipeline_api.py",
+      "sha256": "07fbc74bc778a27c0f652576f70cb150b46ebc8767dc174dbbe845aec379aee2",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_pose.py",
+      "sha256": "d4e677d0f699d181398c724a8f58387d5d3f18d2468943a692538dedfd5fb6f2",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_tryon_api.py",
+      "sha256": "e88a44a8374facddb6c878937bfcaf3512cb0b667150155369c56ebeb620eab1",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_tryon_crop.py",
+      "sha256": "364d48f519059cfe08efb7ad5736cca9a45f2a925071b66a76bbedb967038786",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_tryon_engine_selection.py",
+      "sha256": "bec259b514745ec20762b9da3258953c463c9ff96e0258121b135bf479b806bb",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_tryon_mask.py",
+      "sha256": "dd535580fc82b84cf377935bbf5fdfeb7ca9e9e635436ec789029596fae5b362",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/ai_service/tests/test_wardrobe_api.py",
+      "sha256": "f4c1f8e0b2a458b5b644b669f08d4c324d789d1d017f2131b50d71562dd860bb",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/ai_service_test.dart",
+      "sha256": "49c88d552b6dba8399a426024f4589d674e5ea052ef8f97b3e1c6240c656264a",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/form_state_test.dart",
+      "sha256": "2647135b3caf23dd6c4b80a2f5d5f4df317939e3553d0119a23341a201e14535",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/generation_confirmation_test.dart",
+      "sha256": "19e09ce94b555fbd0f93d0797823b3a5bfbd1ff193e967d047b70e6ec3590395",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/inspo_mirror_screen_test.dart",
+      "sha256": "791e858ca5efb6e3271280504554029850e6d2c11ae1642d651224ee843df9c2",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/notification_service_test.dart",
+      "sha256": "3457a3a0a6059ea44fa385ffc39ad62f512c76018402d78755131f4aec954275",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/outfit_draft_test.dart",
+      "sha256": "16d0a1ac441069f95f44e23282738ea209cd10b6db656e6f4ef87c21ce52a90e",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/outfit_plan_test.dart",
+      "sha256": "269a1d9f2dedb0c2b7cac0673edc94c65c8edb3e129381b9edf3dfea8c2e6c05",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/outfit_preview_test.dart",
+      "sha256": "27685920520a72bfddb5e5256c877581fc06b47dd8cdc60066ed6f419dd8d5db",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/password_reset_test.dart",
+      "sha256": "eedca0d6f92e544258686945fc2a7f5fe854411b766172a107f1fe8089e35ac2",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/profile_validation_test.dart",
+      "sha256": "c4ce8d9aae78321f2cec54a3f3ee808c633c65815a94f8a8d27a72e5212dc50a",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/wardrobe_recovery_test.dart",
+      "sha256": "e20722eb95e6176e19db0820f8d93f4e04b189eb87b6555a2bc5a0852d2af9af",
+      "same_as_HEAD_normalized": true
+    },
+    {
+      "path": "apps/mobile_app/test/widget_test.dart",
+      "sha256": "84c1ed8ff856cc9eb662f7deb0f7c4e4745f7db1d7946aba16340f2cf6fc8b67",
+      "same_as_HEAD_normalized": true
+    }
+  ],
+  "preserved_untracked_historical_result_sha256": "9543e570fbd7b07d4a9428ca870bb421cc8bca0f99346c94b5461e72761f309e",
+  "new_test_files": [
+    "apps/mobile_app/test/fyp_functional_gaps_test.dart",
+    "apps/ai_service/tests/test_fyp_functional_gaps.py"
+  ]
+}

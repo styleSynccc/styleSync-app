@@ -1,0 +1,41 @@
+{
+  "test_case": "TC-009",
+  "use_case": "UC-03",
+  "original_scenario": "Retrieve saved Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Retrieve the signed-in user's saved processed twin or documented Firebase photo fallback.",
+  "actual": "Temporary-store list tests returned newest-first owned twins; no mobile retrieval or persisted Firebase photo fallback was executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_empty",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_newest_first",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_only_returns_this_users_twins",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_twins_list_requires_auth",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

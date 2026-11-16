@@ -1,0 +1,38 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart
+00:00 +0: TC-017 changing top before confirmation sends only final selection once
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: No element
+
+When the exception was thrown, this was the stack:
+#0      Iterable.last (dart:core/iterable.dart:679:7)
+#1      _LastFinderMixin.filter (package:flutter_test/src/finders.dart:1410:28)
+#3      Iterable.isEmpty (dart:core/iterable.dart:560:33)
+#4      WidgetController.dragUntilVisible.<anonymous closure> (package:flutter_test/src/controller.dart:2471:52)
+#7      TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#8      WidgetController.dragUntilVisible (package:flutter_test/src/controller.dart:2469:27)
+#9      WidgetController.scrollUntilVisible.<anonymous closure> (package:flutter_test/src/controller.dart:2439:13)
+#12     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#13     WidgetController.scrollUntilVisible (package:flutter_test/src/controller.dart:2427:27)
+#14     main.<anonymous closure>.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:57:20)
+<asynchronous suspension>
+#15     main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart:55:5)
+<asynchronous suspension>
+#16     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#17     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 6 frames from dart:async, dart:async-patch, and package:stack_trace)
+
+The test description was:
+  TC-017 changing top before confirmation sends only final selection once
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +0 -1: TC-017 changing top before confirmation sends only final selection once [E]
+  Test failed. See exception logs above.
+  The test description was: TC-017 changing top before confirmation sends only final selection once
+  
+00:01 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-017 changing top before confirmation sends only final selection once

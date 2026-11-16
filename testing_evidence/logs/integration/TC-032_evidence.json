@@ -1,0 +1,29 @@
+{
+  "test_case": "TC-032",
+  "use_case": "UC-11",
+  "original_scenario": "View date with no scheduled outfit",
+  "status": "NOT RUN",
+  "expected": "Original: daily-date empty state. Proposed: empty Upcoming Outfits list.",
+  "actual": "Planner has no selected-day viewing/calendar control. Empty-list text is implemented, but original daily-date flow is unavailable and not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "outfit_plan_test.dart::missing or invalid dates do not produce upcoming outfits",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::empty planner outfit has a friendly preview",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

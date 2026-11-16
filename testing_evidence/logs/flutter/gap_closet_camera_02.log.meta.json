@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "--file-reporter",
+    "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\gap_closet_camera_02.jsonl",
+    "test/fyp_wardrobe_workflow_test.dart",
+    "--plain-name",
+    "TC-011 TC-013 camera clothing upload stores processed bytes and category"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T22:58:03.472098+08:00",
+  "ended_at": "2026-11-16T22:58:07.358857+08:00",
+  "seconds": 3.89,
+  "exit_code": 0,
+  "log": "logs\\flutter\\gap_closet_camera_02.log"
+}

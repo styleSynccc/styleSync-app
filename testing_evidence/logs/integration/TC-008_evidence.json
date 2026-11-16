@@ -1,0 +1,95 @@
+{
+  "test_case": "TC-008",
+  "use_case": "UC-03",
+  "original_scenario": "Submit incomplete body details",
+  "status": "PASS",
+  "expected": "Reject missing photo or incomplete metrics before file, API, or Firebase work.",
+  "actual": "Widget rejected absent photo; controller rejected empty height even with an image reference. Existing helper tests reject empty/nonfinite/nonpositive values. Local negative scope only.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"abc\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-1\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"0\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"NaN\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"1e999\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-008 setup cannot continue without a body photo",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-008 controller rejects incomplete metrics before Firebase or file access",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [
+    "screenshots/UC-03/TC-008_missing_photo_widget.png"
+  ],
+  "no_match_note": null
+}

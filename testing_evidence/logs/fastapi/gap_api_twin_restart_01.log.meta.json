@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-vv",
+    "-ra",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\fastapi\\gap_api_twin_restart_01.xml",
+    "tests/test_fyp_workflow_gaps.py::test_TC007_TC009_created_twin_survives_app_restart_and_stays_user_scoped"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+  "started_at": "2026-11-16T23:08:09.512356+08:00",
+  "ended_at": "2026-11-16T23:08:11.667703+08:00",
+  "seconds": 2.156,
+  "exit_code": 0,
+  "log": "logs\\fastapi\\gap_api_twin_restart_01.log"
+}

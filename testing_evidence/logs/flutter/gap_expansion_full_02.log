@@ -1,0 +1,273 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart
+00:00 +0: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: FastAPI validation list is displayed instead of a false connection error
+00:00 +1: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: structured server errors and non-string reason fields remain readable
+00:00 +2: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: unreachable twin list times out without retrying
+00:00 +3: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: stuck authentication times out before sending any API request
+00:00 +4: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: refresh recovers after an offline list request
+00:00 +5: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: wardrobe list has the same bounded loading behaviour
+00:00 +6: C:/Users/User/styleSync-app/apps/mobile_app/test/ai_service_test.dart: a generation timeout is not misreported as a connection failure
+00:00 +7: C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart: login keeps typed fields after parent rebuild
+00:01 +8: C:/Users/User/styleSync-app/apps/mobile_app/test/form_state_test.dart: login keeps typed fields after parent rebuild
+00:01 +9: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +10: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +11: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +12: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +13: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +14: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_functional_gaps_test.dart: TC-002 empty sign-up fields show all required errors without registration
+00:01 +15: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:01 +16: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:01 +17: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:02 +18: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-022 selecting reference previews locally without uploading or generating
+00:02 +19: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +20: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +21: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +22: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +23: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +24: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +25: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +26: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:02 +27: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-028 TC-031 selected future date stores plan and displays items with reminder
+00:03 +28: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +29: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +30: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +31: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +32: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +33: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_twin_workflow_test.dart: TC-007 accepted twin photo persists processed image and completed merged profile
+00:03 +34: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +35: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +36: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +37: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +38: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +39: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +40: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-029 changing selected date before commit writes only final date
+00:03 +41: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+00:03 +42: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+00:03 +43: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_tryon_workflow_test.dart: TC-019 TC-021 TC-034 generated result saves once and reopens in full viewer
+00:04 +44: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-027 mocked processing rejection is readable and retains reference for retry
+00:04 +45: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_inspo_workflow_test.dart: TC-027 mocked processing rejection is readable and retains reference for retry
+00:04 +46: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +47: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +48: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +49: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +50: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +51: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +52: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +53: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +54: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-010 TC-013 gallery clothing upload stores processed bytes and category
+00:04 +55: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:04 +56: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:04 +57: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:04 +58: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:04 +59: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:05 +60: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+00:05 +61: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 9 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:42:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 42
+The test description was:
+  VTON shows the total and cancellation declines generation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +61 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +61 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: VTON shows the total and cancellation declines generation [E]
+  Test failed. See exception logs above.
+  The test description was: VTON shows the total and cancellation declines generation
+  
+00:05 +62 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +63 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +64 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +65 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +65 -1: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Inspo confirms exactly one three-credit generation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 3 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:76:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 76
+The test description was:
+  Inspo confirms exactly one three-credit generation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +65 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +65 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Inspo confirms exactly one three-credit generation [E]
+  Test failed. See exception logs above.
+  The test description was: Inspo confirms exactly one three-credit generation
+  
+00:05 +66 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +67 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +68 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +69 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +70 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +71 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +72 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +73 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +74 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +74 -2: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: cost confirmation remains usable in landscape
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 24 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:118:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 118
+The test description was:
+  cost confirmation remains usable in landscape
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +74 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +74 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: cost confirmation remains usable in landscape [E]
+  Test failed. See exception logs above.
+  The test description was: cost confirmation remains usable in landscape
+  
+00:05 +75 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +76 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: empty twin list explains setup and cannot submit a paid request
+00:05 +77 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-015 dismissing category sheet leaves closet and services unchanged
+00:05 +78 -3: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Fast confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 3 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Fast confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +78 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: API error can be recovered by refreshing twins
+00:05 +78 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Fast confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Fast confirmation shows its own total
+  
+00:05 +79 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: API error can be recovered by refreshing twins
+00:05 +79 -4: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Balanced confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 6 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Balanced confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +79 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: API error can be recovered by refreshing twins
+00:05 +79 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Balanced confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Balanced confirmation shows its own total
+  
+00:05 +80 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/inspo_mirror_screen_test.dart: API error can be recovered by refreshing twins
+00:05 +81 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+00:05 +81 -5: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality confirmation shows its own total
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Generate for 9 credits?": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203
+The test description was:
+  Quality confirmation shows its own total
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +81 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_wardrobe_workflow_test.dart: TC-014 revised pre-upload category choice uses the newly selected category
+00:05 +81 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality confirmation shows its own total [E]
+  Test failed. See exception logs above.
+  The test description was: Quality confirmation shows its own total
+  
+00:05 +82 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +83 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +84 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +85 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +86 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +87 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +88 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +89 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +90 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +91 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +92 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +93 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +94 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: planner thumbnail fits all six clothing pieces
+00:06 +95 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +96 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +97 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +98 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +99 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +100 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +101 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: reset from profile does not pop the profile page
+00:06 +102 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/outfit_preview_test.dart: gallery upload uses its actual network URL
+00:06 +103 -6: C:/Users/User/styleSync-app/apps/mobile_app/test/password_reset_test.dart: login reset closes its dialog, not the underlying page
+00:06 +104 -6: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Balanced confirmation shows its own total
+  C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Fast confirmation shows its own total
+  C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Inspo confirms exactly one three-credit generation
+  C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart: Quality confirmation shows its own total
+  ... and 2 more

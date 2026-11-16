@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-005",
+  "use_case": "UC-02",
+  "original_scenario": "Login using incorrect password",
+  "status": "BLOCKED",
+  "expected": "Show authentication error, stop loading, and stay signed out.",
+  "actual": "Real controller handled a fake wrong-password exception, retained the original screen, and stopped loading. Live Firebase behavior unverified.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-005 Firebase rejection is shown and loading stops (fake Auth)",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

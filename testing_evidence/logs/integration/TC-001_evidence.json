@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-001",
+  "use_case": "UC-01",
+  "original_scenario": "Register with valid details",
+  "status": "BLOCKED",
+  "expected": "Create an Auth user, save profile, and route to setup.",
+  "actual": "Valid form forwarded all four details to a fake controller. No real account/profile creation was executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-001 valid sign-up form forwards all details to an isolated controller",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

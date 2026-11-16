@@ -1,0 +1,115 @@
+{
+  "test_case": "TC-007",
+  "use_case": "UC-03",
+  "original_scenario": "Create Digital Twin with valid body details",
+  "status": "BLOCKED",
+  "expected": "Process body photo, save positive metrics/style/twin references, then open Home.",
+  "actual": "Existing fake photo pipeline saved four temporary artifacts at 768x1024; metric helpers pass. No real models/Firebase profile save executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_pipeline_api.py::test_happy_path_saves_all_artifacts",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"abc\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-1\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"0\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"NaN\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"1e999\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \"170\" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \"65.5\" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \" 165.5 \" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC007_missing_twin_photo_is_schema_error_and_saves_nothing",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

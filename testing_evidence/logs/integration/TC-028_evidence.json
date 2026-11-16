@@ -1,0 +1,45 @@
+{
+  "test_case": "TC-028",
+  "use_case": "UC-10",
+  "original_scenario": "Schedule outfit for selected date",
+  "status": "BLOCKED",
+  "expected": "Save closet items for a future local date/time and report actual reminder scheduling status.",
+  "actual": "Model and mocked notification tests pass, including Kuala Lumpur time and permission fallbacks. No Firestore plan save or Android alarm delivery executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "notification_service_test.dart::Malaysian 10:11 PM is scheduled at 10:11 PM, with exact timing",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::denied exact access uses approximate timing and reports it",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::disabled notifications and past times do not create alarms",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::a future reminder is upcoming",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}
