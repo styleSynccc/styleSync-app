@@ -1,4 +1,4 @@
-"""Hosted Try-On Max Quality 1K, one paid request per item or outfit reference."""
+"""Hosted Try-On Max 1K, one paid request per item or outfit reference."""
 
 import base64
 import time
@@ -8,7 +8,7 @@ import numpy as np
 import requests
 
 from .errors import TryOnUnavailableError
-from .config import MAX_TRYON_RESOLUTION, MAX_TRYON_MODE, MAX_TRYON_CREDITS
+from .config import MAX_TRYON_RESOLUTION, MAX_TRYON_MODE, GenerationMode, TRYON_MODE_CREDITS
 
 
 class FashnApiTryOnEngine:
@@ -16,8 +16,6 @@ class FashnApiTryOnEngine:
 
     name = "fashn-tryon-max"
     resolution = MAX_TRYON_RESOLUTION
-    generation_mode = MAX_TRYON_MODE
-    credits_per_image = MAX_TRYON_CREDITS
     preserves_output_resolution = True
 
     def __init__(
@@ -26,11 +24,25 @@ class FashnApiTryOnEngine:
         base_url: str = "https://api.fashn.ai/v1",
         timeout_seconds: int = 1200,
         poll_interval_seconds: float = 2.0,
+        *,
+        generation_mode: GenerationMode = MAX_TRYON_MODE,
     ):
+        if generation_mode not in TRYON_MODE_CREDITS:
+            raise ValueError("Choose fast, balanced, or quality generation mode.")
+        self.generation_mode = generation_mode
+        self.credits_per_image = TRYON_MODE_CREDITS[generation_mode]
         self.api_key = api_key.strip()
         self.base_url = base_url.rstrip("/")
         self.timeout_seconds = timeout_seconds
         self.poll_interval_seconds = poll_interval_seconds
+
+    def with_generation_mode(self, mode: GenerationMode):
+        # Requests get their own engine. Never change the shared engine's mode:
+        # another user may be generating with a different confirmed credit cost.
+        return FashnApiTryOnEngine(
+            self.api_key, self.base_url, self.timeout_seconds,
+            self.poll_interval_seconds, generation_mode=mode,
+        )
 
     @property
     def configured(self) -> bool:
@@ -91,7 +103,7 @@ class FashnApiTryOnEngine:
         )
 
     def apply_outfit(self, person_bgr: np.ndarray, reference_bgr: np.ndarray) -> np.ndarray:
-        """Transfer the reference outfit in one paid Quality 1K generation."""
+        """Transfer the reference outfit in one paid 1K generation."""
         return self._generate(
             person_bgr, reference_bgr,
             "Dress the person in model_image in the complete visible outfit worn by "

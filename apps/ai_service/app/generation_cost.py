@@ -1,5 +1,15 @@
 """Require the app's displayed quote before starting any paid generation."""
-from .errors import CreditConfirmationError, TryOnUnavailableError
+from .config import GenerationMode, MAX_TRYON_MODE
+from .errors import CreditConfirmationError, ImageValidationError, TryOnUnavailableError
+
+
+def select_generation_mode(engine, mode: GenerationMode):
+    factory = getattr(engine, "with_generation_mode", None)
+    if factory is not None:
+        return factory(mode)
+    if mode != getattr(engine, "generation_mode", MAX_TRYON_MODE):
+        raise ImageValidationError("This generation engine does not support the selected mode.")
+    return engine
 
 
 def confirm_generation_cost(engine, count: int, confirmed: int | None) -> int:

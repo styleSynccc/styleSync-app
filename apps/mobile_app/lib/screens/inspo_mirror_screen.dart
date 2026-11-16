@@ -8,6 +8,7 @@ import '../services/ai_service.dart';
 import '../services/liked_outfits_service.dart';
 import '../widgets/generation_progress.dart';
 import '../widgets/generation_confirmation.dart';
+import '../widgets/generation_mode_selector.dart';
 import '../config/generation_config.dart';
 import 'edit_profile_screen.dart';
 
@@ -36,6 +37,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
       _saved = false;
   bool get _busy => _generating || _saving || _picking;
   bool _confirmingGeneration = false;
+  GenerationMode _generationMode = GenerationMode.quality;
 
   @override
   void initState() {
@@ -116,6 +118,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
 
   Future<void> _generate() async {
     final twinId = _twinId;
+    final mode = _generationMode;
     final reference = _reference;
     if (_busy || _confirmingGeneration || twinId == null || reference == null) {
       return;
@@ -128,10 +131,11 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
     _confirmingGeneration = true;
     bool confirmed;
     try {
-      confirmed = await confirmMaxQualityGeneration(
+      confirmed = await confirmGeneration(
         context,
         itemCount: 1,
         inspiration: true,
+        mode: mode,
       );
     } finally {
       _confirmingGeneration = false;
@@ -152,6 +156,7 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
     });
     try {
       final response = await _api.createInspoMirror(
+        mode: mode,
         twinId: twinId,
         bytes: reference,
         filename: _filename,
@@ -385,9 +390,11 @@ class _InspoMirrorScreenState extends State<InspoMirrorScreen> {
                 ),
               ),
             const SizedBox(height: 20),
-            const Text(
-              '$maxQualityLabel · $maxQualityCreditsPerImage API credits per generation',
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+            GenerationModeSelector(
+              mode: _generationMode,
+              onChanged: _busy || _confirmingGeneration
+                  ? null
+                  : (mode) => setState(() => _generationMode = mode),
             ),
             const SizedBox(height: 6),
             const Text(

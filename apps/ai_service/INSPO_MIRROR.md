@@ -2,17 +2,23 @@
 
 The `/inspo` Flutter screen uploads an inspiration photo and the ID of a saved
 twin to the authenticated `POST /v1/inspo` endpoint. The API loads the twin from
-the signed-in user's namespace and requests a single Try-On Max generation at
-Quality 1K (currently 3 FASHN credits per generated output).
+the signed-in user's namespace and requests a single Try-On Max generation.
+VTON and Inspo Mirror both offer Fast, Balanced, and Quality at 1K resolution.
+Their costs are respectively 1, 2, and 3 FASHN credits per generated output.
+Quality remains the default, including for older clients that omit the mode.
 
-VTON uses the same hosted Quality 1K engine for tops, pants, skirts, shoes,
-and accessories, in that order. Each selected item is a separate 3-credit
-generation: top + pants = 6 credits, plus shoes = 9, plus 3 per accessory.
+VTON uses the same hosted 1K engine for tops, pants, skirts, shoes,
+and accessories, in that order. Each selected item is a separate generation:
+top + pants costs 2 credits in Fast, 4 in Balanced, or 6 in Quality.
+Shoes and each accessory add another generation at the selected mode's cost.
 The local worker remains in use for closet garment extraction, not generation.
 
 Both pages show a cost confirmation before submission. Requests must include
-`confirmedCredits` matching the server's quote (`3` for Inspo; `3 * item count`
-for VTON). Old clients without confirmation are rejected before paid calls.
+`generationMode` (`fast`, `balanced`, or `quality`) and `confirmedCredits`
+matching the server's quote (mode cost for Inspo; mode cost * item count for
+VTON). Unsupported modes and incorrect quotes are rejected before paid calls.
+Each request uses its own engine configuration, so simultaneous requests with
+different modes cannot change each other's billing or provider settings.
 There are no automatic paid retries. A partial multi-item failure can still
 consume credits for earlier provider requests; it is not an atomic transaction.
 

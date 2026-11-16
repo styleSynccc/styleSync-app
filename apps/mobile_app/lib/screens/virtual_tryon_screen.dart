@@ -10,6 +10,7 @@ import '../services/closet_controller.dart';
 import '../services/liked_outfits_service.dart';
 import '../widgets/generation_progress.dart';
 import '../widgets/generation_confirmation.dart';
+import '../widgets/generation_mode_selector.dart';
 import '../config/generation_config.dart';
 import '../models/outfit_draft.dart';
 import 'edit_profile_screen.dart';
@@ -52,11 +53,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
   bool _loading = true;
   bool _generating = false;
   bool _confirmingGeneration = false;
-  int get _selectedItemCount =>
-      (_selectedTopId == null ? 0 : 1) +
-      (_selectedBottomId == null ? 0 : 1) +
-      (_selectedShoesId == null ? 0 : 1) +
-      _selectedAccessoryIds.length;
+  GenerationMode _generationMode = GenerationMode.quality;
   int _refreshCount = 0;
   final ScrollController _scrollController = ScrollController();
   final Stopwatch _generationStopwatch = Stopwatch();
@@ -186,6 +183,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
 
   Future<void> _generate() async {
     final twinId = _selectedTwinId;
+    final mode = _generationMode;
     final garmentIds = [
       ?_selectedTopId,
       ?_selectedBottomId,
@@ -207,9 +205,10 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
     _confirmingGeneration = true;
     bool confirmed;
     try {
-      confirmed = await confirmMaxQualityGeneration(
+      confirmed = await confirmGeneration(
         context,
         itemCount: garmentIds.length,
+        mode: mode,
       );
     } finally {
       _confirmingGeneration = false;
@@ -243,6 +242,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
       final response = await _aiService.tryOn(
         twinId: twinId,
         garmentItemIds: garmentIds,
+        mode: mode,
       );
       final result = base64Decode(response['resultImageB64'] as String);
       if (!mounted) return;
@@ -404,7 +404,7 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                   const SizedBox(height: 8),
                   Text(
                     'Select up to $_maxAccessories accessories. Tap a selected item to remove it. '
-                    '${_selectedAccessoryIds.length} selected · ${maxQualityCreditCost(_selectedAccessoryIds.length)} accessory credits at $maxQualityLabel.',
+                    '${_selectedAccessoryIds.length} selected · ${_generationMode.creditCost(_selectedAccessoryIds.length)} accessory credits at ${_generationMode.resolutionLabel}.',
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                   if (_selectedAccessoryIds.isNotEmpty)
@@ -427,10 +427,14 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                     ),
                   ],
                   const SizedBox(height: 24),
-                  Text(
-                    'Try-On Max · $maxQualityLabel · ${maxQualityCreditCost(_selectedItemCount)} API credits for $_selectedItemCount selected item(s)',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  GenerationModeSelector(
+                    mode: _generationMode,
+                    onChanged:
+                        _generating ||
+                            _confirmingGeneration ||
+                            _result?.saving == true
+                        ? null
+                        : (mode) => setState(() => _generationMode = mode),
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
@@ -463,12 +467,6 @@ class _VirtualTryOnScreenState extends State<VirtualTryOnScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'All selected items use paid Try-On Max at $maxQualityCreditsPerImage credits each. Your twin and clothing images are sent to FASHN. Save your favorite results in My Outfits.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
               ),

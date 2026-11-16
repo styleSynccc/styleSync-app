@@ -1,11 +1,14 @@
 import os
+from typing import Literal
 from dataclasses import dataclass
 from pathlib import Path
 
 PIPELINE_VERSION = "twin-0.6.0"
 MAX_TRYON_RESOLUTION = "1k"
 MAX_TRYON_MODE = "quality"
-MAX_TRYON_CREDITS = 3  # Per single-image provider request, not per full outfit.
+GenerationMode = Literal["fast", "balanced", "quality"]
+TRYON_MODE_CREDITS = {"fast": 1, "balanced": 2, "quality": 3}
+MAX_TRYON_CREDITS = TRYON_MODE_CREDITS[MAX_TRYON_MODE]
 
 # Fixed vocab for wardrobe items (see app/wardrobe.py). Must match the
 # mobile_app UI's closet categories (home_screen.dart's _categoryOrder)

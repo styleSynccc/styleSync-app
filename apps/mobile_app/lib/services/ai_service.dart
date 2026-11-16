@@ -216,12 +216,14 @@ class AiService {
     required String twinId,
     required Uint8List bytes,
     required String filename,
+    GenerationMode mode = GenerationMode.quality,
   }) async {
     final request =
         http.MultipartRequest('POST', Uri.parse('$baseUrl/v1/inspo'))
           ..headers.addAll(await _authHeader())
           ..fields['twinId'] = twinId
-          ..fields['confirmedCredits'] = '$maxQualityCreditsPerImage'
+          ..fields['generationMode'] = mode.name
+          ..fields['confirmedCredits'] = '${mode.creditsPerImage}'
           ..files.add(
             http.MultipartFile.fromBytes('file', bytes, filename: filename),
           );
@@ -264,11 +266,13 @@ class AiService {
   Future<Map<String, dynamic>> tryOn({
     required String twinId,
     required List<String> garmentItemIds,
+    GenerationMode mode = GenerationMode.quality,
   }) {
     return _postJson('/v1/tryon', {
       'twinId': twinId,
       'garmentItemIds': garmentItemIds,
-      'confirmedCredits': maxQualityCreditCost(garmentItemIds.length),
+      'generationMode': mode.name,
+      'confirmedCredits': mode.creditCost(garmentItemIds.length),
     }, timeout: _tryOnTimeout);
   }
 }

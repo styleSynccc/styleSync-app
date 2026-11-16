@@ -8,7 +8,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, StrictInt
 
 from .auth import current_uid
-from .config import Settings, get_settings
+from .config import GenerationMode, MAX_TRYON_MODE, TRYON_MODE_CREDITS, Settings, get_settings
+from .generation_cost import select_generation_mode
 from .errors import ImageValidationError, PipelineError
 from .fashn_api import FashnApiTryOnEngine
 from .hijab import HijabAnalyzer, NullHijabAnalyzer
@@ -34,6 +35,7 @@ class TryOnRequest(BaseModel):
     garmentItemIds: list[str] | None = None
     hijabItemId: str | None = None
     confirmedCredits: StrictInt | None = None
+    generationMode: GenerationMode = MAX_TRYON_MODE
 
 
 def build_tryon_engine(settings: Settings) -> TryOnEngine:
@@ -134,6 +136,7 @@ def create_app(
                 "resolution": getattr(engine, "resolution", "local"),
                 "generationMode": getattr(engine, "generation_mode", "local"),
                 "creditsPerImage": getattr(engine, "credits_per_image", 0),
+                "availableModes": TRYON_MODE_CREDITS,
             },
         }
 
@@ -224,7 +227,7 @@ def create_app(
             body.hijabItemId,
             twin_store=request.app.state.store,
             wardrobe_store=request.app.state.wardrobe_store,
-            tryon_engine=request.app.state.tryon_engine,
+            tryon_engine=select_generation_mode(request.app.state.tryon_engine, body.generationMode),
             result_store=request.app.state.result_store,
             settings=settings,
             confirmed_credits=body.confirmedCredits,
@@ -237,6 +240,7 @@ def create_app(
         file: UploadFile = File(...),
         twinId: str = Form(...),
         confirmedCredits: int | None = Form(None),
+        generationMode: GenerationMode = Form(MAX_TRYON_MODE),
         uid: str = Depends(current_uid),
     ):
         raw = await read_limited(file, settings.max_upload_bytes)
@@ -244,7 +248,7 @@ def create_app(
             create_inspo, uid, twinId, raw,
             twin_store=request.app.state.store,
             result_store=request.app.state.result_store,
-            inspo_engine=request.app.state.inspo_engine,
+            inspo_engine=select_generation_mode(request.app.state.inspo_engine, generationMode),
             settings=settings,
             confirmed_credits=confirmedCredits,
         )
