@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-033",
+  "use_case": "UC-11",
+  "original_scenario": "Switch between planned dates",
+  "status": "NOT RUN",
+  "expected": "Original: daily calendar navigation. Proposed: inspect multiple dated upcoming cards or browse saved planner pages.",
+  "actual": "No daily calendar selector exists. Multiple list cards and My Outfits page browsing are available; revised behavior not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

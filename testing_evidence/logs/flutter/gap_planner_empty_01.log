@@ -1,0 +1,27 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart
+00:00 +0: TC-032 revised empty upcoming list explains how to create a plan
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+The value of a foundation debug variable was changed by the test.
+
+When the exception was thrown, this was the stack:
+#0      debugAssertAllFoundationVarsUnset.<anonymous closure> (package:flutter/src/foundation/debug.dart:45:7)
+#1      debugAssertAllFoundationVarsUnset (package:flutter/src/foundation/debug.dart:48:4)
+#2      TestWidgetsFlutterBinding._verifyInvariants (package:flutter_test/src/binding.dart:1995:7)
+#3      AutomatedTestWidgetsFlutterBinding._verifyInvariants (package:flutter_test/src/binding.dart:2524:11)
+#4      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1973:7)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  TC-032 revised empty upcoming list explains how to create a plan
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: TC-032 revised empty upcoming list explains how to create a plan [E]
+  Test failed. See exception logs above.
+  The test description was: TC-032 revised empty upcoming list explains how to create a plan
+  
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_planner_workflow_test.dart: TC-032 revised empty upcoming list explains how to create a plan

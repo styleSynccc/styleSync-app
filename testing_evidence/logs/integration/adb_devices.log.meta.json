@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\User\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe",
+    "devices",
+    "-l"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app",
+  "started_at": "2026-11-16T22:11:04.833876+08:00",
+  "ended_at": "2026-11-16T22:11:04.863741+08:00",
+  "seconds": 0.031,
+  "exit_code": 0,
+  "log": "logs\\integration\\adb_devices.log"
+}

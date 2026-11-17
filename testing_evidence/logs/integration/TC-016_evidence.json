@@ -1,0 +1,120 @@
+{
+  "test_case": "TC-016",
+  "use_case": "UC-06",
+  "original_scenario": "Generate Virtual Try-On image",
+  "status": "BLOCKED",
+  "expected": "Confirm mode/cost, generate selected outfit on owned twin, display resulting image.",
+  "actual": "Fake API generation/composition and provider payload tests pass. Six existing confirmation-widget tests fail because credit totals are absent. No live AI generation executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_paid_passes_keep_provider_size_between_steps_and_in_saved_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_top_and_pants_are_applied_in_stable_order",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_result_is_persisted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "generation_confirmation_test.dart::VTON shows the total and cancellation declines generation",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:42:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 42\nThe test description was:\n  VTON shows the total and cancellation declines generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: VTON shows the total and cancellation declines generation"
+      ],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Fast confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Fast confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Fast confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Balanced confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 6 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Balanced confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Balanced confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Quality confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Quality confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Quality confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

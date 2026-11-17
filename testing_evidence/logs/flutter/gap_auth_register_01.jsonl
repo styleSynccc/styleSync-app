@@ -1,0 +1,7 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":17900,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"count":1,"time":3,"type":"allSuites"}
+{"testID":1,"error":"Failed to load \"C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart\":\nCompilation failed for testPath=C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart: test/support/functional_fakes.dart:297:15: Error: This expression has type 'void' and can't be used.\n    await Get.reset();\n              ^\n.","stackTrace":"","isFailure":false,"type":"error","time":1686}
+{"testID":1,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":1687}
+{"success":false,"type":"done","time":1691}

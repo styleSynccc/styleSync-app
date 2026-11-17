@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-030",
+  "use_case": "UC-10",
+  "original_scenario": "Cancel outfit scheduling",
+  "status": "BLOCKED",
+  "expected": "Cancel date picker, time picker, or item sheet without saving a plan or alarm.",
+  "actual": "Null date/time returns and sheet-before-save sequence inspected; no UI cancellation was executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

@@ -1,0 +1,2745 @@
+{
+  "generated_at": "2026-11-16T22:31:44.615676+08:00",
+  "label": "suite_20261116_run2",
+  "tracked_application_or_test_changes": [],
+  "localhost_ports_open_at_followup_probe": {
+    "4000": false,
+    "4400": false,
+    "8000": false,
+    "8002": false,
+    "8080": false,
+    "9099": false,
+    "9199": false
+  },
+  "suites": {
+    "Flutter": {
+      "outcomes": {
+        "PASS": 67,
+        "FAIL": 6
+      },
+      "metadata": {
+        "command": [
+          "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+          "test",
+          "--no-pub",
+          "--reporter",
+          "expanded",
+          "--file-reporter",
+          "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\suite_20261116_run2.jsonl"
+        ],
+        "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+        "started_at": "2026-11-16T22:29:26.690655+08:00",
+        "ended_at": "2026-11-16T22:29:38.505803+08:00",
+        "seconds": 11.812,
+        "exit_code": 1,
+        "log": "logs\\flutter\\suite_20261116_run2.log"
+      },
+      "total": 73,
+      "blocked": 0,
+      "collection_errors": 0
+    },
+    "pytest": {
+      "outcomes": {
+        "PASS": 149
+      },
+      "metadata": {
+        "command": [
+          "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "-vv",
+          "-ra",
+          "--tb=short",
+          "-p",
+          "no:cacheprovider",
+          "--junitxml=C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\fastapi\\suite_20261116_run2.xml"
+        ],
+        "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+        "started_at": "2026-11-16T22:29:26.673211+08:00",
+        "ended_at": "2026-11-16T22:29:46.559326+08:00",
+        "seconds": 19.891,
+        "exit_code": 0,
+        "log": "logs\\fastapi\\suite_20261116_run2.log"
+      },
+      "total": 149,
+      "blocked": 0,
+      "collection_errors": 0
+    }
+  },
+  "functional_statuses": {
+    "BLOCKED": 29,
+    "PASS": 3,
+    "NOT RUN": 4
+  },
+  "results": [
+    {
+      "name": "ai_service_test.dart::FastAPI validation list is displayed instead of a false connection error",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::structured server errors and non-string reason fields remain readable",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::unreachable twin list times out without retrying",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::stuck authentication times out before sending any API request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::refresh recovers after an offline list request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::wardrobe list has the same bounded loading behaviour",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "ai_service_test.dart::a generation timeout is not misreported as a connection failure",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::maximum-quality quote counts every item including accessories",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "form_state_test.dart::login keeps typed fields after parent rebuild",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "form_state_test.dart::sign-up keeps typed fields after parent rebuild",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::VTON shows the total and cancellation declines generation",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:42:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 42\nThe test description was:\n  VTON shows the total and cancellation declines generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: VTON shows the total and cancellation declines generation"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-002 empty sign-up fields show all required errors without registration",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "form_state_test.dart::twin setup keeps height, weight and preferences after rebuild",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Inspo confirms exactly one three-credit generation",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:76:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 76\nThe test description was:\n  Inspo confirms exactly one three-credit generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Inspo confirms exactly one three-credit generation"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::VTON sends its confirmed total once",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-006 empty login fields prevent credential submission",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::cost confirmation remains usable in landscape",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 24 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:118:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 118\nThe test description was:\n  cost confirmation remains usable in landscape\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: cost confirmation remains usable in landscape"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Inspo sends the three-credit confirmation in its multipart request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Fast sends matching mode and cost to both endpoints",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "inspo_mirror_screen_test.dart::empty twin list explains setup and cannot submit a paid request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Fast confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Fast confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Fast confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Balanced sends matching mode and cost to both endpoints",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "inspo_mirror_screen_test.dart::API error can be recovered by refreshing twins",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Balanced confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 6 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Balanced confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Balanced confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Quality sends matching mode and cost to both endpoints",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::Malaysian 10:11 PM is scheduled at 10:11 PM, with exact timing",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::unknown timezone fallback preserves the instant instead of shifting eight hours",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::denied exact access uses approximate timing and reports it",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "notification_service_test.dart::disabled notifications and past times do not create alarms",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::Quality confirmation shows its own total",
+      "status": "FAIL",
+      "messages": [
+        "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Quality confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+        "Test failed. See exception logs above.\nThe test description was: Quality confirmation shows its own total"
+      ],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_draft_test.dart::double tapping save uploads once and successful saves stay saved",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_draft_test.dart::a failed upload unlocks save for a retry",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_draft_test.dart::result cannot be saved after account changes to null",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_draft_test.dart::result cannot be saved after account changes to another-user",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "generation_confirmation_test.dart::mode selector switches choices and wraps on small screens",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-001 valid sign-up form forwards all details to an isolated controller",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::a past reminder today is no longer upcoming",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::a plan expires at its selected time, not at midnight",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::a future reminder is upcoming",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::legacy date-only plan expires at the next local midnight",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::a date-only plan from yesterday is not upcoming",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::missing or invalid dates do not produce upcoming outfits",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::existing planner records appear in gallery without createdAt or imageUrl",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_plan_test.dart::gallery preserves custom titles and creation dates",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-004 valid login form forwards credentials to an isolated controller",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-003 Firebase rejection is shown and loading stops (fake Auth)",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-005 Firebase rejection is shown and loading stops (fake Auth)",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"abc\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-1\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"0\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"NaN\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"-Infinity\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::invalid body metric \"1e999\" is rejected",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \"170\" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \"65.5\" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "profile_validation_test.dart::valid body metric \" 165.5 \" is accepted",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::planner thumbnail fits all six clothing pieces",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::planner detail shows categories and can scroll",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::empty planner outfit has a friendly preview",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-008 setup cannot continue without a body photo",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "wardrobe_recovery_test.dart::owned closet image paths accepts current and legacy paths only for this user",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "outfit_preview_test.dart::gallery upload uses its actual network URL",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "wardrobe_recovery_test.dart::recovers missing gallery and bundled items without duplicating linked items",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "wardrobe_recovery_test.dart::continues after missing images or failed uploads and leaves changed records alone",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-008 controller rejects incomplete metrics before Firebase or file access",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "password_reset_test.dart::reset from profile does not pop the profile page",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "password_reset_test.dart::login reset closes its dialog, not the underlying page",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-024 cancelling inspiration picker leaves selection empty and sends no generation",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "widget_test.dart::Placeholder test",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a thumbnail fallback",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a detail message",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+      "run": "suite_20261116_run2",
+      "framework": "Flutter"
+    },
+    {
+      "name": "tests/test_auth.py::test_verify_returns_firebase_uid",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_auth.py::test_verify_rejects_invalid_firebase_claims[claims0]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_auth.py::test_verify_rejects_invalid_firebase_claims[claims1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_auth.py::test_verify_rejects_invalid_firebase_claims[claims2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_auth.py::test_verify_rejects_invalid_firebase_claims[claims3]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_enhance_quality.py::test_denoising_reduces_noise_variance",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_enhance_quality.py::test_sharpening_increases_edge_contrast",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_enhance_quality.py::test_low_contrast_channel_is_stretched",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_enhance_quality.py::test_does_not_shift_a_dominant_garment_colour",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_enhance_quality.py::test_flat_image_is_not_corrupted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_shoes_require_server_side_api_key",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_shoe_generation_submits_polls_and_decodes",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_inspo_uses_one_quality_1k_call_and_identity_prompt",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_inspo_invalid_provider_response_is_handled",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_accessories_request_quality_1k_and_preserve_clothing",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Tops]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Pants]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_all_clothing_uses_quality_1k_once_with_hijab_preservation[Skirts]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fashn_api.py::test_failed_prediction_is_not_resubmitted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC007_missing_twin_photo_is_schema_error_and_saves_nothing",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC013_missing_category_is_schema_error_and_saves_nothing",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC026_absent_twin_rejects_before_provider_or_result_save",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC023_svg_reference_is_rejected_before_provider_or_result_save",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC027_low_resolution_reference_is_rejected_before_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC027_characterization_blank_decodable_reference_reaches_fake_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_errors[422-NoGarmentError]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_errors[503-GarmentExtractionError]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_connection_failure",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_mask_response[204-None]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_mask_response[200-shape1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_garment_extraction.py::test_worker_mask_response[200-shape2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[fast-3-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[fast-3-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[balanced-1-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[balanced-1-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[quality-2-tryon-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_wrong_mode_quote_never_submits_a_paid_call[quality-2-inspo-1]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[turbo-tryon]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[turbo-inspo]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[FAST-tryon]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[FAST-inspo]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[fast -tryon]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_invalid_modes_never_submit_a_paid_call[fast -inspo]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_missing_fast_quote_never_submits_a_paid_call[tryon]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_missing_fast_quote_never_submits_a_paid_call[inspo]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_generation_modes.py::test_requests_with_different_modes_do_not_change_each_others_engine",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_hijab_mediapipe.py::test_head_covered_by_clothing_is_hijab_with_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_hijab_mediapipe.py::test_visible_hair_is_not_hijab",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_hijab_mediapipe.py::test_visible_neck_skin_is_not_hijab",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_hijab_mediapipe.py::test_no_face_means_no_decision",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_hijab_mediapipe.py::test_head_crop_box_is_centred_on_nose_and_clipped_to_canvas",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_imaging.py::test_transparent_product_image_is_flattened_on_white",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_returns_and_persists_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_rejects_other_users_twin_without_calling_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_requires_firebase_auth",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_validates_before_paid_generation",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_missing_key_returns_actionable_error",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_provider_failure_does_not_save_a_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_empty",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_newest_first",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_twins_only_returns_this_users_twins",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_wardrobe_newest_first",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_list_wardrobe_empty",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_twins_list_requires_auth",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_list_endpoints.py::test_wardrobe_list_requires_auth",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_item_quote_must_be_six_before_any_paid_call[None]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_item_quote_must_be_six_before_any_paid_call[0]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_item_quote_must_be_six_before_any_paid_call[3]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_item_quote_must_be_six_before_any_paid_call[10]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_item_quote_must_be_six_before_any_paid_call[True]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_two_paid_passes_keep_provider_size_between_steps_and_in_saved_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_inspo_requires_three_credit_quote_without_provider_calls[None]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_inspo_requires_three_credit_quote_without_provider_calls[2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_inspo_requires_three_credit_quote_without_provider_calls[5]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_inspo_single_three_credit_pass_preserves_provider_size",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_happy_path_saves_all_artifacts",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_hijab_mask_is_saved_when_analyzer_provides_one",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_no_body_is_422_and_skips_background_removal",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_bad_posture_is_rejected_before_background_removal",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_garbage_bytes_are_400",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_oversized_upload_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_pixel_bomb_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_50mp_phone_photo_is_accepted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_too_small_photo_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_auth_required_when_not_disabled",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_resize_and_pad_keeps_aspect_and_centres",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pipeline_api.py::test_composite_on_white",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_valid_standing_pose",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_side_profile",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_small_front_facing_person_is_not_a_side_profile",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_sitting",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_hidden_arms",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_loose_sleeves_with_borderline_wrist_visibility_are_accepted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_head_direction_is_not_checked",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_pose.py::test_hidden_knees_skip_sitting_test_instead_of_rejecting",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_unknown_twin_is_404",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_unknown_garment_is_404",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_hijab_item_rejected_as_garment",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_non_hijab_item_rejected_as_hijab_choice",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_top_and_pants_are_applied_in_stable_order",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_top_and_skirt_are_applied_in_stable_order",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_pants_and_skirt_cannot_be_selected_together",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_top_pants_and_shoes_are_applied_in_stable_order",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_two_items_from_the_same_category_are_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_at_least_one_garment_is_required",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_garment_only_protects_twins_own_hijab",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_chosen_hijab_runs_both_stages_and_protects_its_own_placement",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_result_is_persisted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_worker_unavailable_by_default",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_shoes_explain_missing_hosted_api_key",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_auth_required_when_not_disabled",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_accessory_only_keeps_full_frame_and_records_item",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_accessory_runs_after_complete_outfit",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_multiple_accessories_keep_selection_order_and_accumulate",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_five_accessories_combine_with_top_pants_and_shoes",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_six_accessories_are_rejected_before_generation",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_duplicate_accessory_is_rejected_before_generation",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_api.py::test_accessories_use_hosted_engine_and_require_key",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_crop.py::test_crop_removes_empty_side_margins_and_keeps_portrait_aspect",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_crop.py::test_invalid_landmarks_leave_the_image_unchanged",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_crop.py::test_result_is_normalized_to_storage_size",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_engine_selection.py::test_fashn_is_the_only_default_engine",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_engine_selection.py::test_fashn_api_key_enables_hosted_shoe_engine",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_engine_selection.py::test_skirt_uses_local_bottoms_engine",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_mask.py::test_top_mask_covers_torso_but_not_face_or_hands",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_mask.py::test_pants_mask_covers_legs_but_not_torso",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_mask.py::test_shoes_mask_covers_feet_but_not_legs",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_tryon_mask.py::test_protected_pixels_are_removed_from_replacement_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_garment_item_saved_without_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_hijab_item_saves_style_and_mask",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_unknown_category_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_hijab_without_style_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_hijab_with_unknown_style_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_style_is_ignored_for_non_hijab_category",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_blank_photo_is_rejected_as_no_garment",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_too_small_photo_is_rejected",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_square_bundled_asset_resolution_is_accepted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_auth_required_when_not_disabled",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_person_photo_saves_only_selected_garment[Tops-2]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_person_photo_saves_only_selected_garment[Pants-0]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_person_photo_saves_only_selected_garment[Skirts-0]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_extraction_failure_does_not_save_whole_person[error0-422]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_wardrobe_api.py::test_extraction_failure_does_not_save_whole_person[error1-503]",
+      "status": "PASS",
+      "evidence": "logs/fastapi/suite_20261116_run2.xml",
+      "run": "suite_20261116_run2",
+      "framework": "pytest"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "TC-001",
+      "scenario": "Register with valid details",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: valid signup form submission",
+      "remaining_testing": "Live Firebase account/profile creation and destination routing.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-001 valid sign-up form forwards all details to an isolated controller",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-002",
+      "scenario": "Submit empty required fields",
+      "functional_status": "PASS",
+      "existing_coverage": "fyp_functional_gaps_test.dart: all four empty signup errors; no submission",
+      "remaining_testing": "Local validation passed; confirm layout on Android for device acceptance.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-002 empty sign-up fields show all required errors without registration",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-003",
+      "scenario": "Register using an existing email",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: controller handles fake email-already-in-use",
+      "remaining_testing": "Real existing-email rejection and unchanged Auth user count in test Firebase.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-003 Firebase rejection is shown and loading stops (fake Auth)",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-004",
+      "scenario": "Login using valid credentials",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: valid login form submission; test_auth.py: mocked token claims",
+      "remaining_testing": "Live credential authentication and complete/incomplete profile routing.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-004 valid login form forwards credentials to an isolated controller",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_auth.py::test_verify_returns_firebase_uid",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-005",
+      "scenario": "Login using incorrect password",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: controller handles fake wrong-password",
+      "remaining_testing": "Real Firebase wrong-password response, signed-out state, no navigation.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-005 Firebase rejection is shown and loading stops (fake Auth)",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-006",
+      "scenario": "Login using empty fields",
+      "functional_status": "PASS",
+      "existing_coverage": "fyp_functional_gaps_test.dart: empty email/password errors; no submission",
+      "remaining_testing": "Local validation passed; confirm layout on Android for device acceptance.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-006 empty login fields prevent credential submission",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-007",
+      "scenario": "Create Digital Twin with valid body details",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "profile_validation_test.dart; test_pipeline_api.py: fake twin pipeline and temporary artifacts",
+      "remaining_testing": "Real model processing, photo upload, Firebase metrics/style/twin persistence.",
+      "executed_related_checks": [
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"abc\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"-1\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"0\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"NaN\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"Infinity\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"-Infinity\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"1e999\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::valid body metric \"170\" is accepted",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::valid body metric \"65.5\" is accepted",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::valid body metric \" 165.5 \" is accepted",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC007_missing_twin_photo_is_schema_error_and_saves_nothing",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_pipeline_api.py::test_happy_path_saves_all_artifacts",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-008",
+      "scenario": "Submit incomplete body details",
+      "functional_status": "PASS",
+      "existing_coverage": "fyp_functional_gaps_test.dart: missing photo and empty height; profile_validation_test.dart",
+      "remaining_testing": "Local negative scope passed; add missing weight/style submission variants and Android confirmation.",
+      "executed_related_checks": [
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"abc\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"-1\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"0\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"NaN\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"Infinity\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"-Infinity\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "profile_validation_test.dart::invalid body metric \"1e999\" is rejected",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-008 setup cannot continue without a body photo",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-008 controller rejects incomplete metrics before Firebase or file access",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-009",
+      "scenario": "Retrieve saved Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_list_endpoints.py: owned twins, newest-first, authorization; ai_service_test.dart: timeout/recovery",
+      "remaining_testing": "Reopen saved twin on device, Firebase photo fallback, real account ownership.",
+      "executed_related_checks": [
+        {
+          "name": "tests/test_list_endpoints.py::test_list_twins_empty",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_list_endpoints.py::test_list_twins_newest_first",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_list_endpoints.py::test_list_twins_only_returns_this_users_twins",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_list_endpoints.py::test_twins_list_requires_auth",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-010",
+      "scenario": "Upload clothing image from gallery",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_wardrobe_api.py: processing/persistence; wardrobe_recovery_test.dart: gallery link recovery",
+      "remaining_testing": "Actual gallery selection, processed image upload to Firebase, closet refresh.",
+      "executed_related_checks": [
+        {
+          "name": "wardrobe_recovery_test.dart::recovers missing gallery and bundled items without duplicating linked items",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_wardrobe_api.py::test_garment_item_saved_without_mask",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-011",
+      "scenario": "Capture clothing image using camera",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No direct automated camera capture assertion",
+      "remaining_testing": "Device camera permission, capture, accept, processing and closet persistence.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-012",
+      "scenario": "Cancel clothing image selection",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No direct clothing-picker cancellation assertion",
+      "remaining_testing": "Mock or device gallery/camera cancellation; assert no API/Firestore/Storage writes.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-013",
+      "scenario": "Assign clothing category",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_wardrobe_api.py: category/style assignment and invalid categories; test_fyp_functional_gaps.py: missing category",
+      "remaining_testing": "Category-first mobile selection and persisted matching Firebase/backend category.",
+      "executed_related_checks": [
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC013_missing_category_is_schema_error_and_saves_nothing",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_wardrobe_api.py::test_garment_item_saved_without_mask",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_wardrobe_api.py::test_unknown_category_is_rejected",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-014",
+      "scenario": "Change clothing category",
+      "functional_status": "NOT RUN",
+      "existing_coverage": "No automated change-category flow",
+      "remaining_testing": "Clarify saved-item editing versus choosing a different category before upload; saved category edit is absent.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-015",
+      "scenario": "Cancel categorization",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No direct category-sheet cancellation assertion",
+      "remaining_testing": "Dismiss category sheet and assert no uploads/documents; use widget or device test.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-016",
+      "scenario": "Generate Virtual Try-On image",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_tryon_api.py; test_generation_modes.py; test_max_quality.py; generation_confirmation_test.dart (6 shared failures)",
+      "remaining_testing": "Confirmation requirement resolution; real generated image, identity/clothes quality, device display.",
+      "executed_related_checks": [
+        {
+          "name": "generation_confirmation_test.dart::VTON shows the total and cancellation declines generation",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:42:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 42\nThe test description was:\n  VTON shows the total and cancellation declines generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: VTON shows the total and cancellation declines generation"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "generation_confirmation_test.dart::Inspo confirms exactly one three-credit generation",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:76:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 76\nThe test description was:\n  Inspo confirms exactly one three-credit generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: Inspo confirms exactly one three-credit generation"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "generation_confirmation_test.dart::cost confirmation remains usable in landscape",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 24 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:118:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 118\nThe test description was:\n  cost confirmation remains usable in landscape\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: cost confirmation remains usable in landscape"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "generation_confirmation_test.dart::Fast confirmation shows its own total",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Fast confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: Fast confirmation shows its own total"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "generation_confirmation_test.dart::Balanced confirmation shows its own total",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 6 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Balanced confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: Balanced confirmation shows its own total"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "generation_confirmation_test.dart::Quality confirmation shows its own total",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 9 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:203:7)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 203\nThe test description was:\n  Quality confirmation shows its own total\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: Quality confirmation shows its own total"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-tryon-2]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[fast-1-inspo-1]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-tryon-2]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[balanced-2-inspo-1]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-tryon-2]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_generation_modes.py::test_mode_controls_provider_payload_credit_total_and_saved_metadata[quality-3-inspo-1]",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_max_quality.py::test_two_paid_passes_keep_provider_size_between_steps_and_in_saved_result",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_top_and_pants_are_applied_in_stable_order",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_result_is_persisted",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-017",
+      "scenario": "Change clothing selection before generation",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "generation_confirmation_test.dart: fixed garment list forwarded once (passes)",
+      "remaining_testing": "Change A to B in UI; assert final IDs only and zero premature generation requests.",
+      "executed_related_checks": [
+        {
+          "name": "generation_confirmation_test.dart::VTON sends its confirmed total once",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-018",
+      "scenario": "Attempt Virtual Try-On without Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_tryon_api.py::test_unknown_twin_is_404",
+      "remaining_testing": "VTON screen with no twin: setup guidance, disabled Generate, zero provider requests.",
+      "executed_related_checks": [
+        {
+          "name": "tests/test_tryon_api.py::test_unknown_twin_is_404",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-019",
+      "scenario": "Save generated outfit",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "outfit_draft_test.dart: injected persist callback; test_tryon_api.py: temporary result store",
+      "remaining_testing": "Real likedOutfits document/image save and reopen in My Outfits.",
+      "executed_related_checks": [
+        {
+          "name": "outfit_draft_test.dart::double tapping save uploads once and successful saves stay saved",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_result_is_persisted",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-020",
+      "scenario": "Cancel saving",
+      "functional_status": "NOT RUN",
+      "existing_coverage": "No save-cancel operation asserted; current Save is immediate",
+      "remaining_testing": "Clarify leave-unsaved interpretation; verify no likedOutfits write. Backend result already persists.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-021",
+      "scenario": "Save an already saved outfit",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "outfit_draft_test.dart: repeated/concurrent save invokes persist once",
+      "remaining_testing": "Real per-draft Storage/document count; do not infer cross-session duplicate prevention.",
+      "executed_related_checks": [
+        {
+          "name": "outfit_draft_test.dart::double tapping save uploads once and successful saves stay saved",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-022",
+      "scenario": "Upload valid inspiration image",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "generation_confirmation_test.dart: mock multipart upload; test_inspo_api.py: fake generated result",
+      "remaining_testing": "Device preview and upload on confirmed Generate; there is no standalone upload request.",
+      "executed_related_checks": [
+        {
+          "name": "generation_confirmation_test.dart::Inspo sends the three-credit confirmation in its multipart request",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_inspo_api.py::test_inspo_returns_and_persists_result",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-023",
+      "scenario": "Upload unsupported image format",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_fyp_functional_gaps.py: SVG -> 400, no provider call/save; test_inspo_api.py: malformed input",
+      "remaining_testing": "Actual picker format exclusion/error; distinguish extension from decodable file content.",
+      "executed_related_checks": [
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC023_svg_reference_is_rejected_before_provider_or_result_save",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_inspo_api.py::test_inspo_validates_before_paid_generation",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-024",
+      "scenario": "Cancel image selection",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: mocked null picker retains empty selection, no generation",
+      "remaining_testing": "Actual Android cancellation and cancellation after an existing reference is selected.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-024 cancelling inspiration picker leaves selection empty and sends no generation",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-025",
+      "scenario": "Apply inspiration style to Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_inspo_api.py; test_fashn_api.py: fake result/identity prompt; test_max_quality.py",
+      "remaining_testing": "Real style/identity fidelity and final on-device image; shared confirmation failures remain.",
+      "executed_related_checks": [
+        {
+          "name": "generation_confirmation_test.dart::Inspo confirms exactly one three-credit generation",
+          "status": "FAIL",
+          "messages": [
+            "\u2550\u2550\u2561 EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK \u255e\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching candidate\n  Actual: _TextWidgetFinder:<Found 0 widgets with text \"Generate for 3 credits?\": []>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart:76:5)\n<asynchronous suspension>\n#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)\n<asynchronous suspension>\n#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///C:/Users/User/styleSync-app/apps/mobile_app/test/generation_confirmation_test.dart line 76\nThe test description was:\n  Inspo confirms exactly one three-credit generation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "Test failed. See exception logs above.\nThe test description was: Inspo confirms exactly one three-credit generation"
+          ],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_fashn_api.py::test_inspo_uses_one_quality_1k_call_and_identity_prompt",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_inspo_api.py::test_inspo_returns_and_persists_result",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_max_quality.py::test_inspo_single_three_credit_pass_preserves_provider_size",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-026",
+      "scenario": "Apply style without Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "inspo_mirror_screen_test.dart: fake empty-twin guidance/disabled button; test_fyp_functional_gaps.py: absent twin -> 404",
+      "remaining_testing": "No-twin account with a selected reference on device; zero real provider requests.",
+      "executed_related_checks": [
+        {
+          "name": "inspo_mirror_screen_test.dart::empty twin list explains setup and cannot submit a paid request",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC026_absent_twin_rejects_before_provider_or_result_save",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_inspo_api.py::test_inspo_rejects_other_users_twin_without_calling_provider",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-027",
+      "scenario": "Process an unsuitable inspiration image",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_fyp_functional_gaps.py: tiny -> 400; valid-size blank -> 201 with fake provider call",
+      "remaining_testing": "Define semantic suitability acceptance; real non-person/unclear-image provider behavior. Characterization PASS does not mean unsuitable images are rejected.",
+      "executed_related_checks": [
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC027_low_resolution_reference_is_rejected_before_provider",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        },
+        {
+          "name": "tests/test_fyp_functional_gaps.py::test_TC027_characterization_blank_decodable_reference_reaches_fake_provider",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-028",
+      "scenario": "Schedule outfit for selected date",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "notification_service_test.dart: mocked timezone/permission/alarm payloads; outfit_plan_test.dart",
+      "remaining_testing": "Real Firestore save and Android reminder delivery at chosen local time.",
+      "executed_related_checks": [
+        {
+          "name": "notification_service_test.dart::Malaysian 10:11 PM is scheduled at 10:11 PM, with exact timing",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "notification_service_test.dart::denied exact access uses approximate timing and reports it",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "notification_service_test.dart::disabled notifications and past times do not create alarms",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "outfit_plan_test.dart::a future reminder is upcoming",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-029",
+      "scenario": "Change selected date",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No direct date-picker change assertion",
+      "remaining_testing": "Select D then D+1 before confirmation and verify final date only; moving an existing plan is a separate unsupported action.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-030",
+      "scenario": "Cancel outfit scheduling",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No direct scheduling-cancel assertion",
+      "remaining_testing": "Cancel date/time/item selection independently; verify no plan/alarm creation.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-031",
+      "scenario": "View scheduled outfit",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "outfit_plan_test.dart: upcoming/expiry/gallery mapping; outfit_preview_test.dart: item previews",
+      "remaining_testing": "Real plan stream, correct dated card/items and past-plan gallery behavior.",
+      "executed_related_checks": [
+        {
+          "name": "outfit_plan_test.dart::a future reminder is upcoming",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "outfit_plan_test.dart::legacy date-only plan expires at the next local midnight",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "outfit_plan_test.dart::existing planner records appear in gallery without createdAt or imageUrl",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "outfit_preview_test.dart::planner thumbnail fits all six clothing pieces",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-032",
+      "scenario": "View date with no scheduled outfit",
+      "functional_status": "NOT RUN",
+      "existing_coverage": "Unit empty-preview/invalid-date checks are related but do not test a selected-day empty state",
+      "remaining_testing": "Clarify empty Upcoming Outfits list as replacement; current planner has no daily-date viewer.",
+      "executed_related_checks": [
+        {
+          "name": "outfit_plan_test.dart::missing or invalid dates do not produce upcoming outfits",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "outfit_preview_test.dart::empty planner outfit has a friendly preview",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        }
+      ]
+    },
+    {
+      "id": "TC-033",
+      "scenario": "Switch between planned dates",
+      "functional_status": "NOT RUN",
+      "existing_coverage": "No daily calendar navigation assertion or control",
+      "remaining_testing": "Clarify multiple dated cards/My Outfits browsing as replacement; verify date-item association.",
+      "executed_related_checks": []
+    },
+    {
+      "id": "TC-034",
+      "scenario": "Display outfit on Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "test_tryon_api.py: fake output; outfit_preview_test.dart: preview components",
+      "remaining_testing": "Display/reopen real generated result on twin; clarify if saved/planned outfit application is intended.",
+      "executed_related_checks": [
+        {
+          "name": "outfit_preview_test.dart::planner detail shows categories and can scroll",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_top_and_pants_are_applied_in_stable_order",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-035",
+      "scenario": "Display outfit without Digital Twin",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "No-twin generation guards in test_tryon_api.py and inspo_mirror_screen_test.dart",
+      "remaining_testing": "Virtual Twin empty state and navigation on device; distinguish independent saved-image viewing.",
+      "executed_related_checks": [
+        {
+          "name": "inspo_mirror_screen_test.dart::empty twin list explains setup and cannot submit a paid request",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_unknown_twin_is_404",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    },
+    {
+      "id": "TC-036",
+      "scenario": "Display unavailable outfit",
+      "functional_status": "BLOCKED",
+      "existing_coverage": "fyp_functional_gaps_test.dart: missing URL icon/detail fallback; test_tryon_api.py: missing garment -> 404",
+      "remaining_testing": "Full viewer with missing remote object/document and offline failure; assert safe fallback/navigation.",
+      "executed_related_checks": [
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a thumbnail fallback",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "fyp_functional_gaps_test.dart::TC-036 missing saved outfit image has a detail message",
+          "status": "PASS",
+          "messages": [],
+          "evidence": "logs/flutter/suite_20261116_run2.jsonl",
+          "run": "suite_20261116_run2",
+          "framework": "Flutter"
+        },
+        {
+          "name": "tests/test_tryon_api.py::test_unknown_garment_is_404",
+          "status": "PASS",
+          "evidence": "logs/fastapi/suite_20261116_run2.xml",
+          "run": "suite_20261116_run2",
+          "framework": "pytest"
+        }
+      ]
+    }
+  ]
+}

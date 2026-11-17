@@ -1,0 +1,3 @@
+00:00 +0: loading C:/Users/User/styleSync-app/apps/mobile_app/test/fyp_auth_workflow_test.dart
+00:00 +0: TC-001 registration persists profile for returned uid and routes to setup
+00:00 +1: All tests passed!

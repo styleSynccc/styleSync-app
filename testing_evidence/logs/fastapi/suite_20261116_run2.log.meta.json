@@ -1,0 +1,19 @@
+{
+  "command": [
+    "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-vv",
+    "-ra",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\fastapi\\suite_20261116_run2.xml"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+  "started_at": "2026-11-16T22:29:26.673211+08:00",
+  "ended_at": "2026-11-16T22:29:46.559326+08:00",
+  "seconds": 19.891,
+  "exit_code": 0,
+  "log": "logs\\fastapi\\suite_20261116_run2.log"
+}

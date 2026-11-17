@@ -1,0 +1,23 @@
+{
+  "test_case": "TC-006",
+  "use_case": "UC-02",
+  "original_scenario": "Login using empty fields",
+  "status": "PASS",
+  "expected": "Show email/password required errors and send no login call.",
+  "actual": "Both field errors appeared on submit and the isolated controller received no credentials. Actual widget screenshot captured.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-006 empty login fields prevent credential submission",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [
+    "screenshots/UC-02/TC-006_empty_login_widget.png"
+  ],
+  "no_match_note": null
+}

@@ -1,0 +1,3 @@
+# StyleSync QA evidence
+
+Start with [Functional Test Report](reports/StyleSync_Functional_Test_Report.md), [initial audit/coverage plan](reports/Inspection_and_Test_Plan.md), and [manual testing guide](reports/Manual_Testing_Guide.md). The report distinguishes 222 unique automated checks from 36 original scenarios; mocked checks do not establish live AI/Firebase integration. Existing tests and production source/configuration were preserved. Logs, per-case evidence JSON, actual widget PNGs and a SHA-256 manifest are included. Empty screenshot folders indicate no captured evidence. Dates/times use Asia/Kuala_Lumpur.

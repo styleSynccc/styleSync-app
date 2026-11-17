@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-vv",
+    "-ra",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\fastapi\\added.xml",
+    "tests/test_fyp_functional_gaps.py"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+  "started_at": "2026-11-16T22:15:04.216160+08:00",
+  "ended_at": "2026-11-16T22:15:05.850467+08:00",
+  "seconds": 1.625,
+  "exit_code": 0,
+  "log": "logs\\fastapi\\added.log"
+}

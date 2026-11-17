@@ -1,0 +1,34 @@
+{
+  "test_case": "TC-025",
+  "use_case": "UC-09",
+  "original_scenario": "Apply inspiration style to Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Transfer visible reference outfit to selected twin, preserving expected identity and returning a usable image.",
+  "actual": "Fake provider returned JPEG and metadata; mocked hosted payload contains identity prompt. Real style/identity/garment quality was not measured.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_fashn_api.py::test_inspo_uses_one_quality_1k_call_and_identity_prompt",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_returns_and_persists_result",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_max_quality.py::test_inspo_single_three_credit_pass_preserves_provider_size",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

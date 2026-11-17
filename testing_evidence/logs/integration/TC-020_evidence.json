@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-020",
+  "use_case": "UC-07",
+  "original_scenario": "Cancel saving",
+  "status": "NOT RUN",
+  "expected": "Original: cancel save dialog. Proposed: leave without tapping Save, with no likedOutfits write.",
+  "actual": "Save acts immediately; no cancel-save dialog exists. Leaving unsaved does not remove the backend generation result already persisted.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "path": "reports/suite_20261116_run2_Results.md",
+    "sha256": "e39eb4fe36484bbb265c580dac9b7699723bcc4bd214dfa9ad97dbace67ef996"
+  },
+  {
+    "path": "reports/suite_20261116_run2_coverage.csv",
+    "sha256": "a388a789b35d6fa1254741ea5d755d2cacf10fc4ead9cbe60ba6c976333fc6d3"
+  },
+  {
+    "path": "logs/integration/suite_20261116_run2_summary.json",
+    "sha256": "5e8be8b8287cdac9fc49bf65aaa01094062c377560c42f9a7344de09fc443f7f"
+  },
+  {
+    "path": "logs/flutter/suite_20261116_run2.log",
+    "sha256": "c84318423c1cfa0938d0d0b8b1ec41418aea365e821d42dc8554b47de38917d9"
+  },
+  {
+    "path": "logs/flutter/suite_20261116_run2.jsonl",
+    "sha256": "b4e14369ecaed6f224f6e10ae88c53d44b9c5db133e80fce091a56e0aac018f2"
+  },
+  {
+    "path": "logs/flutter/suite_20261116_run2.log.meta.json",
+    "sha256": "1ffb0345bbf7a6c9d8631bee7a19c12b418c6797c88678e993ca31da7f5d5dcd"
+  },
+  {
+    "path": "logs/fastapi/suite_20261116_run2.log",
+    "sha256": "048fb1db2478100f210598b44046b32c7fdcf272edea38e46744cc6615b89a75"
+  },
+  {
+    "path": "logs/fastapi/suite_20261116_run2.xml",
+    "sha256": "35054ec3c33a6e72628c5fe75f4c8499163593fd6b4f73c7e8815d7428f6830a"
+  },
+  {
+    "path": "logs/fastapi/suite_20261116_run2.log.meta.json",
+    "sha256": "81e1936b1bf39af2a4d1eb136e5055cc1e3fa7d756e174f446085f853cc6285c"
+  },
+  {
+    "path": "logs/integration/suite_20261116_run2_devices.log",
+    "sha256": "bbfcc7239a6f1be3544814ebdc6bcc9b66bf5b1f0b03baa3340808f19265a630"
+  },
+  {
+    "path": "logs/integration/suite_20261116_run2_devices.log.meta.json",
+    "sha256": "e251fe1b9a6304f3d2cb729f53a07675f75779711c30e538aa6a211b50016ba4"
+  }
+]

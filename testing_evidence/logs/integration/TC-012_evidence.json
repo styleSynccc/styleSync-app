@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-012",
+  "use_case": "UC-04",
+  "original_scenario": "Cancel clothing image selection",
+  "status": "BLOCKED",
+  "expected": "Return safely without new clothing, storage object, or processing request.",
+  "actual": "Code returns when picker result is null; clothing cancellation was not executed because ClosetController initializes live Firebase singletons.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-vv",
+    "-ra",
+    "--tb=short",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\fastapi\\gap_api_wardrobe_restart_01.xml",
+    "tests/test_fyp_workflow_gaps.py::test_TC010_TC013_uploaded_category_and_processed_image_survive_app_restart"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\ai_service",
+  "started_at": "2026-11-16T23:08:12.043320+08:00",
+  "ended_at": "2026-11-16T23:08:13.959219+08:00",
+  "seconds": 1.906,
+  "exit_code": 0,
+  "log": "logs\\fastapi\\gap_api_wardrobe_restart_01.log"
+}

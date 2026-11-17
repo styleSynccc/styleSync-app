@@ -1,0 +1,41 @@
+{
+  "captured_at": "2026-11-16T22:10:55.776268+08:00",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "C:\\Users\\User\\styleSync-app\\apps\\ai_service\\.venv\\Scripts\\python.exe",
+  "packages": {
+    "pytest": "9.2.0",
+    "httpx": "0.28.1",
+    "fastapi": "0.141.1",
+    "numpy": "2.4.6",
+    "opencv-python-headless": "5.0.0.93",
+    "pillow": "12.3.0",
+    "mediapipe": "0.10.14",
+    "rembg": "2.0.77",
+    "google-auth": "2.62.0",
+    "uvicorn": "0.52.1",
+    "python-multipart": "0.0.32"
+  },
+  "tools": {
+    "flutter": "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "dart": "C:\\Users\\User\\Documents\\flutter\\bin\\dart.BAT",
+    "python": "C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\python.EXE",
+    "pytest": null,
+    "firebase": "C:\\Users\\User\\AppData\\Roaming\\npm\\firebase.CMD",
+    "java": "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath\\java.EXE",
+    "adb": null
+  },
+  "localhost_tcp_open": {
+    "4000": false,
+    "4400": false,
+    "8000": false,
+    "8002": false,
+    "8080": false,
+    "9099": false,
+    "9199": false
+  },
+  "emulator_environment_set": {
+    "FIREBASE_AUTH_EMULATOR_HOST": false,
+    "FIRESTORE_EMULATOR_HOST": false,
+    "STORAGE_EMULATOR_HOST": false
+  }
+}

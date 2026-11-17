@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "test",
+    "--no-pub",
+    "--reporter",
+    "expanded",
+    "--file-reporter",
+    "json:C:\\Users\\User\\styleSync-app\\testing_evidence\\logs\\flutter\\baseline.jsonl"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T22:11:11.240602+08:00",
+  "ended_at": "2026-11-16T22:11:19.936551+08:00",
+  "seconds": 8.704,
+  "exit_code": 1,
+  "log": "logs\\flutter\\baseline.log"
+}

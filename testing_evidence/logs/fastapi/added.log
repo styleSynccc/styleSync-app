@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\User\styleSync-app\apps\ai_service\.venv\Scripts\python.exe
+rootdir: C:\Users\User\styleSync-app\apps\ai_service
+configfile: pytest.ini
+plugins: anyio-4.15.1, platformdirs-4.13.7
+collecting ... collected 6 items
+
+tests/test_fyp_functional_gaps.py::test_TC007_missing_twin_photo_is_schema_error_and_saves_nothing PASSED [ 16%]
+tests/test_fyp_functional_gaps.py::test_TC013_missing_category_is_schema_error_and_saves_nothing PASSED [ 33%]
+tests/test_fyp_functional_gaps.py::test_TC026_absent_twin_rejects_before_provider_or_result_save PASSED [ 50%]
+tests/test_fyp_functional_gaps.py::test_TC023_svg_reference_is_rejected_before_provider_or_result_save PASSED [ 66%]
+tests/test_fyp_functional_gaps.py::test_TC027_low_resolution_reference_is_rejected_before_provider PASSED [ 83%]
+tests/test_fyp_functional_gaps.py::test_TC027_characterization_blank_decodable_reference_reaches_fake_provider PASSED [100%]
+
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\User\styleSync-app\apps\ai_service\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\User\styleSync-app\testing_evidence\logs\fastapi\added.xml -
+======================== 6 passed, 1 warning in 0.89s =========================

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\User\\Documents\\flutter\\bin\\flutter.BAT",
+    "analyze",
+    "--no-pub",
+    "test/fyp_auth_workflow_test.dart",
+    "test/fyp_wardrobe_workflow_test.dart",
+    "test/fyp_twin_workflow_test.dart",
+    "test/fyp_tryon_workflow_test.dart",
+    "test/fyp_inspo_workflow_test.dart",
+    "test/fyp_planner_workflow_test.dart",
+    "test/support/functional_fakes.dart"
+  ],
+  "cwd": "C:\\Users\\User\\styleSync-app\\apps\\mobile_app",
+  "started_at": "2026-11-16T23:15:58.478259+08:00",
+  "ended_at": "2026-11-16T23:16:01.535331+08:00",
+  "seconds": 3.062,
+  "exit_code": 0,
+  "log": "logs\\flutter\\gap_expansion_analyze_final.log"
+}

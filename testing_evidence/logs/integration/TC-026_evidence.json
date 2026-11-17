@@ -1,0 +1,35 @@
+{
+  "test_case": "TC-026",
+  "use_case": "UC-09",
+  "original_scenario": "Apply style without Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Show setup guidance/disabled Generate; API rejects absent or other-user twin before provider.",
+  "actual": "Existing fake UI disabled Generate for empty twins; added API test returned 404 for absent twin, zero provider calls and no result directory. Real account flow unverified.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_rejects_other_users_twin_without_calling_provider",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "inspo_mirror_screen_test.dart::empty twin list explains setup and cannot submit a paid request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC026_absent_twin_rejects_before_provider_or_result_save",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

@@ -1,0 +1,27 @@
+{
+  "test_case": "TC-023",
+  "use_case": "UC-08",
+  "original_scenario": "Upload unsupported image format",
+  "status": "BLOCKED",
+  "expected": "Reject undecodable/unsupported reference before provider call or result persistence.",
+  "actual": "Real in-process API rejected SVG with 400 INVALID_IMAGE and zero fake-provider calls. Device picker support/rejection remains unexecuted; no strict extension allowlist exists.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_inspo_api.py::test_inspo_validates_before_paid_generation",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "tests/test_fyp_functional_gaps.py::test_TC023_svg_reference_is_rejected_before_provider_or_result_save",
+      "status": "PASS",
+      "evidence": "logs/fastapi/added.xml",
+      "run": "added",
+      "framework": "pytest"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

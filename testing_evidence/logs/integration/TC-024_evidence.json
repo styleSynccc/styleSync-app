@@ -1,0 +1,21 @@
+{
+  "test_case": "TC-024",
+  "use_case": "UC-08",
+  "original_scenario": "Cancel image selection",
+  "status": "BLOCKED",
+  "expected": "Cancel OS gallery without changing reference or starting generation.",
+  "actual": "Mocked picker returned null; widget retained empty selection and issued no generation. Actual Android picker cancellation was not executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "fyp_functional_gaps_test.dart::TC-024 cancelling inspiration picker leaves selection empty and sends no generation",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/added-readable.jsonl",
+      "run": "added-readable",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-035",
+  "use_case": "UC-12",
+  "original_scenario": "Display outfit without Digital Twin",
+  "status": "BLOCKED",
+  "expected": "Show create-twin guidance before generation; viewing an existing saved image can remain independent of a current twin.",
+  "actual": "Isolated no-twin generation guards pass; Virtual Twin empty state exists in source. Full no-twin viewer/navigation behavior was not executed. The intended display entry point needs confirmation before accepting this scenario.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_tryon_api.py::test_unknown_twin_is_404",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "inspo_mirror_screen_test.dart::empty twin list explains setup and cannot submit a paid request",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

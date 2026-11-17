@@ -1,0 +1,28 @@
+{
+  "test_case": "TC-019",
+  "use_case": "UC-07",
+  "original_scenario": "Save generated outfit",
+  "status": "BLOCKED",
+  "expected": "Upload generated image and add exactly one likedOutfits record, visible in My Outfits.",
+  "actual": "OutfitDraft injected persistence callback and backend temporary result persistence passed. Neither proves actual Firebase saving.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [
+    {
+      "name": "tests/test_tryon_api.py::test_result_is_persisted",
+      "status": "PASS",
+      "evidence": "logs/fastapi/baseline.xml",
+      "run": "baseline",
+      "framework": "pytest"
+    },
+    {
+      "name": "outfit_draft_test.dart::double tapping save uploads once and successful saves stay saved",
+      "status": "PASS",
+      "messages": [],
+      "evidence": "logs/flutter/baseline.jsonl",
+      "run": "baseline",
+      "framework": "Flutter"
+    }
+  ],
+  "screenshots": [],
+  "no_match_note": null
+}

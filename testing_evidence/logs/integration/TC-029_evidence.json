@@ -1,0 +1,12 @@
+{
+  "test_case": "TC-029",
+  "use_case": "UC-10",
+  "original_scenario": "Change selected date",
+  "status": "BLOCKED",
+  "expected": "Use final chosen date before commit. Moving an already saved plan has no dedicated action.",
+  "actual": "Date/time picker and one-document-per-date save inspected; no date-change interaction executed.",
+  "execution_scope": "isolated automated components only; no Android/live Firebase/real AI execution",
+  "automated_checks": [],
+  "screenshots": [],
+  "no_match_note": "No automated execution directly mapped; implementation inspected, original scenario unexecuted."
+}
